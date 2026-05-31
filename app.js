@@ -8,10 +8,10 @@ const {
 const SITE_CONFIG = {
   dataLinks: [{
     label: "Phase 1 Data",
-    url: ""
+    url: "TPC_IJCAI_2026_phase1.zip"
   }, {
     label: "Phase 1 Data Index",
-    url: ""
+    url: "TPC_IJCAI_2026_phase1.txt"
   }, {
     label: "Evaluation Code",
     url: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py"
@@ -886,9 +886,9 @@ function Data() {
   }, "The Phase 1 release will include public task data, the submission index, and the official evaluation code for leaderboard submission."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap"
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: 10
     }
   }, phase1Links.map(renderLink))), /*#__PURE__*/React.createElement("div", {
     className: "inner",
@@ -917,9 +917,9 @@ function Data() {
   }, "The Phase 2 release will include the baseline code and runnable scaffold used for final evaluation."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap"
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: 10
     }
   }, phase2Links.map(renderLink))), /*#__PURE__*/React.createElement("style", null, `
           #data .placeholder-panel {
@@ -930,6 +930,7 @@ function Data() {
           @media (max-width: 820px) {
             #data .placeholder-panel { grid-template-columns: 1fr; }
             #data .placeholder-panel .inner { margin-left: 0 !important; }
+            #data .placeholder-panel .inner > div:last-child { grid-template-columns: 1fr !important; }
           }
         `))));
 }
