@@ -8,7 +8,7 @@ const {
 const SITE_CONFIG = {
   dataLinks: [{
     label: "Phase 1 Data",
-    url: "TPC_IJCAI_2026_phase1.zip"
+    url: "TPC_IJCAI_2026_phase1_EN.zip"
   }, {
     label: "Phase 1 Data Index",
     url: "TPC_IJCAI_2026_phase1.txt"
@@ -937,27 +937,36 @@ function Data() {
 function Rules() {
   const rules = [{
     k: "Eligibility",
-    v: "Open to academic and industry teams worldwide. At least one team member must register for IJCAI-ECAI 2026.",
+    v: "Open to teams from universities, research institutions, and companies worldwide. At least one member of each team must register for IJCAI-ECAI 2026.",
     m: "Policy"
   }, {
     k: "Team Size",
-    v: "Up to 6 participants per team. An individual may belong to at most one team per track.",
+    v: "No fixed limit on the number of participants per team. Each participant may join at most one team per track.",
     m: "Policy"
   }, {
-    k: "Foundation Models",
-    v: "Any publicly accessible foundation model may be used; closed APIs are permitted with reproducible prompts.",
-    m: "Models"
+    k: "Track 1 — Prediction",
+    v: "The organizers provide the official dataset and a download link. Teams generate predictions on the official dataset and submit them. Track 1 requires prediction results only — no code or model submission.",
+    m: "Tracks"
   }, {
-    k: "External Data",
-    v: "Permitted if publicly available at the time of submission; all sources must be declared.",
-    m: "Data"
+    k: "Track 2 — Harness",
+    v: /*#__PURE__*/React.createElement(React.Fragment, null, "Teams submit harness code. Teams may develop and debug against the ", /*#__PURE__*/React.createElement("a", {
+      href: "https://huggingface.co/datasets/LAMDA-NeSy/ChinaTravel",
+      target: "_blank",
+      rel: "noreferrer",
+      style: {
+        color: "var(--accent)",
+        textDecoration: "underline",
+        textUnderlineOffset: "3px"
+      }
+    }, "ChinaTravel dataset"), ". The final evaluation runs each submitted harness on a unified open-source model."),
+    m: "Tracks"
   }, {
-    k: "Reproducibility",
-    v: "Top-3 teams must submit system description papers and runnable code for verification.",
+    k: "Submission",
+    v: "Track 1: submit prediction results only. Track 2: submit harness code, run by the organizers on a unified open-source model. All final results are scored in a unified evaluation environment and announced by the organizers.",
     m: "Submission"
   }, {
     k: "Code of Conduct",
-    v: "Participants agree to the IJCAI 2026 code of conduct and the competition's full terms.",
+    v: "Participants must follow the IJCAI 2026 code of conduct and the competition's full terms. Cheating, plagiarism, attacks on the evaluation system, and sharing non-public answers are strictly prohibited and may result in disqualification.",
     m: "Conduct"
   }];
   return /*#__PURE__*/React.createElement("section", {
@@ -968,8 +977,7 @@ function Rules() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "05 \xB7 Rules",
     title: "The <em>rules</em> of the road.",
-    kicker: "A condensed summary. The full rulebook will be published with the task specification.",
-    soon: true
+    kicker: "Eligibility, team size, and the two competition tracks at a glance. The full rulebook will be published with the task specification."
   }), /*#__PURE__*/React.createElement("div", {
     className: "rows"
   }, rules.map((r, i) => /*#__PURE__*/React.createElement("div", {
