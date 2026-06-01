@@ -5,6 +5,64 @@ const {
   useRef
 } = React;
 
+const SITE_CONFIG = {
+  dataLinks: [{
+    label: "Phase 1 Data",
+    url: "TPC_IJCAI_2026_phase1.zip"
+  }, {
+    label: "Phase 1 Data Index",
+    url: "TPC_IJCAI_2026_phase1.txt"
+  }, {
+    label: "Evaluation Code",
+    url: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py"
+  }, {
+    label: "Phase 2 Baseline Code",
+    url: "https://github.com/LAMDASZ-ML/ChinaTravel"
+  }],
+  evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
+  organizers: [{
+    initial: "LG",
+    name: "Lan-Zhe Guo",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "YL",
+    name: "Yu-Feng Li",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "JS",
+    name: "Jie-Jing Shao",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "BZ",
+    name: "Bo-Wen Zhang",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "PH",
+    name: "Peng-Wu Hua",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "JC",
+    name: "Jia-Wei Cao",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "JY",
+    name: "Jin Ye",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }, {
+    initial: "SL",
+    name: "Song-Lin Lv",
+    aff: "Nanjing University",
+    role: "Organizer"
+  }]
+};
+
 /* ────────────────────────────────────────────────────────────
    LOGO MARK — geometric seal
    Three variants the user can toggle in Tweaks.
@@ -774,6 +832,25 @@ function Tracks() {
   }, "Runnable harness"))))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .phase-grid { grid-template-columns: 1fr !important; } }`))));
 }
 function Data() {
+  const phase1Links = SITE_CONFIG.dataLinks.slice(0, 3);
+  const phase2Links = SITE_CONFIG.dataLinks.slice(3);
+  const renderLink = link => link.url ? /*#__PURE__*/React.createElement("a", {
+    className: "soon-pill",
+    href: link.url,
+    target: "_blank",
+    rel: "noreferrer",
+    style: {
+      textDecoration: "none"
+    },
+    key: link.label
+  }, link.label, " \xB7 Open") : /*#__PURE__*/React.createElement("span", {
+    className: "soon-pill",
+    key: link.label,
+    style: {
+      opacity: 0.65,
+      cursor: "default"
+    }
+  }, link.label, " \xB7 Link Pending");
   return /*#__PURE__*/React.createElement("section", {
     id: "data",
     className: "block"
@@ -782,8 +859,7 @@ function Data() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "04 \xB7 Data",
     title: "An <em>open</em> atlas of travel scenarios.",
-    kicker: "The challenge ships with curated traveler queries and a tool environment that models transportation, POIs, hotels, restaurants, and opening hours across dozens of Chinese cities.",
-    soon: true
+    kicker: "The challenge ships with curated traveler queries and a tool environment that models transportation, POIs, hotels, restaurants, and opening hours across dozens of Chinese cities."
   }), /*#__PURE__*/React.createElement("div", {
     className: "placeholder-panel"
   }, /*#__PURE__*/React.createElement("div", {
@@ -794,32 +870,69 @@ function Data() {
       color: "var(--muted)",
       marginBottom: 8
     }
-  }, "Dataset Card"), /*#__PURE__*/React.createElement("div", {
+  }, "Phase 1"), /*#__PURE__*/React.createElement("div", {
     className: "serif",
     style: {
       fontSize: 28,
       lineHeight: 1.1,
       marginBottom: 14
     }
-  }, "Task definition, splits, and download links will appear here."), /*#__PURE__*/React.createElement("div", {
+  }, "Dataset and submission index."), /*#__PURE__*/React.createElement("div", {
     style: {
       color: "var(--ink-soft)",
-      fontSize: 14
+      fontSize: 14,
+      lineHeight: 1.55
     }
-  }, "The final release will include training, development, and held-out test partitions, a tool sandbox, and a reference verifier."), /*#__PURE__*/React.createElement("div", {
+  }, "The Phase 1 release will include public task data, the submission index, and the official evaluation code for leaderboard submission."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap"
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: 10
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "soon-pill"
-  }, "Training Split \xB7 Coming Soon"), /*#__PURE__*/React.createElement("span", {
-    className: "soon-pill"
-  }, "Dev Split \xB7 Coming Soon"), /*#__PURE__*/React.createElement("span", {
-    className: "soon-pill"
-  }, "Verifier \xB7 Coming Soon"))))));
+  }, phase1Links.map(renderLink))), /*#__PURE__*/React.createElement("div", {
+    className: "inner",
+    style: {
+      marginLeft: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      marginBottom: 8
+    }
+  }, "Phase 2"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      fontSize: 28,
+      lineHeight: 1.1,
+      marginBottom: 14
+    }
+  }, "Baseline code for final evaluation."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 14,
+      lineHeight: 1.55
+    }
+  }, "The Phase 2 release will include the baseline code and runnable scaffold used for final evaluation."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 20,
+      display: "grid",
+      gridTemplateColumns: "1fr",
+      gap: 10
+    }
+  }, phase2Links.map(renderLink))), /*#__PURE__*/React.createElement("style", null, `
+          #data .placeholder-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+          }
+          @media (max-width: 820px) {
+            #data .placeholder-panel { grid-template-columns: 1fr; }
+            #data .placeholder-panel .inner { margin-left: 0 !important; }
+            #data .placeholder-panel .inner > div:last-child { grid-template-columns: 1fr !important; }
+          }
+        `))));
 }
 function Rules() {
   const rules = [{
@@ -871,6 +984,35 @@ function Rules() {
   }, r.m))))));
 }
 function Evaluation() {
+  const metrics = [{
+    k: "MicEPR",
+    v: "Environmental Pass Ratio (micro)",
+    w: "10%"
+  }, {
+    k: "MacEPR",
+    v: "Environmental Pass Ratio (macro)",
+    w: "10%"
+  }, {
+    k: "C-LPR",
+    v: "Conditional Logical Pass Rate",
+    w: "25%"
+  }, {
+    k: "FPR",
+    v: "Final Pass Ratio",
+    w: "40%"
+  }, {
+    k: "DAV",
+    v: "Daily Average Attractions Visited",
+    w: "5%"
+  }, {
+    k: "ATT",
+    v: "Averaged Transportation Time",
+    w: "5%"
+  }, {
+    k: "DDR",
+    v: "Daily Dining Recommendations",
+    w: "5%"
+  }];
   return /*#__PURE__*/React.createElement("section", {
     id: "evaluation",
     className: "block"
@@ -878,9 +1020,8 @@ function Evaluation() {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "06 \xB7 Evaluation & Leaderboard",
-    title: "Feasibility first. Then <em>preference</em>.",
-    kicker: "Plans are scored by a three-tier verifier: hard constraints (pass/fail), soft constraints (graded), and preference-alignment (judged). A live leaderboard reflects dev-set performance during the challenge window.",
-    soon: true
+    title: "How the <em>final score</em> is calculated.",
+    kicker: "Each submitted itinerary is evaluated by the official verifier. The final score is a weighted sum of hard-constraint metrics and soft-preference metrics; hard constraints account for 85% of the score."
   }), /*#__PURE__*/React.createElement("div", {
     className: "placeholder-panel",
     style: {
@@ -889,7 +1030,7 @@ function Evaluation() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "inner",
     style: {
-      maxWidth: 720
+      maxWidth: 860
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "mono",
@@ -897,42 +1038,42 @@ function Evaluation() {
       color: "var(--muted)",
       marginBottom: 8
     }
-  }, "Leaderboard \xB7 Preview"), /*#__PURE__*/React.createElement("div", {
+  }, "Official scoring"), /*#__PURE__*/React.createElement("div", {
     className: "serif",
     style: {
       fontSize: 28,
       lineHeight: 1.1,
-      marginBottom: 18
+      marginBottom: 14
     }
-  }, "Live rankings will be published here once the development split opens."), /*#__PURE__*/React.createElement("div", {
+  }, "Overall Score = 0.10 x MicEPR + 0.10 x MacEPR + 0.25 x C-LPR + 0.40 x FPR + 0.05 x DAV + 0.05 x ATT + 0.05 x DDR"), /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "grid",
-      gridTemplateColumns: "36px 1fr 120px 120px 120px",
-      fontFamily: "var(--mono)",
-      fontSize: 11,
-      letterSpacing: "0.12em",
-      textTransform: "uppercase",
-      color: "var(--muted)",
-      borderBottom: "1px solid var(--rule)",
-      paddingBottom: 10,
-      marginBottom: 8
+      color: "var(--ink-soft)",
+      fontSize: 14,
+      lineHeight: 1.6,
+      marginBottom: 24
     }
-  }, /*#__PURE__*/React.createElement("div", null, "#"), /*#__PURE__*/React.createElement("div", null, "Team"), /*#__PURE__*/React.createElement("div", null, "Feas."), /*#__PURE__*/React.createElement("div", null, "Soft"), /*#__PURE__*/React.createElement("div", null, "Align")), [1, 2, 3, 4, 5].map(i => /*#__PURE__*/React.createElement("div", {
-    key: i,
+  }, "MicEPR, MacEPR, C-LPR, and FPR measure environmental feasibility, logical constraint satisfaction, and final validity. DAV, ATT, and DDR measure soft travel preferences after the hard constraints are satisfied."), /*#__PURE__*/React.createElement("div", {
+    className: "rows",
     style: {
-      display: "grid",
-      gridTemplateColumns: "36px 1fr 120px 120px 120px",
-      padding: "10px 0",
-      borderBottom: "1px dashed var(--rule)",
-      color: "var(--muted)",
-      fontFamily: "var(--mono)",
-      fontSize: 13
+      marginBottom: 24
     }
-  }, /*#__PURE__*/React.createElement("div", null, String(i).padStart(2, "0")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      letterSpacing: "0.12em"
-    }
-  }, "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500"), /*#__PURE__*/React.createElement("div", null, "\u2014"), /*#__PURE__*/React.createElement("div", null, "\u2014"), /*#__PURE__*/React.createElement("div", null, "\u2014")))))));
+  }, metrics.map(m => /*#__PURE__*/React.createElement("div", {
+    className: "row",
+    key: m.k
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "r-k"
+  }, m.k), /*#__PURE__*/React.createElement("div", {
+    className: "r-v"
+  }, m.v), /*#__PURE__*/React.createElement("div", {
+    className: "r-m"
+  }, m.w)))), /*#__PURE__*/React.createElement("a", {
+    href: SITE_CONFIG.evaluationCodeUrl,
+    target: "_blank",
+    rel: "noreferrer",
+    className: "btn btn-primary"
+  }, "View Evaluation Code ", /*#__PURE__*/React.createElement("span", {
+    className: "arr"
+  }, "\u2197"))))));
 }
 
 // Formspree form ID. Create a free form at https://formspree.io with
@@ -1070,6 +1211,35 @@ function Registration() {
   }, "Across 20+ countries")))));
 }
 function Submission() {
+  const metrics = [{
+    k: "MicEPR",
+    v: "Environmental Pass Ratio (micro)",
+    w: "10%"
+  }, {
+    k: "MacEPR",
+    v: "Environmental Pass Ratio (macro)",
+    w: "10%"
+  }, {
+    k: "C-LPR",
+    v: "Conditional Logical Pass Rate",
+    w: "25%"
+  }, {
+    k: "FPR",
+    v: "Final Pass Ratio",
+    w: "40%"
+  }, {
+    k: "DAV",
+    v: "Daily Average Attractions Visited",
+    w: "5%"
+  }, {
+    k: "ATT",
+    v: "Averaged Transportation Time",
+    w: "5%"
+  }, {
+    k: "DDR",
+    v: "Daily Dining Recommendations",
+    w: "5%"
+  }];
   return /*#__PURE__*/React.createElement("section", {
     id: "submission",
     className: "block"
@@ -1135,17 +1305,57 @@ function Submission() {
     }
   }, /*#__PURE__*/React.createElement("span", {
     className: "soon-pill"
-  }, "Coming Soon"))))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
+  }, "Coming Soon"))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 48,
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "36px 32px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      marginBottom: 8
+    }
+  }, "Phase 1 Evaluation Metrics"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      fontSize: 26,
+      lineHeight: 1.15,
+      marginBottom: 14
+    }
+  }, "Phase 1 Score = 0.10 x MicEPR + 0.10 x MacEPR + 0.25 x C-LPR + 0.40 x FPR + 0.05 x DAV + 0.05 x ATT + 0.05 x DDR"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 14,
+      lineHeight: 1.6,
+      marginBottom: 22
+    }
+  }, "The Phase 1 leaderboard score is computed by the official evaluation script. Hard-constraint metrics account for 85% of the score, while soft-preference metrics account for 15%."), /*#__PURE__*/React.createElement("div", {
+    className: "rows",
+    style: {
+      marginBottom: 22
+    }
+  }, metrics.map(m => /*#__PURE__*/React.createElement("div", {
+    className: "row",
+    key: m.k
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "r-k"
+  }, m.k), /*#__PURE__*/React.createElement("div", {
+    className: "r-v"
+  }, m.v), /*#__PURE__*/React.createElement("div", {
+    className: "r-m"
+  }, m.w)))), /*#__PURE__*/React.createElement("a", {
+    href: SITE_CONFIG.evaluationCodeUrl,
+    target: "_blank",
+    rel: "noreferrer",
+    className: "btn btn-primary"
+  }, "View Evaluation Code ", /*#__PURE__*/React.createElement("span", {
+    className: "arr"
+  }, "\u2197"))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
 }
 function Organizers() {
-  const placeholders = Array.from({
-    length: 8
-  }, (_, i) => ({
-    initial: "—",
-    name: "Organizer Name",
-    aff: "Affiliation",
-    role: i < 4 ? "Co-Chair" : "Organizer"
-  }));
   return /*#__PURE__*/React.createElement("section", {
     id: "organizers",
     className: "block"
@@ -1158,7 +1368,7 @@ function Organizers() {
     soon: true
   }), /*#__PURE__*/React.createElement("div", {
     className: "org-grid"
-  }, placeholders.map((o, i) => /*#__PURE__*/React.createElement("div", {
+  }, SITE_CONFIG.organizers.map((o, i) => /*#__PURE__*/React.createElement("div", {
     className: "org-cell",
     key: i
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
@@ -1441,8 +1651,8 @@ function App() {
     id: "rules",
     label: "Rules"
   }, {
-    id: "evaluation",
-    label: "Leaderboard"
+    id: "submission",
+    label: "Submission"
   }, {
     id: "organizers",
     label: "Organizers"
@@ -1476,7 +1686,7 @@ function App() {
     className: "dot"
   }), " Register Interest"))), /*#__PURE__*/React.createElement(Home, {
     heroVariant: tweaks.heroVariant
-  }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Evaluation, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
+  }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
     className: "site"
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
