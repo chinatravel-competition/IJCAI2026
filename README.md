@@ -33,9 +33,9 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000/`.
 
-## Email capture
+## Registration
 
-The Registration form posts to Formspree (form id `xzdyywqr`). Submissions are forwarded to `shaojj@lamda.nju.edu.cn`. To change the destination, create a new form at [formspree.io](https://formspree.io) and replace the `FORMSPREE_ID` constant near the top of `app.js` (search for `const FORMSPREE_ID`).
+The registration buttons link to the Google Form configured as `registrationFormUrl` near the top of `app.js`.
 
 ## Updating the site
 
