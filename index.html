@@ -432,6 +432,17 @@
     margin-top: 14px;
     opacity: .7;
   }
+  .date-cell.active {
+    border-left: 3px solid var(--seal);
+    background: color-mix(in oklab, var(--seal) 5%, var(--bg));
+  }
+  .date-cell.active:hover {
+    background: color-mix(in oklab, var(--seal) 9%, var(--cream-soft));
+  }
+  .date-cell.active .phase {
+    color: var(--seal);
+    font-weight: 500;
+  }
 
   /* ── Tracks ──────────────────────────────────────────── */
   .tracks {

@@ -617,7 +617,8 @@ function Dates() {
   const milestones = [{
     phase: "Milestone 01",
     label: "Data Release and Submission Opens",
-    time: "June 1, 2026"
+    time: "June 1, 2026",
+    active: true
   }, {
     phase: "Milestone 02",
     label: "Stage 1 Submission Deadline",
@@ -647,7 +648,7 @@ function Dates() {
   }), /*#__PURE__*/React.createElement("div", {
     className: "dates"
   }, milestones.map((m, i) => /*#__PURE__*/React.createElement("div", {
-    className: "date-cell",
+    className: "date-cell" + (m.active ? " active" : ""),
     key: i
   }, /*#__PURE__*/React.createElement("div", {
     className: "phase"
@@ -1364,8 +1365,7 @@ function Organizers() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "09 \xB7 Organizers",
     title: "The <em>people</em> behind it.",
-    kicker: "Full organizer list and biographies will be published shortly.",
-    soon: true
+    kicker: "Full organizer list and biographies will be published shortly."
   }), /*#__PURE__*/React.createElement("div", {
     className: "org-grid"
   }, SITE_CONFIG.organizers.map((o, i) => /*#__PURE__*/React.createElement("div", {
