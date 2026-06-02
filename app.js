@@ -20,6 +20,7 @@ const SITE_CONFIG = {
     url: "https://github.com/LAMDASZ-ML/ChinaTravel"
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
+  registrationFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdobQls23x6L2APaJektE85TqCFvUgESCkg8ZcSnb3NvLyzhg/viewform?usp=dialog",
   organizers: [{
     initial: "LG",
     name: "Lan-Zhe Guo",
@@ -42,7 +43,7 @@ const SITE_CONFIG = {
     role: "Organizer"
   }, {
     initial: "PH",
-    name: "Peng-Wu Hua",
+    name: "Peng-Yu Hua",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
@@ -477,11 +478,13 @@ function Home({
   }, "TPC returns to IJCAI 2026. A global challenge for language agents that must turn open\u2011ended traveler intent into feasible, preference\u2011aligned, multi\u2011day itineraries across China."), /*#__PURE__*/React.createElement("div", {
     className: "hero-actions"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#registration",
+    href: SITE_CONFIG.registrationFormUrl,
+    target: "_blank",
+    rel: "noreferrer",
     className: "btn btn-primary"
-  }, "Register Interest ", /*#__PURE__*/React.createElement("span", {
+  }, "Register Now ", /*#__PURE__*/React.createElement("span", {
     className: "arr"
-  }, "\u2192")), /*#__PURE__*/React.createElement("a", {
+  }, "\u2197")), /*#__PURE__*/React.createElement("a", {
     href: "#dates",
     className: "btn btn-ghost"
   }, "View Timeline ", /*#__PURE__*/React.createElement("span", {
@@ -1084,35 +1087,7 @@ function Evaluation() {
   }, "\u2197"))))));
 }
 
-// Formspree form ID. Create a free form at https://formspree.io with
-// shaojj@lamda.nju.edu.cn as the destination and paste the 8-char ID here.
-const FORMSPREE_ID = "xzdyywqr";
 function Registration() {
-  const [email, setEmail] = useState("");
-  const [state, setState] = useState("idle"); // idle | sending | ok | err
-
-  async function submit(e) {
-    e.preventDefault();
-    if (!email.includes("@")) return;
-    setState("sending");
-    try {
-      const res = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          _subject: "[TPC 2026] New interest registration",
-          source: "TPC 2026 website"
-        })
-      });
-      if (res.ok) setState("ok");else setState("err");
-    } catch {
-      setState("err");
-    }
-  }
   return /*#__PURE__*/React.createElement("section", {
     id: "registration",
     className: "block"
@@ -1120,8 +1095,8 @@ function Registration() {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "07 \xB7 Registration",
-    title: "Be the first to <em>know</em>.",
-    kicker: "Drop your email to receive the task specification, key dates, and leaderboard announcements the moment they go live."
+    title: "Register for the <em>challenge</em>.",
+    kicker: "Complete the Google Form to submit your team information and receive follow-up competition updates."
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       border: "1px solid var(--rule)",
@@ -1138,64 +1113,24 @@ function Registration() {
       color: "var(--seal)",
       marginBottom: 10
     }
-  }, "Mailing list"), /*#__PURE__*/React.createElement("div", {
+  }, "Registration form"), /*#__PURE__*/React.createElement("div", {
     className: "serif",
     style: {
       fontSize: 30,
       lineHeight: 1.05,
       marginBottom: 18
     }
-  }, "Register your interest. Full team signup opens with Phase I."), state === "ok" ? /*#__PURE__*/React.createElement("div", {
-    style: {
-      color: "var(--ink-soft)",
-      fontSize: 15
-    }
-  }, "Thanks. We'll be in touch when Phase I opens. ", /*#__PURE__*/React.createElement("span", {
-    className: "mono",
-    style: {
-      color: "var(--seal)"
-    }
-  }, "\u25C6 received")) : /*#__PURE__*/React.createElement("form", {
-    onSubmit: submit,
-    style: {
-      display: "flex",
-      gap: 10,
-      flexWrap: "wrap",
-      maxWidth: 540
-    }
-  }, /*#__PURE__*/React.createElement("input", {
-    type: "email",
-    required: true,
-    value: email,
-    onChange: e => setEmail(e.target.value),
-    placeholder: "you@institution.edu",
-    style: {
-      flex: 1,
-      minWidth: 240,
-      background: "var(--bg)",
-      border: "1px solid var(--rule)",
-      padding: "12px 14px",
-      fontFamily: "var(--sans)",
-      fontSize: 15,
-      color: "var(--fg)",
-      borderRadius: 2,
-      outline: "none"
-    }
-  }), /*#__PURE__*/React.createElement("button", {
-    type: "submit",
+  }, "Team registration is now open via Google Forms."), /*#__PURE__*/React.createElement("a", {
+    href: SITE_CONFIG.registrationFormUrl,
+    target: "_blank",
+    rel: "noreferrer",
     className: "btn btn-primary",
-    disabled: state === "sending"
-  }, state === "sending" ? "Sending…" : "Notify me", " ", /*#__PURE__*/React.createElement("span", {
-    className: "arr"
-  }, "\u2192")), state === "err" && /*#__PURE__*/React.createElement("div", {
     style: {
-      flex: "1 0 100%",
-      fontSize: 13,
-      color: "var(--seal)",
-      fontFamily: "var(--mono)",
-      letterSpacing: "0.04em"
+      display: "inline-flex"
     }
-  }, "Something went wrong. Please try again or email us directly."))), /*#__PURE__*/React.createElement("div", {
+  }, "Register Now ", /*#__PURE__*/React.createElement("span", {
+    className: "arr"
+  }, "\u2197"))), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: "right"
     },
@@ -1487,15 +1422,17 @@ function Contact() {
   }, /*#__PURE__*/React.createElement("h2", null, "See you in", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("em", null, "Bremen"), ", August 2026."), /*#__PURE__*/React.createElement("div", {
     className: "hero-actions"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "#registration",
+    href: SITE_CONFIG.registrationFormUrl,
+    target: "_blank",
+    rel: "noreferrer",
     className: "btn",
     style: {
       background: "var(--seal)",
       color: "#fff"
     }
-  }, "Register Interest ", /*#__PURE__*/React.createElement("span", {
+  }, "Register Now ", /*#__PURE__*/React.createElement("span", {
     className: "arr"
-  }, "\u2192")), /*#__PURE__*/React.createElement("a", {
+  }, "\u2197")), /*#__PURE__*/React.createElement("a", {
     href: "https://2026.ijcai.org",
     target: "_blank",
     rel: "noreferrer",
@@ -1671,11 +1608,13 @@ function App() {
     key: n.id,
     href: "#" + n.id
   }, n.label))), /*#__PURE__*/React.createElement("a", {
-    href: "#registration",
+    href: SITE_CONFIG.registrationFormUrl,
+    target: "_blank",
+    rel: "noreferrer",
     className: "cta-register"
   }, /*#__PURE__*/React.createElement("span", {
     className: "dot"
-  }), " Register Interest"))), /*#__PURE__*/React.createElement(Home, {
+  }), " Register Now"))), /*#__PURE__*/React.createElement(Home, {
     heroVariant: tweaks.heroVariant
   }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
     className: "site"
