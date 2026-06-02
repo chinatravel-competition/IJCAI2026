@@ -547,20 +547,20 @@ function Ticker() {
 function Overview() {
   const pillars = [{
     n: "01",
-    t: "Real‑world grounding",
-    d: "Queries and constraints anchored in authentic Chinese travel scenarios. Transport networks, POIs, hotels, and opening hours are all modeled faithfully."
+    t: "Real‑World Grounding",
+    d: "Queries and constraints are based on authentic Chinese travel scenarios. Transport networks, points of interest (POIs), hotels, and opening hours are faithfully modeled. Every itinerary is checked against real conditions on the ground."
   }, {
     n: "02",
-    t: "Preference alignment",
-    d: "Beyond feasibility. Agents must surface and negotiate user preferences through language and tool use."
+    t: "Preference Alignment",
+    d: "Beyond feasibility: agents must surface and negotiate user preferences through natural language and strategic tool use. The challenge rewards systems that listen closely and adapt plans to what travellers actually want."
   }, {
     n: "03",
-    t: "Verifiable plans",
-    d: "Every itinerary is checked by an automatic verifier over a rich constraint language."
+    t: "Verifiable Plans",
+    d: "Generated itineraries are checked using automated verifiers to ensure correctness, constraint satisfaction, and executability. Hard environmental and logical constraints are evaluated with explicit pass/fail criteria."
   }, {
     n: "04",
-    t: "Open participation",
-    d: "Public dataset, live leaderboard, and baseline agents, all released under a permissive license for any team to build on."
+    t: "Open Participation",
+    d: "Phase 1: submit prediction results based on the official datasets.\n\nPhase 2: submit harness code; final evaluation uses the Qwen3.6‑27B model in a unified testing environment."
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "overview",
@@ -570,7 +570,7 @@ function Overview() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "01 \xB7 Overview",
     title: "A challenge for <em>real-world</em> travel planning.",
-    kicker: "TPC asks teams to build language agents that convert open\u2011ended traveler intent into a concrete, multi\u2011day itinerary that survives every real\u2011world constraint: transport, cost, time windows, preferences, and common sense."
+    kicker: "TPC asks teams to build language agents that convert open\u2011ended traveler intent into concrete, multi\u2011day itineraries that survive real\u2011world constraints: transport, cost, time windows, preferences, and common sense."
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
@@ -605,7 +605,8 @@ function Overview() {
     style: {
       color: "var(--ink-soft)",
       fontSize: 14,
-      lineHeight: 1.55
+      lineHeight: 1.55,
+      whiteSpace: "pre-line"
     }
   }, p.d)))), /*#__PURE__*/React.createElement("style", null, `
           @media (max-width: 900px) { .pillars { grid-template-columns: 1fr 1fr !important; } }
@@ -758,10 +759,9 @@ function Tracks() {
     style: {
       color: "var(--ink-soft)",
       fontSize: 15,
-      lineHeight: 1.55,
-      maxWidth: "44ch"
+      lineHeight: 1.55
     }
-  }, "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file to the public leaderboard, where the organizers score each submission. Package submissions as a .zip named {TeamName}_v{x}.zip — for example, NJUTravel_v1.zip."), /*#__PURE__*/React.createElement("div", {
+  }, "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file to the public leaderboard, where the organizers score each submission."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -778,7 +778,7 @@ function Tracks() {
     className: "k"
   }, "Submits"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, "{Team}_v{x}.zip")))), /*#__PURE__*/React.createElement("div", {
+  }, "Prediction files")))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--bg)",
       padding: "36px 32px",
@@ -807,8 +807,7 @@ function Tracks() {
     style: {
       color: "var(--ink-soft)",
       fontSize: 15,
-      lineHeight: 1.55,
-      maxWidth: "44ch"
+      lineHeight: 1.55
     }
   }, "Teams submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed\u2011source model, Qwen3.6\u201127B, deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results are scored by the organizers."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
@@ -991,15 +990,15 @@ function Rules() {
 }
 function Evaluation() {
   const metrics = [{
-    k: "MicEPR",
+    k: "EPR‑micro",
     v: "Environmental Pass Ratio (micro)",
     w: "10%"
   }, {
-    k: "MacEPR",
+    k: "EPR‑macro",
     v: "Environmental Pass Ratio (macro)",
     w: "10%"
   }, {
-    k: "C-LPR",
+    k: "C‑LPR",
     v: "Conditional Logical Pass Rate",
     w: "25%"
   }, {
@@ -1008,7 +1007,7 @@ function Evaluation() {
     w: "40%"
   }, {
     k: "DAV",
-    v: "Daily Average Attractions Visited",
+    v: "Daily Avg. Attractions Visited",
     w: "5%"
   }, {
     k: "ATT",
@@ -1051,14 +1050,14 @@ function Evaluation() {
       lineHeight: 1.1,
       marginBottom: 14
     }
-  }, "Overall Score = 0.10 x MicEPR + 0.10 x MacEPR + 0.25 x C-LPR + 0.40 x FPR + 0.05 x DAV + 0.05 x ATT + 0.05 x DDR"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {style: {fontSize: 15}}, "$$\\displaystyle\\text{Overall Score} = 10\\% \\cdot \\text{EPR-micro} + 10\\% \\cdot \\text{EPR-macro} + 25\\% \\cdot \\text{C-LPR} + 40\\% \\cdot \\text{FPR} + 5\\% \\cdot \\text{DAV-Score} + 5\\% \\cdot \\text{ATT-Score} + 5\\% \\cdot \\text{DDR-Score}$$")), /*#__PURE__*/React.createElement("div", {
     style: {
       color: "var(--ink-soft)",
       fontSize: 14,
       lineHeight: 1.6,
       marginBottom: 24
     }
-  }, "MicEPR, MacEPR, C-LPR, and FPR measure environmental feasibility, logical constraint satisfaction, and final validity. DAV, ATT, and DDR measure soft travel preferences after the hard constraints are satisfied."), /*#__PURE__*/React.createElement("div", {
+  }, "Hard constraints — EPR‑micro, EPR‑macro (environment feasibility), C‑LPR (conditional logic satisfaction), and FPR (final pass rate) — account for 85% of the score. Soft preferences — DAV (attractions visited), ATT (transportation time), DDR (dining recommendations) — account for 15%."), /*#__PURE__*/React.createElement("div", {
     className: "rows",
     style: {
       marginBottom: 24
@@ -1149,34 +1148,49 @@ function Registration() {
   }, "Across 20+ countries")))));
 }
 function Submission() {
-  const metrics = [{
-    k: "MicEPR",
+  const hardMetrics = [{
+    k: "EPR‑micro",
     v: "Environmental Pass Ratio (micro)",
-    w: "10%"
+    w: "10%",
+    d: "Fraction of all environment constraints passed across plans.  \\(P\\) is the set of output plans, \\(1_{passed(c,p)}\\) indicates whether constraint \\(c\\) is satisfied in plan \\(p\\).",
+    f: "\\(\\displaystyle\\text{EPR-micro} = \\frac{\\sum_{p\\in P}\\sum_{c\\in Env} 1_{passed(c,p)}}{|P| \\cdot |Env|}\\)"
   }, {
-    k: "MacEPR",
+    k: "EPR‑macro",
     v: "Environmental Pass Ratio (macro)",
-    w: "10%"
+    w: "10%",
+    d: "Fraction of plans where every environment constraint is satisfied.  \\(P\\) is the set of output plans, \\(1_{passed(c,p)}\\) indicates whether constraint \\(c\\) is satisfied in plan \\(p\\).",
+    f: "\\(\\displaystyle\\text{EPR-macro} = \\frac{\\sum_{p\\in P}\\prod_{c\\in Env} 1_{passed(c,p)}}{|P|}\\)"
   }, {
-    k: "C-LPR",
+    k: "C‑LPR",
     v: "Conditional Logical Pass Rate",
-    w: "25%"
+    w: "25%",
+    d: "How well plans satisfy personalised conditional constraints, weighted by environment pass.  \\(P\\) is the set of output plans, \\(C_p\\) is the set of constraint requirements in the query corresponding to plan \\(p\\), \\(1_{passed(c,p)}\\) indicates whether constraint \\(c\\) is satisfied in plan \\(p\\).",
+    f: "\\(\\displaystyle\\text{C-LPR} = \\frac{\\sum_{p\\in P} 1_{passed(Env,p)} \\cdot \\sum_{c\\in C_p} 1_{passed(c,p)}}{|P|}\\)"
   }, {
     k: "FPR",
     v: "Final Pass Ratio",
-    w: "40%"
-  }, {
+    w: "40%",
+    d: "Fraction of plans that pass all environment and logical constraints — the hard-constraint pass rate.  \\(P\\) is the set of output plans, \\(C_p\\) is the set of constraint requirements in the query corresponding to plan \\(p\\), \\(1_{passed(c,p)}\\) indicates whether constraint \\(c\\) is satisfied in plan \\(p\\).",
+    f: "\\(\\displaystyle\\text{FPR} = \\frac{\\sum_{p\\in P} 1_{passed(Env,p)} \\cdot \\prod_{c\\in C_p} 1_{passed(c,p)}}{|P|}\\)"
+  }];
+  const softMetrics = [{
     k: "DAV",
-    v: "Daily Average Attractions Visited",
-    w: "5%"
+    v: "Daily Avg. Attractions Visited",
+    w: "5%",
+    d: "More is better; normalised to [0, 4].",
+    f: "\\(\\text{DAV-score} = (\\textit{DAV} - 0) / 4\\)"
   }, {
     k: "ATT",
     v: "Averaged Transportation Time",
-    w: "5%"
+    w: "5%",
+    d: "Less is better; clamped to [15, 120] min.",
+    f: "\\(\\text{ATT-score} = \\max(\\min((120-\\textit{ATT}) / (120-15), 1), 0)\\)"
   }, {
     k: "DDR",
     v: "Daily Dining Recommendations",
-    w: "5%"
+    w: "5%",
+    d: "More is better; normalised to [0, 3].",
+    f: "\\(\\text{DDR-score} = \\min((\\textit{DDR} - 0) / (3-0), 1)\\)"
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "submission",
@@ -1199,7 +1213,8 @@ function Submission() {
   }, [{
     n: "1",
     t: "Round 1 · Prediction",
-    d: "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file via the Round 1 submission link. The organizers will score each submission. Package submissions as a .zip named {TeamName}_v{x}.zip — for example, NJUTravel_v1.zip.",
+    d: "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file via the Round 1 submission link. The organizers will score each submission.",
+    note: "Package submissions as a .zip named \n{TeamName}_v{x}.zip\n — for example, NJUTravel_v1.zip.",
     lk: "Submit (Round 1)",
     lu: "https://box.nju.edu.cn/u/d/998d62d9bd8747ea8659/"
   }, {
@@ -1239,7 +1254,18 @@ function Submission() {
       fontSize: 14,
       lineHeight: 1.55
     }
-  }, s.d), s.lk && /*#__PURE__*/React.createElement("div", {
+  }, s.d), s.note && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--ink-soft)",
+      lineHeight: 1.55,
+      fontFamily: "var(--mono)",
+      marginTop: 8,
+      paddingLeft: 10,
+      borderLeft: "2px solid var(--seal)",
+      whiteSpace: "pre-line"
+    }
+  }, s.note), s.lk && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: "auto"
     }
@@ -1276,26 +1302,49 @@ function Submission() {
       lineHeight: 1.15,
       marginBottom: 14
     }
-  }, "Phase 1 Score = 0.10 x MicEPR + 0.10 x MacEPR + 0.25 x C-LPR + 0.40 x FPR + 0.05 x DAV + 0.05 x ATT + 0.05 x DDR"), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {style: {fontSize: 15}}, "$$\\displaystyle\\text{Score} = 10\\% \\cdot \\text{EPR-micro} + 10\\% \\cdot \\text{EPR-macro} + 25\\% \\cdot \\text{C-LPR} + 40\\% \\cdot \\text{FPR} + 5\\% \\cdot \\text{DAV-Score} + 5\\% \\cdot \\text{ATT-Score} + 5\\% \\cdot \\text{DDR-Score}$$")), /*#__PURE__*/React.createElement("div", {
     style: {
       color: "var(--ink-soft)",
       fontSize: 14,
       lineHeight: 1.6,
-      marginBottom: 22
+      marginBottom: 18
     }
-  }, "The Phase 1 leaderboard score is computed by the official evaluation script. Hard-constraint metrics account for 85% of the score, while soft-preference metrics account for 15%."), /*#__PURE__*/React.createElement("div", {
+  }, "Hard-constraint metrics (EPR‑micro, EPR‑macro, C‑LPR, FPR) account for 85% of the total score. Soft-preference metrics (DAV, ATT, DDR) account for 15%. The official evaluation script runs five times and averages the results for the final score."), /*#__PURE__*/React.createElement("div", {
     className: "rows",
     style: {
       marginBottom: 22
     }
-  }, metrics.map(m => /*#__PURE__*/React.createElement("div", {
+  }, [...hardMetrics, ...softMetrics].map(m => /*#__PURE__*/React.createElement("div", {
     className: "row",
-    key: m.k
+    key: m.k,
+    style: {
+      alignItems: "center"
+    }
   }, /*#__PURE__*/React.createElement("div", {
     className: "r-k"
-  }, m.k), /*#__PURE__*/React.createElement("div", {
-    className: "r-v"
-  }, m.v), /*#__PURE__*/React.createElement("div", {
+  }, m.k), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "r-v",
+    style: {
+      fontSize: 18,
+      lineHeight: 1.25
+    }
+  }, m.v), m.d && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--muted)",
+      lineHeight: 1.4,
+      marginTop: 4,
+      fontFamily: "var(--mono)"
+    }
+  }, m.d), m.f && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--ink-soft)",
+      lineHeight: 1.4,
+      marginTop: 6,
+      fontFamily: "var(--mono)"
+    }
+  }, m.f)), /*#__PURE__*/React.createElement("div", {
     className: "r-m"
   }, m.w)))), /*#__PURE__*/React.createElement("a", {
     href: SITE_CONFIG.evaluationCodeUrl,
