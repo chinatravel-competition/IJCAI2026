@@ -304,9 +304,9 @@
     font-family: inherit;
   }
   .btn-primary { background: var(--fg); color: var(--bg); }
-  .btn-primary:hover { background: var(--seal); color: #fff; }
+  .btn-primary:hover { background: var(--seal); color: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px color-mix(in oklab, var(--seal) 20%, transparent); }
   .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--rule); }
-  .btn-ghost:hover { border-color: var(--fg); }
+  .btn-ghost:hover { border-color: var(--fg); transform: translateY(-1px); }
   .btn .arr { transition: transform .2s; }
   .btn:hover .arr { transform: translateX(3px); }
 
@@ -407,8 +407,17 @@
     font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
     border-radius: 2px;
     background: color-mix(in oklab, var(--seal) 8%, transparent);
+    text-decoration: none;
+    transition: transform .2s cubic-bezier(.4,0,.2,1), background .2s, box-shadow .2s, border-color .2s;
   }
-  .soon-pill::before { content: ""; width: 5px; height: 5px; background: var(--seal); border-radius: 50%; }
+  .soon-pill::before { content: ""; width: 5px; height: 5px; background: var(--seal); border-radius: 50%; transition: transform .2s cubic-bezier(.4,0,.2,1); }
+  .soon-pill:hover {
+    transform: translateY(-1px);
+    background: color-mix(in oklab, var(--seal) 16%, transparent);
+    border-color: var(--seal-deep);
+    box-shadow: 0 4px 12px color-mix(in oklab, var(--seal) 14%, transparent);
+  }
+  .soon-pill:hover::before { transform: scale(1.3); }
 
   /* ── Dates timeline ──────────────────────────────────── */
   .dates {
@@ -424,7 +433,7 @@
     min-height: 160px;
     display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
-    transition: background .2s;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, box-shadow .25s;
   }
   .date-cell::before {
     content: "";
@@ -434,7 +443,11 @@
     background: var(--seal);
     opacity: .72;
   }
-  .date-cell:hover { background: var(--cream-soft); }
+  .date-cell:hover {
+    background: var(--cream-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+  }
   .date-cell .phase {
     font-family: var(--mono);
     font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
@@ -460,6 +473,8 @@
   }
   .date-cell.active:hover {
     background: color-mix(in oklab, var(--seal) 9%, var(--cream-soft));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
   }
   .date-cell.active .phase {
     color: var(--seal);
@@ -477,9 +492,13 @@
     padding: 36px 32px;
     display: flex; flex-direction: column; gap: 16px;
     min-height: 320px;
-    transition: background .2s;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, box-shadow .25s;
   }
-  .track:hover { background: var(--cream-soft); }
+  .track:hover {
+    background: var(--cream-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+  }
   .track-idx {
     font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--seal);
@@ -505,13 +524,42 @@
     font-family: var(--serif); font-size: 18px; margin-top: 2px;
   }
 
+  /* ── Overview pillars ─────────────────────────────────── */
+  .pillars > div {
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, box-shadow .25s;
+    position: relative;
+  }
+  .pillars > div::after {
+    content: "";
+    position: absolute;
+    left: 24px; right: 24px; bottom: 0;
+    height: 0;
+    background: var(--seal);
+    opacity: 0;
+    transition: height .25s cubic-bezier(.4,0,.2,1), opacity .25s;
+  }
+  .pillars > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+    background: var(--cream-soft);
+  }
+  .pillars > div:hover::after {
+    height: 3px;
+    opacity: .72;
+  }
+
   /* ── Simple two-column rows ──────────────────────────── */
   .rows { border-top: 1px solid var(--rule); }
   .row {
     display: grid; grid-template-columns: 220px 1fr auto; gap: 40px;
-    padding: 24px 0;
+    padding: 24px 8px;
     border-bottom: 1px solid var(--rule);
     align-items: baseline;
+    transition: background .2s, padding-left .2s;
+    border-radius: 4px;
+  }
+  .row:hover {
+    background: color-mix(in oklab, var(--seal) 3%, var(--bg));
   }
   @media (max-width: 760px) { .row { grid-template-columns: 1fr; gap: 6px; } }
   .row .r-k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
@@ -536,6 +584,14 @@
     border: 1px solid var(--rule);
     padding: 28px 32px;
     max-width: 540px;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, box-shadow .25s, border-color .25s;
+    cursor: default;
+  }
+  .placeholder-panel .inner:hover {
+    transform: translateY(-2px);
+    border-color: var(--seal);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+    background: var(--cream-soft);
   }
 
   /* ── Organizers grid ─────────────────────────────────── */
@@ -553,6 +609,16 @@
     padding: 40px 32px 34px;
     min-height: 300px;
     display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, box-shadow .25s;
+  }
+  .org-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+    background: var(--cream-soft);
+  }
+  .org-cell:hover .org-avatar { transform: scale(1.04); }
+  .org-avatar {
+    transition: transform .25s cubic-bezier(.4,0,.2,1);
   }
   .org-avatar {
     width: 112px; height: 112px; border-radius: 50%;
@@ -575,8 +641,14 @@
   /* ── FAQ ─────────────────────────────────────────────── */
   .faq-item {
     border-bottom: 1px solid var(--rule);
-    padding: 26px 0;
+    padding: 26px 8px;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background .2s, padding-left .2s;
+  }
+  .faq-item:hover {
+    background: color-mix(in oklab, var(--seal) 3%, var(--bg));
+    padding-left: 14px;
   }
   .faq-item.open .faq-q { color: var(--seal); }
   .faq-q {
@@ -610,9 +682,24 @@
     border-bottom: 1px solid var(--rule);
     align-items: baseline;
     background: color-mix(in oklab, var(--bg) 82%, var(--paper));
-    transition: background .2s;
+    position: relative;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), background .25s, box-shadow .25s, padding-left .25s;
   }
-  .news-item:hover { background: var(--paper); }
+  .news-item::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: var(--seal);
+    transition: width .25s cubic-bezier(.4,0,.2,1);
+  }
+  .news-item:hover {
+    background: var(--paper);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px color-mix(in oklab, var(--ink) 6%, transparent);
+    padding-left: 28px;
+  }
+  .news-item:hover::before { width: 3px; }
   @media (max-width: 720px) { .news-item { grid-template-columns: 1fr; gap: 6px; } }
   .news-date { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
   .news-title { font-family: var(--serif); font-size: 25px; line-height: 1.25; font-weight: 500; }

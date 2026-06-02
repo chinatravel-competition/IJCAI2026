@@ -416,10 +416,12 @@ function useCountdown(target) {
   const days = Math.floor(delta / 86400000);
   const hours = Math.floor(delta % 86400000 / 3600000);
   const mins = Math.floor(delta % 3600000 / 60000);
+  const secs = Math.floor(delta % 60000 / 1000);
   return {
     days,
     hours,
-    mins
+    mins,
+    secs
   };
 }
 
@@ -458,7 +460,8 @@ function Home({
   const {
     days,
     hours,
-    mins
+    mins,
+    secs
   } = useCountdown(target);
   return /*#__PURE__*/React.createElement("section", {
     id: "home",
@@ -514,7 +517,7 @@ function Home({
     className: "k"
   }, "Opens in"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, days, "d ", hours, "h", /*#__PURE__*/React.createElement("small", null, "until the main conference"))))), /*#__PURE__*/React.createElement("div", {
+  }, days, "d ", hours, "h ", String(mins).padStart(2, "0"), "m ", String(secs).padStart(2, "0"), "s", /*#__PURE__*/React.createElement("small", null, "until the main conference"))))), /*#__PURE__*/React.createElement("div", {
     className: "hero-visual"
   }, /*#__PURE__*/React.createElement("span", {
     className: "corner tl"
@@ -560,7 +563,7 @@ function Overview() {
   }, {
     n: "04",
     t: "Open Participation",
-    d: "Phase 1: submit prediction results based on the official datasets.\n\nPhase 2: submit harness code; final evaluation uses the Qwen3.6‑27B model in a unified testing environment."
+    d: "Phase 1: open to all teams. Phase 2: the top 5 Phase 1 teams submit harness code for final evaluation on Qwen3.6‑27B. Final ranking determines 1st, 2nd, and 3rd place."
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "overview",
@@ -810,7 +813,7 @@ function Tracks() {
       fontSize: 15,
       lineHeight: 1.55
     }
-  }, "Teams submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed\u2011source model, Qwen3.6\u201127B, deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results are scored by the organizers."), /*#__PURE__*/React.createElement("div", {
+  }, "The top 5 teams from Phase 1 submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed\u2011source model, Qwen3.6\u201127B, deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -823,7 +826,7 @@ function Tracks() {
     className: "k"
   }, "LLM"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, "Qwen3.6-27B (closed)")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Qwen3.6-27B")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "k"
   }, "Submits"), /*#__PURE__*/React.createElement("div", {
     className: "v"
@@ -942,12 +945,12 @@ function Rules() {
     v: "No fixed limit on the number of participants per team. Each participant may join at most one team per track.",
     m: "Policy"
   }, {
-    k: "Track 1 — Prediction",
-    v: "The organizers provide the official dataset and a download link. Teams generate predictions on the official dataset and submit them. Track 1 requires prediction results only — no code or model submission.",
+    k: "Track 1 · Prediction",
+    v: "Teams may use any method — any LLM, prompting strategy, toolchain, or local system — to generate predictions on the official dataset. Only prediction results are submitted, not code or models. Package submissions as a .zip named {TeamName}_v{x}.zip.",
     m: "Tracks"
   }, {
-    k: "Track 2 — Harness",
-    v: /*#__PURE__*/React.createElement(React.Fragment, null, "Teams submit harness code. Teams may develop and debug against the ", /*#__PURE__*/React.createElement("a", {
+    k: "Track 2 · Harness",
+    v: /*#__PURE__*/React.createElement(React.Fragment, null, "The top 5 Phase 1 teams submit a self‑contained harness (agent code, prompts, scaffolding). Teams may develop and debug against the ", /*#__PURE__*/React.createElement("a", {
       href: "https://huggingface.co/datasets/LAMDA-NeSy/ChinaTravel",
       target: "_blank",
       rel: "noreferrer",
@@ -956,12 +959,12 @@ function Rules() {
         textDecoration: "underline",
         textUnderlineOffset: "3px"
       }
-    }, "ChinaTravel dataset"), ". The final evaluation runs each submitted harness on a unified closed-source model, Qwen3.6-27B."),
+    }, "ChinaTravel dataset"), ". All harnesses run on a held‑out test set. The final evaluation uses Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink)."),
     m: "Tracks"
   }, {
-    k: "Submission",
-    v: "Track 1: submit prediction results only. Track 2: submit harness code, run by the organizers on a unified closed-source model (Qwen3.6-27B). All final results are scored in a unified evaluation environment and announced by the organizers.",
-    m: "Submission"
+    k: "Evaluation",
+    v: "Phase 1: instant scoring on the public leaderboard with unlimited iteration (daily submission cap applies); the top 5 teams advance to Phase 2. Phase 2: each harness is run five times on the held‑out test set and scores are averaged. Final rankings determine 1st, 2nd, and 3rd place, published by the organizers.",
+    m: "Evaluation"
   }, {
     k: "Code of Conduct",
     v: "Participants must follow the IJCAI 2026 code of conduct and the competition's full terms. Cheating, plagiarism, attacks on the evaluation system, and sharing non-public answers are strictly prohibited and may result in disqualification.",
@@ -1221,11 +1224,11 @@ function Submission() {
   }, {
     n: "2",
     t: "Round 2 · Harness",
-    d: "Round 2 teams submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed‑source model, Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set, and final results are scored by the organizers. The Round 2 submission portal and format will be announced later."
+    d: "The top 5 Phase 1 teams submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed‑source model, Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal and format will be announced later."
   }, {
     n: "3",
-    t: "System Paper",
-    d: "Top-ranked teams are invited to submit a short system description paper for the competition proceedings."
+    t: "Final Ranking",
+    d: "Phase 2 results determine the 1st, 2nd, and 3rd place winners. Top‑ranked teams are also invited to submit a short system description paper for the competition proceedings."
   }].map(s => /*#__PURE__*/React.createElement("div", {
     key: s.n,
     style: {
@@ -1420,16 +1423,16 @@ function FAQ() {
   const [open, setOpen] = useState(0);
   const faqs = [{
     q: "What is TPC?",
-    a: "TPC (Travel Planning Challenge) is an open competition for evaluating language agents on real‑world travel planning in China. The 2026 edition, co‑located with IJCAI‑ECAI 2026 in Bremen, is the second iteration. It features two tracks: prediction (Phase 1) and harness submission (Phase 2)."
+    a: "TPC (Travel Planning Challenge) is an open competition for evaluating language agents on real‑world travel planning in China. The 2026 edition, co‑located with IJCAI‑ECAI 2026 in Bremen, is the second iteration. Top 5 Phase 1 teams advance to Phase 2; final results determine the 1st, 2nd, and 3rd place winners."
   }, {
     q: "Who can participate?",
     a: "Open to teams from universities, research institutions, and companies worldwide. At least one member per team must register for IJCAI‑ECAI 2026. No fixed team‑size limit; each participant may join at most one team per track."
   }, {
-    q: "How many teams will advance to Stage 2?",
-    a: "The top 5 teams from Stage 1 will be invited to advance to Stage 2, subject to eligibility verification and compliance with the competition rules. After Stage 2 evaluation is completed, the final first-, second-, and third-place winners will be determined directly by the Stage 2 results, and three awards will be presented accordingly."
+    q: "How many teams advance to Phase 2?",
+    a: "The top 5 teams from Phase 1 advance to Phase 2, subject to eligibility verification and compliance with the competition rules. After Phase 2 evaluation, the 1st, 2nd, and 3rd place winners are determined directly by the Phase 2 results."
   }, {
     q: "Is there a prize?",
-    a: "Awards will be presented to the first-, second-, and third-place teams, as determined by the final Stage 2 results. Top-ranked teams may also be invited to submit a system description paper for the competition proceedings."
+    a: "Awards will be presented to the 1st, 2nd, and 3rd place teams. Top‑ranked Phase 2 teams are also invited to submit a system description paper for the competition proceedings."
   }, {
     q: "Which languages / frameworks are allowed?",
     a: "Phase 1 (Prediction): any method is allowed — any LLM, prompting strategy, toolchain, or local system. Phase 2 (Harness): teams submit a self‑contained harness; the organizers run it on a unified closed‑source model (Qwen3.6‑27B). Reproducibility is expected for top‑ranked teams."
