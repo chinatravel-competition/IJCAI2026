@@ -1423,6 +1423,9 @@ function FAQ() {
     q: "Who can participate?",
     a: "Open to teams from universities, research institutions, and companies worldwide. At least one member per team must register for IJCAI‑ECAI 2026. No fixed team‑size limit; each participant may join at most one team per track."
   }, {
+    q: "How many teams will advance to Stage 2?",
+    a: "The top 10 teams from Stage 1 will be invited to advance to Stage 2, subject to eligibility verification and compliance with the competition rules."
+  }, {
     q: "Is there a prize?",
     a: "Prize details are being finalized and will be announced with the task specification. Top‑ranked teams will also be invited to submit a system description paper for the competition proceedings."
   }, {
