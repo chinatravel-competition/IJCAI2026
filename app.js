@@ -614,37 +614,25 @@ function Overview() {
 }
 function Dates() {
   const milestones = [{
-    phase: "Phase I",
-    label: "Registration Opens",
-    time: "TBA · early 2026"
+    phase: "Milestone 01",
+    label: "Data Release and Submission Opens",
+    time: "June 1, 2026"
   }, {
-    phase: "Phase II",
-    label: "Training Data & Baselines Release",
-    time: "Coming Soon"
+    phase: "Milestone 02",
+    label: "Stage 1 Submission Deadline",
+    time: "August 1, 2026"
   }, {
-    phase: "Phase III",
-    label: "Development Leaderboard Opens",
-    time: "Coming Soon"
+    phase: "Milestone 03",
+    label: "Stage 2 Evaluation",
+    time: "August 1-7, 2026"
   }, {
-    phase: "Phase IV",
-    label: "Test Set Release",
-    time: "Coming Soon"
+    phase: "Milestone 04",
+    label: "Technical Report Deadline",
+    time: "August 7, 2026"
   }, {
-    phase: "Phase V",
-    label: "Final Submission Deadline",
-    time: "Coming Soon"
-  }, {
-    phase: "Phase VI",
-    label: "Winners Notified",
-    time: "Coming Soon"
-  }, {
-    phase: "Phase VII",
-    label: "System Paper Due",
-    time: "Coming Soon"
-  }, {
-    phase: "On-site",
-    label: "Award Ceremony at IJCAI-ECAI 2026",
-    time: "15–21 Aug 2026"
+    phase: "Milestone 05",
+    label: "Final Results Announced",
+    time: "August 10, 2026"
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "dates",
@@ -654,8 +642,7 @@ function Dates() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "02 \xB7 Important Dates",
     title: "Timeline to <em>Bremen</em>.",
-    kicker: "Exact deadlines will be announced with the task specification. Subscribe below to be notified.",
-    soon: true
+    kicker: "Key dates for data release, submissions, evaluation, technical reports, and final results."
   }), /*#__PURE__*/React.createElement("div", {
     className: "dates"
   }, milestones.map((m, i) => /*#__PURE__*/React.createElement("div", {
@@ -1631,7 +1618,7 @@ function App() {
     className: "site"
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
-  }, /*#__PURE__*/React.createElement("div", null, "\xA9 2026 TPC \xB7 Travel Planning Challenge \xB7 IJCAI 2026 Bremen"), /*#__PURE__*/React.createElement("div", null, "Last updated \xB7 Apr 2026 \xB7 v2026.1"))), /*#__PURE__*/React.createElement(Tweaks, {
+  }, /*#__PURE__*/React.createElement("div", null, "\xA9 2026 TPC \xB7 Travel Planning Challenge \xB7 IJCAI 2026 Bremen"), /*#__PURE__*/React.createElement("div", null, "Last updated \xB7 Jun 2026 \xB7 v2026.1"))), /*#__PURE__*/React.createElement(Tweaks, {
     tweaks: tweaks,
     setTweak: setTweak
   }));
