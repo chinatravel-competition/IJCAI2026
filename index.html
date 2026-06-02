@@ -11,6 +11,10 @@
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.getElementById('root'),{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'$$',right:'$$',display:true}],trust:true});"></script>
 
 <style>
   :root {
@@ -447,6 +451,17 @@
     font-size: 11px; color: var(--ink-soft);
     margin-top: 14px;
     opacity: .7;
+  }
+  .date-cell.active {
+    border-left: 3px solid var(--seal);
+    background: color-mix(in oklab, var(--seal) 5%, var(--bg));
+  }
+  .date-cell.active:hover {
+    background: color-mix(in oklab, var(--seal) 9%, var(--cream-soft));
+  }
+  .date-cell.active .phase {
+    color: var(--seal);
+    font-weight: 500;
   }
 
   /* ── Tracks ──────────────────────────────────────────── */
