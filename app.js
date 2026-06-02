@@ -24,41 +24,49 @@ const SITE_CONFIG = {
   organizers: [{
     initial: "LG",
     name: "Lan-Zhe Guo",
+    photo: "figures/Lan-Zhe%20Guo.jpeg",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "YL",
     name: "Yu-Feng Li",
+    photo: "figures/Yu-Feng%20Li.jpg",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "JS",
     name: "Jie-Jing Shao",
+    photo: "figures/Jie-Jing%20Shao.png",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "BZ",
     name: "Bo-Wen Zhang",
+    photo: "figures/Bo-Wen%20Zhang.jpg",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "PH",
     name: "Peng-Yu Hua",
+    photo: "figures/Peng-Yu%20Hua.jpg",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "JC",
     name: "Jia-Wei Cao",
+    photo: "figures/Jia-Wei%20Cao.jpg",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "JY",
     name: "Jin Ye",
+    photo: "figures/Jin%20Ye.jpg",
     aff: "Nanjing University",
     role: "Organizer"
   }, {
     initial: "SL",
     name: "Song-Lin Lv",
+    photo: "figures/Song-Lin%20Lv.jpg",
     aff: "Nanjing University",
     role: "Organizer"
   }]
@@ -1329,7 +1337,10 @@ function Organizers() {
     key: i
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "org-avatar"
-  }, o.initial), /*#__PURE__*/React.createElement("div", {
+  }, o.photo ? /*#__PURE__*/React.createElement("img", {
+    src: o.photo,
+    alt: o.name
+  }) : o.initial), /*#__PURE__*/React.createElement("div", {
     className: "org-name"
   }, o.name), /*#__PURE__*/React.createElement("div", {
     className: "org-aff"
