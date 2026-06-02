@@ -1379,6 +1379,9 @@ function FAQ() {
     q: "Who can participate?",
     a: "The competition is open to teams from both academia and industry. Specific eligibility rules and team-size limits will be published with the full rulebook."
   }, {
+    q: "How many teams will advance to Stage 2?",
+    a: "The top 10 teams from Stage 1 will be invited to advance to Stage 2, subject to eligibility verification and compliance with the competition rules."
+  }, {
     q: "Is there a prize?",
     a: "Prize details are being finalized and will be announced with the task specification."
   }, {
