@@ -642,7 +642,7 @@ function Dates() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    num: "02 \xB7 Important Dates",
+    num: "03 \xB7 Important Dates",
     title: "Timeline to <em>Bremen</em>.",
     kicker: "Key dates for data release, submissions, evaluation, technical reports, and final results."
   }), /*#__PURE__*/React.createElement("div", {
@@ -665,7 +665,7 @@ function Tracks() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    num: "03 \xB7 Track",
+    num: "04 \xB7 Track",
     title: "One track. Two <em>phases</em>.",
     kicker: "The 2026 edition runs a single Agentic AI track. In Phase 1, teams submit predictions to the public leaderboard. In Phase 2, teams submit a self‑contained harness evaluated on a unified closed‑source model.",
     soon: false
@@ -855,7 +855,7 @@ function Data() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    num: "04 \xB7 Data",
+    num: "05 \xB7 Data",
     title: "An <em>open</em> atlas of travel scenarios.",
     kicker: "The challenge ships with curated traveler queries and a tool environment that models transportation, POIs, hotels, restaurants, and opening hours across dozens of Chinese cities."
   }), /*#__PURE__*/React.createElement("div", {
@@ -973,7 +973,7 @@ function Rules() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    num: "05 \xB7 Rules",
+    num: "06 \xB7 Rules",
     title: "The <em>rules</em> of the road.",
     kicker: "Eligibility, team size, and the two competition tracks at a glance. The full rulebook will be published with the task specification."
   }), /*#__PURE__*/React.createElement("div", {
@@ -1400,10 +1400,12 @@ function News() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    num: "10 \xB7 News & Updates",
+    num: "02 \xB7 News & Updates",
     title: "Latest from the <em>organizers</em>.",
     kicker: "Follow along as deadlines, resources, and winners are announced."
-  }), /*#__PURE__*/React.createElement("div", null, items.map((it, i) => /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "news-list"
+  }, items.map((it, i) => /*#__PURE__*/React.createElement("div", {
     className: "news-item",
     key: i
   }, /*#__PURE__*/React.createElement("div", {
@@ -1424,10 +1426,10 @@ function FAQ() {
     a: "Open to teams from universities, research institutions, and companies worldwide. At least one member per team must register for IJCAI‑ECAI 2026. No fixed team‑size limit; each participant may join at most one team per track."
   }, {
     q: "How many teams will advance to Stage 2?",
-    a: "The top 10 teams from Stage 1 will be invited to advance to Stage 2, subject to eligibility verification and compliance with the competition rules."
+    a: "The top 5 teams from Stage 1 will be invited to advance to Stage 2, subject to eligibility verification and compliance with the competition rules. After Stage 2 evaluation is completed, the final first-, second-, and third-place winners will be determined directly by the Stage 2 results, and three awards will be presented accordingly."
   }, {
     q: "Is there a prize?",
-    a: "Prize details are being finalized and will be announced with the task specification. Top‑ranked teams will also be invited to submit a system description paper for the competition proceedings."
+    a: "Awards will be presented to the first-, second-, and third-place teams, as determined by the final Stage 2 results. Top-ranked teams may also be invited to submit a system description paper for the competition proceedings."
   }, {
     q: "Which languages / frameworks are allowed?",
     a: "Phase 1 (Prediction): any method is allowed — any LLM, prompting strategy, toolchain, or local system. Phase 2 (Harness): teams submit a self‑contained harness; the organizers run it on a unified closed‑source model (Qwen3.6‑27B). Reproducibility is expected for top‑ranked teams."
@@ -1444,7 +1446,7 @@ function FAQ() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
   }, /*#__PURE__*/React.createElement(SectionHead, {
-    num: "11 \xB7 FAQ",
+    num: "10 \xB7 FAQ",
     title: "Questions, <em>answered</em>."
   }), /*#__PURE__*/React.createElement("div", null, faqs.map((f, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
@@ -1612,6 +1614,9 @@ function App() {
     id: "overview",
     label: "Overview"
   }, {
+    id: "news",
+    label: "News"
+  }, {
     id: "dates",
     label: "Dates"
   }, {
@@ -1661,7 +1666,7 @@ function App() {
     className: "dot"
   }), " Register Now"))), /*#__PURE__*/React.createElement(Home, {
     heroVariant: tweaks.heroVariant
-  }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
+  }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
     className: "site"
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
