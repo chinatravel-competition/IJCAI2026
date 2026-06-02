@@ -8,7 +8,7 @@ const {
 const SITE_CONFIG = {
   dataLinks: [{
     label: "Phase 1 Data",
-    url: "TPC_IJCAI_2026_phase1.zip"
+    url: "TPC_IJCAI_2026_phase1_EN.zip"
   }, {
     label: "Phase 1 Data Index",
     url: "TPC_IJCAI_2026_phase1.txt"
@@ -763,7 +763,7 @@ function Tracks() {
       lineHeight: 1.55,
       maxWidth: "44ch"
     }
-  }, "Teams download the development split and run their agent locally, using any LLM, any prompting strategy, any toolchain. Upload prediction files to the public leaderboard for instant scoring. Unlimited iteration; daily submission cap applies."), /*#__PURE__*/React.createElement("div", {
+  }, "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file to the public leaderboard, where the organizers score each submission. Package submissions as a .zip named {TeamName}_v{x}.zip — for example, NJUTravel_v1.zip."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -780,7 +780,7 @@ function Tracks() {
     className: "k"
   }, "Submits"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, "Prediction files")))), /*#__PURE__*/React.createElement("div", {
+  }, "{Team}_v{x}.zip")))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--bg)",
       padding: "36px 32px",
@@ -812,7 +812,7 @@ function Tracks() {
       lineHeight: 1.55,
       maxWidth: "44ch"
     }
-  }, "Top Phase 1 teams submit a self\u2011contained harness, including agent logic, prompts, and scaffolding, that calls a provided LLM client. Organizers run every harness against a held\u2011out test set through a unified LLM API, so final rankings reflect the agent system, not model access."), /*#__PURE__*/React.createElement("div", {
+  }, "Teams submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed\u2011source model, Qwen3.6\u201127B, deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results are scored by the organizers."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -821,11 +821,11 @@ function Tracks() {
     className: "k"
   }, "Compute"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, "Organizer-hosted")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "2\xD7 A800 80G \xB7 SGLang")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "k"
   }, "LLM"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, "Unified API (provided)")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "Qwen3.6-27B (closed)")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "k"
   }, "Submits"), /*#__PURE__*/React.createElement("div", {
     className: "v"
@@ -937,27 +937,36 @@ function Data() {
 function Rules() {
   const rules = [{
     k: "Eligibility",
-    v: "Open to academic and industry teams worldwide. At least one team member must register for IJCAI-ECAI 2026.",
+    v: "Open to teams from universities, research institutions, and companies worldwide. At least one member of each team must register for IJCAI-ECAI 2026.",
     m: "Policy"
   }, {
     k: "Team Size",
-    v: "Up to 6 participants per team. An individual may belong to at most one team per track.",
+    v: "No fixed limit on the number of participants per team. Each participant may join at most one team per track.",
     m: "Policy"
   }, {
-    k: "Foundation Models",
-    v: "Any publicly accessible foundation model may be used; closed APIs are permitted with reproducible prompts.",
-    m: "Models"
+    k: "Track 1 — Prediction",
+    v: "The organizers provide the official dataset and a download link. Teams generate predictions on the official dataset and submit them. Track 1 requires prediction results only — no code or model submission.",
+    m: "Tracks"
   }, {
-    k: "External Data",
-    v: "Permitted if publicly available at the time of submission; all sources must be declared.",
-    m: "Data"
+    k: "Track 2 — Harness",
+    v: /*#__PURE__*/React.createElement(React.Fragment, null, "Teams submit harness code. Teams may develop and debug against the ", /*#__PURE__*/React.createElement("a", {
+      href: "https://huggingface.co/datasets/LAMDA-NeSy/ChinaTravel",
+      target: "_blank",
+      rel: "noreferrer",
+      style: {
+        color: "var(--accent)",
+        textDecoration: "underline",
+        textUnderlineOffset: "3px"
+      }
+    }, "ChinaTravel dataset"), ". The final evaluation runs each submitted harness on a unified closed-source model, Qwen3.6-27B."),
+    m: "Tracks"
   }, {
-    k: "Reproducibility",
-    v: "Top-3 teams must submit system description papers and runnable code for verification.",
+    k: "Submission",
+    v: "Track 1: submit prediction results only. Track 2: submit harness code, run by the organizers on a unified closed-source model (Qwen3.6-27B). All final results are scored in a unified evaluation environment and announced by the organizers.",
     m: "Submission"
   }, {
     k: "Code of Conduct",
-    v: "Participants agree to the IJCAI 2026 code of conduct and the competition's full terms.",
+    v: "Participants must follow the IJCAI 2026 code of conduct and the competition's full terms. Cheating, plagiarism, attacks on the evaluation system, and sharing non-public answers are strictly prohibited and may result in disqualification.",
     m: "Conduct"
   }];
   return /*#__PURE__*/React.createElement("section", {
@@ -968,8 +977,7 @@ function Rules() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "05 \xB7 Rules",
     title: "The <em>rules</em> of the road.",
-    kicker: "A condensed summary. The full rulebook will be published with the task specification.",
-    soon: true
+    kicker: "Eligibility, team size, and the two competition tracks at a glance. The full rulebook will be published with the task specification."
   }), /*#__PURE__*/React.createElement("div", {
     className: "rows"
   }, rules.map((r, i) => /*#__PURE__*/React.createElement("div", {
@@ -1248,8 +1256,7 @@ function Submission() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "08 \xB7 Submission",
     title: "How <em>submissions</em> will work.",
-    kicker: "Final submission instructions, platform, and format will be published alongside the test split.",
-    soon: true
+    kicker: "Two rounds: prediction results in Round 1, harness code in Round 2."
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
@@ -1261,16 +1268,18 @@ function Submission() {
     className: "sub-grid"
   }, [{
     n: "1",
-    t: "Public Leaderboard",
-    d: "Upload prediction files generated by your agent on the development split. Instant scoring; daily submission cap applies."
+    t: "Round 1 · Prediction",
+    d: "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file via the Round 1 submission link. The organizers will score each submission. Package submissions as a .zip named {TeamName}_v{x}.zip — for example, NJUTravel_v1.zip.",
+    lk: "Submit (Round 1)",
+    lu: "https://box.nju.edu.cn/u/d/998d62d9bd8747ea8659/"
   }, {
     n: "2",
-    t: "Final Harness",
-    d: "Submit a self‑contained harness (agent code, prompts, scaffolding) that calls the provided unified LLM client. We run it against the held‑out test set."
+    t: "Round 2 · Harness",
+    d: "Round 2 teams submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed‑source model, Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set, and final results are scored by the organizers. The Round 2 submission portal and format will be announced later."
   }, {
     n: "3",
     t: "System Paper",
-    d: "Top-ranked teams are invited to submit a short system description for the competition proceedings."
+    d: "Top-ranked teams are invited to submit a short system description paper for the competition proceedings."
   }].map(s => /*#__PURE__*/React.createElement("div", {
     key: s.n,
     style: {
@@ -1297,15 +1306,27 @@ function Submission() {
   }, s.t), /*#__PURE__*/React.createElement("div", {
     style: {
       color: "var(--ink-soft)",
-      fontSize: 14
+      fontSize: 14,
+      lineHeight: 1.55
     }
-  }, s.d), /*#__PURE__*/React.createElement("div", {
+  }, s.d), s.lk && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: "auto"
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "soon-pill"
-  }, "Coming Soon"))))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("a", {
+    href: s.lu,
+    target: "_blank",
+    rel: "noreferrer",
+    style: {
+      color: "var(--accent)",
+      textDecoration: "underline",
+      textUnderlineOffset: "3px",
+      fontSize: 13,
+      fontFamily: "var(--mono)",
+      letterSpacing: "0.06em",
+      textTransform: "uppercase"
+    }
+  }, s.lk, " ↗"))))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 48,
       border: "1px solid var(--rule)",
@@ -1379,37 +1400,7 @@ function Organizers() {
     className: "org-aff"
   }, o.aff)), /*#__PURE__*/React.createElement("div", {
     className: "org-role"
-  }, o.role)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      marginTop: 80
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "mono",
-    style: {
-      color: "var(--muted)",
-      marginBottom: 18,
-      paddingBottom: 10,
-      borderBottom: "1px solid var(--fg)"
-    }
-  }, "Program Committee"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      gap: "10px 40px",
-      fontFamily: "var(--serif)",
-      fontSize: 18,
-      color: "var(--ink-soft)"
-    },
-    className: "pc-list"
-  }, Array.from({
-    length: 12
-  }).map((_, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      padding: "8px 0",
-      borderBottom: "1px dashed var(--rule)"
-    }
-  }, "To be announced"))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .pc-list { grid-template-columns: 1fr 1fr !important; } }`))));
+  }, o.role))))));
 }
 function News() {
   const items = [{
