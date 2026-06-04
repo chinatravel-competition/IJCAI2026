@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Evaluation Guide — TPC@IJCAI2026</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],trust:true});"></script>
+
+<style>
+  :root {
+    --ink: #0f1f24;
+    --ink-soft: #1d3339;
+    --cream: #f4efe6;
+    --cream-soft: #ebe4d6;
+    --paper: #faf7f0;
+    --seal: #c94a2a;
+    --seal-deep: #a43a1f;
+    --muted: #6b7a7f;
+    --rule: #d9d1c0;
+    --accent: var(--seal);
+    --bg: var(--cream);
+    --fg: var(--ink);
+
+    --serif: "Merriweather", ui-serif, Georgia, serif;
+    --sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Source Code Pro", ui-monospace, Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f1ece1;
+      --ink-soft: #d9d2c2;
+      --cream: #0d1619;
+      --cream-soft: #111f23;
+      --paper: #0a1215;
+      --seal: #e06a49;
+      --seal-deep: #c94a2a;
+      --muted: #8a979c;
+      --rule: #1f3137;
+      --bg: var(--cream);
+      --fg: var(--ink);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 56px 16px 100px; }
+  @media (max-width: 640px) { .container { padding: 32px 16px 72px; } }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--muted); margin-bottom: 36px;
+    transition: color .2s;
+  }
+  .back-link:hover { color: var(--seal); }
+
+  .title { font-family: var(--serif); font-size: 42px; line-height: 1.15; font-weight: 400; margin: 0 0 12px; }
+  .title em { font-style: italic; color: var(--seal); }
+
+  .subtitle { color: var(--ink-soft); font-size: 16px; max-width: 54ch; margin: 0 0 48px; }
+
+  h2 {
+    font-family: var(--serif); font-size: 26px; font-weight: 400;
+    margin: 56px 0 8px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h3 { font-family: var(--serif); font-size: 20px; font-weight: 400; margin: 36px 0 8px; color: var(--ink-soft); }
+
+  p { margin: 0 0 12px; color: var(--ink-soft); }
+  a { color: var(--seal); text-decoration: underline; text-underline-offset: 3px; }
+
+  ul, ol { color: var(--ink-soft); padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+
+  pre {
+    background: var(--paper); border: 1px solid var(--rule);
+    padding: 18px 22px; border-radius: 4px;
+    font-family: var(--mono); font-size: 13px; line-height: 1.55;
+    overflow-x: auto; margin: 10px 0 22px;
+  }
+  code {
+    font-family: var(--mono); font-size: 13px;
+    background: color-mix(in oklab, var(--seal) 6%, transparent);
+    padding: 2px 6px; border-radius: 2px;
+  }
+  pre code { font-size: 13px; background: none; padding: 0; }
+
+  blockquote {
+    border-left: 3px solid var(--seal); margin: 10px 0 22px;
+    padding: 8px 0 8px 18px; color: var(--muted); font-size: 14px;
+  }
+
+  .formula-card {
+    background: var(--paper); border: 1px solid var(--rule);
+    border-radius: 6px; padding: 20px 20px 14px;
+    margin: 14px 0 22px; overflow-x: auto; text-align: center;
+  }
+  .param-list { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 4px 0 0; }
+  .param-list em { color: var(--seal); font-style: normal; }
+
+  .score-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 18px 0 10px; }
+  .score-bar .hard { background: var(--seal); }
+  .score-bar .soft { background: color-mix(in oklab, var(--seal) 40%, transparent); }
+  .score-legend { display: flex; gap: 28px; font-size: 13px; color: var(--muted); }
+  .score-legend span::before {
+    content: ""; display: inline-block; width: 10px; height: 10px;
+    border-radius: 2px; margin-right: 8px; vertical-align: middle;
+  }
+  .score-legend .hard::before { background: var(--seal); }
+  .score-legend .soft::before { background: color-mix(in oklab, var(--seal) 40%, transparent); }
+
+  .footer {
+    margin-top: 72px; padding-top: 20px;
+    border-top: 1px solid var(--rule); font-size: 12px; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="./" class="back-link">&larr; Back to Competition Site</a>
+
+  <h1 class="title">Evaluation <em>Guide</em></h1>
+  <p class="subtitle">
+    Each submitted itinerary is checked by an automatic verifier that
+    enforces <strong>hard constraints</strong> (environment feasibility and
+    logical correctness) and measures <strong>soft preferences</strong>
+    (traveller-oriented quality signals).
+  </p>
+
+  <!-- ═══════ EVALUATION METRICS ═══════ -->
+
+  <h2>Evaluation Metrics</h2>
+
+  <h3>Environment Constraints</h3>
+  <p>
+    Environment constraints assess whether the information in the output plan
+    is consistent with the provided sandbox environment, measuring the
+    feasibility of each itinerary.
+    See also:
+    <a href="https://github.com/LAMDA-NeSy/ChinaTravel/tree/main/chinatravel/symbol_verification" target="_blank" rel="noreferrer">Environment Constraint documentation</a>.
+  </p>
+
+  <div class="formula-card">
+    $$ \text{EPR-micro} = \frac{\sum_{p \in P} \sum_{c \in \textit{Env}} \mathbf{1}_{\text{passed}}(c,p)}{|P| \cdot |\textit{Env}|} $$
+  </div>
+
+  <div class="formula-card">
+    $$ \text{EPR-macro} = \frac{\sum_{p \in P} \prod_{c \in \textit{Env}} \mathbf{1}_{\text{passed}}(c,p)}{|P|} $$
+  </div>
+
+  <h3>Conditional Logic Constraints</h3>
+  <p>
+    Conditional logic constraints evaluate how well the output plan satisfies
+    personalised user requirements under the premise that environment
+    constraints are already met.
+  </p>
+
+  <div class="formula-card">
+    $$ \text{C-LPR} = \frac{\sum_{p \in P} \mathbf{1}_{\text{passed}}(\textit{Env},p) \cdot
+                         \sum_{c \in C_p} \mathbf{1}_{\text{passed}}(c,p)}{|P|} $$
+  </div>
+
+  <p class="param-list">
+    <em>P</em> — set of output plans;
+    <em>C<sub>p</sub></em> — set of constraint requirements in the query
+    corresponding to plan <em>p</em>;
+    <em>1<sub>passed</sub>(c,p)</em> — 1 if constraint <em>c</em> is
+    satisfied in plan <em>p</em>, 0 otherwise.
+  </p>
+
+  <h3>Hard Constraint Pass Rate</h3>
+  <p>
+    FPR (Final Pass Ratio) expresses the proportion of output plans that
+    satisfy <strong>all</strong> environment constraints and logical
+    constraints simultaneously.
+  </p>
+
+  <div class="formula-card">
+    $$ \text{FPR} = \frac{\sum_{p \in P} \mathbf{1}_{\text{passed}}(\textit{Env},p) \cdot
+                      \prod_{c \in C_p} \mathbf{1}_{\text{passed}}(c,p)}{|P|} $$
+  </div>
+
+  <h3>Preference Evaluation</h3>
+  <p>TPC provides three common travel preference indicators:</p>
+
+  <p><strong>Daily Average Attractions Visited (DAV)</strong> — more is better. Normalised to [0, 4].</p>
+  <div class="formula-card">
+    $$ \text{DAV-score} = \frac{\textit{DAV} - 0}{4} $$
+  </div>
+
+  <p><strong>Averaged Transportation Time (ATT)</strong> — less is better. Clamped to [15, 120] minutes.</p>
+  <div class="formula-card">
+    $$ \text{ATT-score} = \max\!\left(\min\!\left(\frac{120 - \textit{ATT}}{120 - 15},\ 1\right),\ 0\right) $$
+  </div>
+
+  <p><strong>Daily Dining Recommendations (DDR)</strong> — more is better. Normalised to [0, 3].</p>
+  <div class="formula-card">
+    $$ \text{DDR-score} = \min\!\left(\frac{\textit{DDR} - 0}{3 - 0},\ 1\right) $$
+  </div>
+
+  <h3>Overall Score</h3>
+
+  <div class="formula-card" style="font-size:12px">
+    $$ \text{Overall Score} = 10\%\ \text{EPR-micro} + 10\%\ \text{EPR-macro} + 25\%\ \text{C-LPR} + 40\%\ \text{FPR} + 5\%\ \text{DAV-Score} + 5\%\ \text{ATT-Score} + 5\%\ \text{DDR-Score} $$
+  </div>
+
+  <div class="score-bar">
+    <div class="hard" style="width:85%"></div>
+    <div class="soft" style="width:15%"></div>
+  </div>
+  <div class="score-legend">
+    <span class="hard">Hard constraints · EPR-micro, EPR-macro, C-LPR, FPR — 85%</span>
+    <span class="soft">Soft preferences · DAV, ATT, DDR — 15%</span>
+  </div>
+
+  <!-- ═══════ ENVIRONMENT SETUP ═══════ -->
+
+  <h2>Environment Setup</h2>
+  <p>Set up the ChinaTravel sandbox by following the instructions in the official repository:</p>
+  <blockquote>
+    <a href="https://github.com/LAMDA-NeSy/ChinaTravel" target="_blank" rel="noreferrer">github.com/LAMDA-NeSy/ChinaTravel</a>
+  </blockquote>
+
+  <!-- ═══════ ALGORITHM DEVELOPMENT ═══════ -->
+
+  <h2>Algorithm Development</h2>
+
+  <h3>1. Agent Development</h3>
+  <p>Develop your agent under <code>chinatravel/agent/tpc_agent/</code>. Place all code, model weights, and dependencies inside this directory.</p>
+
+  <h3>2. LLM Adaptation</h3>
+  <p>Implement local model inference in <code>chinatravel/agent/tpc_agent/tpc_llm.py</code>:</p>
+  <pre><code>class TPCLLM(AbstractLLM):
+    def __init__(self):
+        super().__init__()
+        self.name = "TPCLLM"
+
+    def _get_response(self, messages, one_line, json_mode):
+        # Implement your LLM response logic here
+        response = "Your LLM response"
+        if json_mode:
+            pass
+        elif one_line:
+            response = response.split("\n")[0]
+        return response</code></pre>
+
+  <h3>3. Running Locally</h3>
+  <p>Run the experiment script after implementing your agent:</p>
+  <pre><code>python run_tpc.py --splits tpc_aic_phase1 --agent TPCAgent --llm TPCLLM</code></pre>
+  <p>Results are saved to <code>results/TPCAgent_TPCLLM/</code>.</p>
+
+  <blockquote>
+    <strong>Important:</strong> Using <code>--oracle_translation</code> (DSL
+    annotations) during inference is <strong>prohibited</strong>. DSL
+    annotations are provided only for local evaluation and debugging.
+  </blockquote>
+
+  <h3>4. Local Evaluation</h3>
+  <p>Use <code>eval_tpc.py</code> to score your results locally. Place outputs under <code>chinatravel/results/</code> and run:</p>
+  <pre><code>python eval_tpc.py --splits &lt;current_split&gt; --method &lt;your_method_name&gt; --lang en</code></pre>
+
+  <h3>5. Code and Result Submission</h3>
+  <ul>
+    <li>Package submissions as a <code>.zip</code> named <code>{TeamName}_v{x}.zip</code> — for example, <code>NJUTravel_v1.zip</code>.</li>
+  </ul>
+  <blockquote>
+    For detailed rules (directory structure, size limits, naming), refer to
+    the Phase 2 harness instructions on the competition website.
+  </blockquote>
+
+  <!-- ═══════ QUICK LINKS ═══════ -->
+
+  <h2>Quick Links</h2>
+  <ul>
+    <li><a href="https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py" target="_blank" rel="noreferrer">Official evaluation script — eval_tpc.py</a></li>
+    <li><a href="https://github.com/LAMDA-NeSy/ChinaTravel" target="_blank" rel="noreferrer">ChinaTravel codebase — GitHub</a></li>
+  </ul>
+
+  <div class="footer">
+    TPC 2026 · Travel Planning Challenge · IJCAI-ECAI 2026 · Bremen
+  </div>
+</div>
+</body>
+</html>
