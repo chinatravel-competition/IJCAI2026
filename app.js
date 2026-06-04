@@ -670,7 +670,7 @@ function Tracks() {
   }, /*#__PURE__*/React.createElement(SectionHead, {
     num: "04 \xB7 Track",
     title: "One track. Two <em>phases</em>.",
-    kicker: "The 2026 edition runs a single Agentic AI track. In Phase 1, teams submit predictions to the public leaderboard. In Phase 2, teams submit a self‑contained harness evaluated on a unified closed‑source model.",
+    kicker: "The 2026 edition runs a single Agentic AI track. In Phase 1, teams submit predictions to the public leaderboard. In Phase 2, teams submit a self‑contained harness evaluated on Qwen3.6‑27B.",
     soon: false
   }), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -813,7 +813,7 @@ function Tracks() {
       fontSize: 15,
       lineHeight: 1.55
     }
-  }, "The top 5 teams from Phase 1 submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed\u2011source model, Qwen3.6\u201127B, deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
+  }, "The top 5 teams from Phase 1 submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on ", /*#__PURE__*/React.createElement("a", {href: "https://huggingface.co/Qwen/Qwen3.6-27B", target: "_blank", rel: "noreferrer", style: {color: "var(--accent)", textDecoration: "underline", textUnderlineOffset: "3px"}}, "Qwen3.6\u201127B"), ", deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -826,7 +826,7 @@ function Tracks() {
     className: "k"
   }, "LLM"), /*#__PURE__*/React.createElement("div", {
     className: "v"
-  }, "Qwen3.6-27B")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("a", {href: "https://huggingface.co/Qwen/Qwen3.6-27B", target: "_blank", rel: "noreferrer", style: {color: "inherit", textDecoration: "underline", textUnderlineOffset: "2px"}}, "Qwen3.6-27B"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "k"
   }, "Submits"), /*#__PURE__*/React.createElement("div", {
     className: "v"
@@ -1224,7 +1224,7 @@ function Submission() {
   }, {
     n: "2",
     t: "Round 2 · Harness",
-    d: "The top 5 Phase 1 teams submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on a unified closed‑source model, Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal and format will be announced later."
+    d: "The top 5 Phase 1 teams submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal and format will be announced later."
   }, {
     n: "3",
     t: "Final Ranking",
@@ -1435,7 +1435,7 @@ function FAQ() {
     a: "Awards will be presented to the 1st, 2nd, and 3rd place teams. Top‑ranked Phase 2 teams are also invited to submit a system description paper for the competition proceedings."
   }, {
     q: "Which languages / frameworks are allowed?",
-    a: "Phase 1 (Prediction): any method is allowed — any LLM, prompting strategy, toolchain, or local system. Phase 2 (Harness): teams submit a self‑contained harness; the organizers run it on a unified closed‑source model (Qwen3.6‑27B). Reproducibility is expected for top‑ranked teams."
+    a: "Phase 1 (Prediction): any method is allowed — any LLM, prompting strategy, toolchain, or local system. Phase 2 (Harness): teams submit a self‑contained harness; the organizers run it on Qwen3.6‑27B. Reproducibility is expected for top‑ranked teams."
   }, {
     q: "Is this a continuation of the 2025 edition?",
     a: "Yes. This is the second edition. The task has been substantially expanded in scope, difficulty, and evaluation rigor based on feedback from the 2025 edition."
