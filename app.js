@@ -20,6 +20,7 @@ const SITE_CONFIG = {
     url: null
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
+  evaluationReadmeUrl: "evaluation.html",
   registrationFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdobQls23x6L2APaJektE85TqCFvUgESCkg8ZcSnb3NvLyzhg/viewform?usp=dialog",
   organizers: [{
     initial: "LG",
@@ -1350,14 +1351,16 @@ function Submission() {
     }
   }, m.f)), /*#__PURE__*/React.createElement("div", {
     className: "r-m"
-  }, m.w)))), /*#__PURE__*/React.createElement("a", {
-    href: SITE_CONFIG.evaluationCodeUrl,
+  }, m.w)))), /*#__PURE__*/React.createElement("div", {
+    style: { textAlign: "center", marginTop: 28 }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: SITE_CONFIG.evaluationReadmeUrl,
     target: "_blank",
     rel: "noreferrer",
     className: "btn btn-primary"
-  }, "View Evaluation Code ", /*#__PURE__*/React.createElement("span", {
+  }, "Evaluation Guide ", /*#__PURE__*/React.createElement("span", {
     className: "arr"
-  }, "\u2197"))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
+  }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
 }
 function Organizers() {
   return /*#__PURE__*/React.createElement("section", {
