@@ -17,7 +17,7 @@ const SITE_CONFIG = {
     url: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py"
   }, {
     label: "Phase 2 Baseline Code",
-    url: "https://github.com/LAMDASZ-ML/ChinaTravel"
+    url: null
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
   registrationFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdobQls23x6L2APaJektE85TqCFvUgESCkg8ZcSnb3NvLyzhg/viewform?usp=dialog",
@@ -851,7 +851,7 @@ function Data() {
       opacity: 0.65,
       cursor: "default"
     }
-  }, link.label, " \xB7 Link Pending");
+  }, link.label, " \xB7 Coming Soon");
   return /*#__PURE__*/React.createElement("section", {
     id: "data",
     className: "block"
