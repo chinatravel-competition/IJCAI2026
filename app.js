@@ -1508,7 +1508,8 @@ function Contact() {
     style: {
       color: "inherit",
       textDecoration: "none",
-      borderBottom: "1px solid currentColor"
+      borderBottom: "1px solid currentColor",
+      whiteSpace: "nowrap"
     }
   }, "chinatravel454@gmail.com"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "k"
