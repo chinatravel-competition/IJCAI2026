@@ -1504,13 +1504,13 @@ function Contact() {
   }, "Email"), /*#__PURE__*/React.createElement("div", {
     className: "v"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "mailto:shaojj@lamda.nju.edu.cn",
+    href: "mailto:chinatravel454@gmail.com",
     style: {
       color: "inherit",
       textDecoration: "none",
       borderBottom: "1px solid currentColor"
     }
-  }, "shaojj", /*#__PURE__*/React.createElement("br", null), "@lamda.nju.edu.cn"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "chinatravel454@gmail.com"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "k"
   }, "GitHub"), /*#__PURE__*/React.createElement("div", {
     className: "v"

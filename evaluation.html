@@ -61,6 +61,18 @@
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  .cursor-glow {
+    position: fixed;
+    pointer-events: none; z-index: 0;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in oklab, var(--seal) 5%, transparent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: opacity .6s;
+    opacity: 0;
   }
 
   .container { max-width: 900px; margin: 0 auto; padding: 56px 16px 100px; }
@@ -116,6 +128,23 @@
     background: var(--paper); border: 1px solid var(--rule);
     border-radius: 6px; padding: 20px 20px 14px;
     margin: 14px 0 22px; overflow-x: auto; text-align: center;
+    position: relative; overflow: hidden;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s, background .25s;
+  }
+  .formula-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--seal) 6%, transparent) 40%, color-mix(in oklab, var(--seal) 6%, transparent) 60%, transparent 100%);
+    transform: translateX(-105%);
+    transition: transform .55s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .formula-card:hover::after { transform: translateX(105%); }
+  .formula-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+    background: var(--cream-soft);
   }
   .param-list { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 4px 0 0; }
   .param-list em { color: var(--seal); font-style: normal; }
@@ -131,6 +160,73 @@
     background: color-mix(in oklab, var(--seal) 8%, transparent);
   }
   .soon-pill::before { content: ""; width: 5px; height: 5px; background: var(--seal); border-radius: 50%; }
+
+  /* ── Phase cards ─────────────────────── */
+  .phase-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--seal);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin: 16px 0 24px;
+    transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s, border-left-width .25s;
+  }
+  .phase-card:not(.offline):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
+    border-left-width: 8px;
+  }
+  .phase-card.offline {
+    border-left-color: var(--muted);
+    opacity: .65;
+  }
+  .phase-card h3:first-child {
+    margin-top: 0;
+    color: var(--seal);
+    font-size: 16px;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .phase-card.offline h3:first-child { color: var(--muted); }
+  .phase-card h4 {
+    font-family: var(--serif); font-size: 18px; font-weight: 400;
+    margin: 18px 0 6px; color: var(--fg);
+  }
+
+  /* ── CTA bottom ──────────────────────── */
+  .cta-section {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 32px 36px;
+    margin: 56px 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cta-section .cta-text {
+    font-family: var(--serif); font-size: 21px; line-height: 1.3;
+  }
+  .cta-section .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    padding: 13px 22px;
+    border-radius: 2px;
+    background: var(--seal); color: #fff;
+    transition: background .15s, transform .2s;
+    white-space: nowrap;
+  }
+  .cta-section .btn:hover { background: var(--seal-deep); transform: translateY(-1px); }
+
+  @keyframes pulse-shadow {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--seal) 20%, transparent); }
+    50%      { box-shadow: 0 0 0 12px color-mix(in oklab, var(--seal) 0%, transparent); }
+  }
+  .cta-section {
+    animation: pulse-shadow 2.5s ease-in-out infinite;
+  }
 
   .score-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 18px 0 10px; }
   .score-bar .hard { background: var(--seal); }
@@ -150,6 +246,7 @@
 </style>
 </head>
 <body>
+<div class="cursor-glow" id="glow"></div>
 <div class="container">
 
   <a href="./" class="back-link">&larr; Back to Competition Site</a>
@@ -260,45 +357,59 @@
 
   <h2>Algorithm Development</h2>
 
-  <h3>1. Agent Development</h3>
-  <p><span class="soon-pill">Coming Soon</span></p>
+  <div class="phase-card">
+    <h3>Phase 1</h3>
 
-  <h3>2. LLM Adaptation</h3>
-  <p><span class="soon-pill">Coming Soon</span></p>
+    <h4>1. Local Evaluation</h4>
+    <p>Use <code>eval_tpc.py</code> to score your results locally. Place outputs under <code>chinatravel/results/</code> and run:</p>
+    <pre><code>python eval_tpc.py --splits &lt;current_split&gt; --method &lt;your_method_name&gt; --lang en</code></pre>
 
-  <h3>3. Running Locally</h3>
-  <p><span class="soon-pill">Coming Soon</span></p>
+    <h4>2. Code and Result Submission</h4>
+    <ul>
+      <li>Package submissions as a <code>.zip</code> named <code>{TeamName}_v{x}.zip</code> — for example, <code>NJUTravel_v1.zip</code>.</li>
+    </ul>
+    <blockquote style="margin-bottom:0">
+      For detailed rules (directory structure, size limits, naming), refer to
+      the Phase 2 harness instructions on the competition website.
+    </blockquote>
+  </div>
 
-  <blockquote>
-    <strong>Important:</strong> Using <code>--oracle_translation</code> (DSL
-    annotations) during inference is <strong>prohibited</strong>. DSL
-    annotations are provided only for local evaluation and debugging.
-  </blockquote>
+  <div class="phase-card offline">
+    <h3>Phase 2</h3>
+    <p style="margin:0"><span class="soon-pill">Coming Soon</span></p>
+  </div>
 
-  <h3>4. Local Evaluation</h3>
-  <p>Use <code>eval_tpc.py</code> to score your results locally. Place outputs under <code>chinatravel/results/</code> and run:</p>
-  <pre><code>python eval_tpc.py --splits &lt;current_split&gt; --method &lt;your_method_name&gt; --lang en</code></pre>
+  <!-- ═══════ CTA ═══════ -->
 
-  <h3>5. Code and Result Submission</h3>
-  <ul>
-    <li>Package submissions as a <code>.zip</code> named <code>{TeamName}_v{x}.zip</code> — for example, <code>NJUTravel_v1.zip</code>.</li>
-  </ul>
-  <blockquote>
-    For detailed rules (directory structure, size limits, naming), refer to
-    the Phase 2 harness instructions on the competition website.
-  </blockquote>
-
-  <!-- ═══════ QUICK LINKS ═══════ -->
-
-  <h2>Quick Links</h2>
-  <ul>
-    <li><a href="https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py" target="_blank" rel="noreferrer">Official evaluation script — eval_tpc.py</a></li>
-    <li><a href="https://github.com/LAMDA-NeSy/ChinaTravel" target="_blank" rel="noreferrer">ChinaTravel codebase — GitHub</a></li>
-  </ul>
+  <div class="cta-section">
+    <div class="cta-text">Ready to get started?</div>
+    <a href="https://github.com/LAMDA-NeSy/ChinaTravel" target="_blank" rel="noreferrer" class="btn">ChinaTravel on GitHub →</a>
+  </div>
 
   <div class="footer">
     TPC 2026 · Travel Planning Challenge · IJCAI-ECAI 2026 · Bremen
   </div>
 </div>
+
+<script>
+(function () {
+  var glow = document.getElementById('glow');
+  var ticking = false;
+  document.addEventListener('mousemove', function (e) {
+    if (!ticking) {
+      requestAnimationFrame(function () {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+        glow.style.opacity = '1';
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  document.addEventListener('mouseleave', function () {
+    glow.style.opacity = '0';
+  });
+})();
+</script>
 </body>
 </html>
