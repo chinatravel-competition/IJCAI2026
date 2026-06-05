@@ -120,6 +120,18 @@
   .param-list { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 4px 0 0; }
   .param-list em { color: var(--seal); font-style: normal; }
 
+  .soon-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 10px;
+    border: 1px solid var(--seal);
+    color: var(--seal);
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--seal) 8%, transparent);
+  }
+  .soon-pill::before { content: ""; width: 5px; height: 5px; background: var(--seal); border-radius: 50%; }
+
   .score-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 18px 0 10px; }
   .score-bar .hard { background: var(--seal); }
   .score-bar .soft { background: color-mix(in oklab, var(--seal) 40%, transparent); }
@@ -249,28 +261,13 @@
   <h2>Algorithm Development</h2>
 
   <h3>1. Agent Development</h3>
-  <p>Develop your agent under <code>chinatravel/agent/tpc_agent/</code>. Place all code, model weights, and dependencies inside this directory.</p>
+  <p><span class="soon-pill">Coming Soon</span></p>
 
   <h3>2. LLM Adaptation</h3>
-  <p>Implement local model inference in <code>chinatravel/agent/tpc_agent/tpc_llm.py</code>:</p>
-  <pre><code>class TPCLLM(AbstractLLM):
-    def __init__(self):
-        super().__init__()
-        self.name = "TPCLLM"
-
-    def _get_response(self, messages, one_line, json_mode):
-        # Implement your LLM response logic here
-        response = "Your LLM response"
-        if json_mode:
-            pass
-        elif one_line:
-            response = response.split("\n")[0]
-        return response</code></pre>
+  <p><span class="soon-pill">Coming Soon</span></p>
 
   <h3>3. Running Locally</h3>
-  <p>Run the experiment script after implementing your agent:</p>
-  <pre><code>python run_tpc.py --splits tpc_aic_phase1 --agent TPCAgent --llm TPCLLM</code></pre>
-  <p>Results are saved to <code>results/TPCAgent_TPCLLM/</code>.</p>
+  <p><span class="soon-pill">Coming Soon</span></p>
 
   <blockquote>
     <strong>Important:</strong> Using <code>--oracle_translation</code> (DSL
