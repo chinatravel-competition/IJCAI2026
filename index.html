@@ -147,6 +147,7 @@
   .topbar-inner {
     display: flex; align-items: center; justify-content: space-between;
     height: 66px;
+    gap: 12px;
   }
   .brand {
     display: flex; align-items: center; gap: 12px;
@@ -180,9 +181,11 @@
     background: var(--seal); color: #fff;
     text-decoration: none;
     font-size: 13px; font-weight: 500;
-    padding: 9px 16px; border-radius: 2px;
+    padding: 9px 20px; border-radius: 2px;
     display: inline-flex; align-items: center; gap: 8px;
     transition: background .15s;
+    white-space: nowrap;
+    margin-right: 4px;
   }
   .cta-register:hover { background: var(--seal-deep); }
   .cta-register .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 2s infinite; }
