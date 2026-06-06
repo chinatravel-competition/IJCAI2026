@@ -964,7 +964,7 @@ function Rules() {
     m: "Tracks"
   }, {
     k: "Evaluation",
-    v: "Phase 1: instant scoring on the public leaderboard with unlimited iteration (daily submission cap applies); the top 5 teams advance to Phase 2. Phase 2: each harness is run five times on the held‑out test set and scores are averaged. Final rankings determine 1st, 2nd, and 3rd place, published by the organizers.",
+    v: "Phase 1: all submitted predictions are evaluated daily; only the latest submission per team is scored and displayed on the public leaderboard. The top 5 Phase 1 teams advance to Phase 2. Phase 2: each harness is run five times on the held‑out test set and scores are averaged. Final rankings determine 1st, 2nd, and 3rd place, published by the organizers.",
     m: "Evaluation"
   }, {
     k: "Code of Conduct",
@@ -1362,6 +1362,10 @@ function Submission() {
     className: "arr"
   }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
 }
+function LeaderboardSection() {
+  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 <em>Leaderboard</em>.", kicker: "Top teams on the public leaderboard."}), /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--muted)", marginBottom: 8}}, "Phase 1 Public Leaderboard"), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 14}}, "Coming soon."), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55, marginBottom: 22}}, "The leaderboard will be available shortly."), /*#__PURE__*/React.createElement("span", {className: "soon-pill"}, "Coming Soon")))));
+}
+
 function Organizers() {
   return /*#__PURE__*/React.createElement("section", {
     id: "organizers",
@@ -1636,6 +1640,10 @@ function App() {
     id: "rules",
     label: "Rules"
   }, {
+    id: "leaderboard",
+    label: "Leaderboard",
+    url: "leaderboard.html"
+  }, {
     id: "submission",
     label: "Submission"
   }, {
@@ -1663,7 +1671,7 @@ function App() {
     className: "primary"
   }, nav.map(n => /*#__PURE__*/React.createElement("a", {
     key: n.id,
-    href: "#" + n.id
+    href: n.url ? n.url : "#" + n.id
   }, n.label))), /*#__PURE__*/React.createElement("a", {
     href: SITE_CONFIG.registrationFormUrl,
     target: "_blank",
@@ -1673,7 +1681,7 @@ function App() {
     className: "dot"
   }), " Register Now"))), /*#__PURE__*/React.createElement(Home, {
     heroVariant: tweaks.heroVariant
-  }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
+  }), /*#__PURE__*/React.createElement(Ticker, null), /*#__PURE__*/React.createElement(Overview, null), tweaks.showNews && /*#__PURE__*/React.createElement(News, null), /*#__PURE__*/React.createElement(Dates, null), /*#__PURE__*/React.createElement(Tracks, null), /*#__PURE__*/React.createElement(Data, null), /*#__PURE__*/React.createElement(Rules, null), /*#__PURE__*/React.createElement(Registration, null), /*#__PURE__*/React.createElement(LeaderboardSection, null), /*#__PURE__*/React.createElement(Submission, null), /*#__PURE__*/React.createElement(Organizers, null), tweaks.showFAQ && /*#__PURE__*/React.createElement(FAQ, null), /*#__PURE__*/React.createElement(Contact, null), /*#__PURE__*/React.createElement("footer", {
     className: "site"
   }, /*#__PURE__*/React.createElement("div", {
     className: "wrap"
