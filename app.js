@@ -1472,18 +1472,28 @@ function LeaderboardSection() {
       if (av !== bv) return bv - av;
       return submissionTs(b) - submissionTs(a);
     };
+    const maskTeamName = name => {
+      const chars = Array.from(String(name || "").trim());
+      if (!chars.length) return "";
+      if (chars.length === 1) return "*";
+      if (chars.length === 2) return chars[0] + "*";
+      if (chars.length <= 4) return chars[0] + "**" + chars[chars.length - 1];
+      return chars.slice(0, 2).join("") + "***" + chars.slice(-2).join("");
+    };
     const buildRankings = entries => {
       const teams = {};
       for (const s of entries) {
-        if (!teams[s.team]) teams[s.team] = [];
-        teams[s.team].push(s);
+        const teamKey = s.team_key || s.team;
+        if (!teams[teamKey]) teams[teamKey] = [];
+        teams[teamKey].push(s);
       }
       const result = [];
-      for (const [team, subs] of Object.entries(teams)) {
+      for (const [teamKey, subs] of Object.entries(teams)) {
+        const team = subs[0].team;
         subs.sort(compareLatest);
         const latest = subs[0];
         subs.sort((a, b) => b.score - a.score);
-        result.push({team, best: subs[0], latest});
+        result.push({team: maskTeamName(team), teamKey, best: subs[0], latest});
       }
       result.sort((a, b) => b.best.score - a.best.score);
       return result.slice(0, 3).map((row, i) => ({...row, rank: i + 1}));
@@ -1497,7 +1507,7 @@ function LeaderboardSection() {
       cancelled = true;
     };
   }, []);
-  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 <em>Leaderboard</em>.", kicker: "Top teams on the public leaderboard."}), /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--seal)", marginBottom: 8}}, "Phase 1 Public Leaderboard · Top 3"), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 12}}, "Current ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "leaders"), "."), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55}}, "Only registered teams are shown. Open the full leaderboard for all ranked teams and metric breakdowns."), leaders.length ? /*#__PURE__*/React.createElement("div", {className: "home-lb-preview"}, leaders.map(row => /*#__PURE__*/React.createElement("div", {className: "home-lb-row", key: row.team}, /*#__PURE__*/React.createElement("div", {className: "home-lb-rank"}, `#${row.rank}`), /*#__PURE__*/React.createElement("div", {className: "home-lb-team"}, row.team), /*#__PURE__*/React.createElement("div", {className: "home-lb-score"}, row.best.score.toFixed(2), /*#__PURE__*/React.createElement("span", null, row.best.sub_id))))) : /*#__PURE__*/React.createElement("div", {style: {color: "var(--muted)", fontSize: 13, margin: "18px 0 22px"}}, "Leaderboard data will appear after the first public evaluation."), /*#__PURE__*/React.createElement("a", {href: "leaderboard.html", className: "btn btn-primary"}, "View Full Leaderboard ", /*#__PURE__*/React.createElement("span", {className: "arr"}, "→"))))));
+  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 <em>Leaderboard</em>.", kicker: "Top teams on the public leaderboard."}), /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--seal)", marginBottom: 8}}, "Phase 1 Public Leaderboard · Top 3"), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 12}}, "Current ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "leaders"), "."), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55}}, "Only registered teams are shown. Team names are partially masked on the public leaderboard."), leaders.length ? /*#__PURE__*/React.createElement("div", {className: "home-lb-preview"}, leaders.map(row => /*#__PURE__*/React.createElement("div", {className: "home-lb-row", key: row.teamKey || row.team}, /*#__PURE__*/React.createElement("div", {className: "home-lb-rank"}, `#${row.rank}`), /*#__PURE__*/React.createElement("div", {className: "home-lb-team"}, row.team), /*#__PURE__*/React.createElement("div", {className: "home-lb-score"}, row.best.score.toFixed(2), /*#__PURE__*/React.createElement("span", null, row.best.sub_id))))) : /*#__PURE__*/React.createElement("div", {style: {color: "var(--muted)", fontSize: 13, margin: "18px 0 22px"}}, "Leaderboard data will appear after the first public evaluation."), /*#__PURE__*/React.createElement("a", {href: "leaderboard.html", className: "btn btn-primary"}, "View Full Leaderboard ", /*#__PURE__*/React.createElement("span", {className: "arr"}, "→"))))));
 }
 
 function Organizers() {
