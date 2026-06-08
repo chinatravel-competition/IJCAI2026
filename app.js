@@ -1219,7 +1219,6 @@ function Submission() {
     n: "1",
     t: "Round 1 · Prediction",
     d: "Teams may use any method to generate predictions — any LLM, prompting strategy, toolchain, or local system. Generate predictions on the official data released by the organizers and submit the prediction file via the Round 1 submission link. The organizers will score each submission.",
-    note: "Package submissions as a .zip named \n{TeamName}_v{x}.zip\n — for example, NJUTravel_v1.zip.",
     lk: "Submit (Round 1)",
     lu: "https://box.nju.edu.cn/u/d/998d62d9bd8747ea8659/"
   }, {
@@ -1288,6 +1287,102 @@ function Submission() {
       textTransform: "uppercase"
     }
   }, s.lk, " ↗"))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 18,
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gridAutoRows: "1fr",
+      gap: 12,
+      alignItems: "stretch"
+    },
+    className: "submission-guides"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "20px 22px",
+      minHeight: 160,
+      height: "100%",
+      display: "grid",
+      gap: 10,
+      alignContent: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Round 1 Packaging Rule"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      color: "var(--ink)",
+      fontSize: 21,
+      lineHeight: 1.15
+    }
+  }, "Name your zip package exactly."), /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--seal)",
+      fontSize: 13,
+      lineHeight: 1.5,
+      letterSpacing: 0,
+      textTransform: "none",
+      wordBreak: "break-word"
+    }
+  }, "{TeamName}_v{x}.zip"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "For example, NJUTravel_v1.zip.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "20px 22px",
+      minHeight: 160,
+      height: "100%",
+      display: "grid",
+      gap: 10,
+      alignContent: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Round 1 Submission Example"), /*#__PURE__*/React.createElement("a", {
+    href: "official_test_0000.zip",
+    className: "serif",
+    style: {
+      justifySelf: "start",
+      display: "inline-flex",
+      alignItems: "center",
+      minHeight: 44,
+      padding: "0 18px",
+      border: "1px solid var(--seal)",
+      background: "var(--seal)",
+      color: "var(--cream)",
+      fontSize: 17,
+      lineHeight: 1,
+      letterSpacing: 0,
+      textTransform: "none",
+      textDecoration: "none",
+      whiteSpace: "nowrap"
+    }
+  }, "Download example package"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "This is a minimal valid submission package. Extra top-level folders inside the zip are handled normally."))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 48,
       border: "1px solid var(--rule)",
@@ -1360,7 +1455,7 @@ function Submission() {
     className: "btn btn-primary"
   }, "Evaluation Guide ", /*#__PURE__*/React.createElement("span", {
     className: "arr"
-  }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
+  }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } .submission-guides { grid-template-columns: 1fr !important; } }`)));
 }
 function LeaderboardSection() {
   const [leaders, setLeaders] = useState([]);
