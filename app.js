@@ -1363,7 +1363,7 @@ function Submission() {
   }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } }`)));
 }
 function LeaderboardSection() {
-  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 <em>Leaderboard</em>.", kicker: "Top teams on the public leaderboard."}), /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--seal)", marginBottom: 8}}, "Phase 1 Public Leaderboard · Live"), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 14}}, "Now ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "live"), "."), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55, marginBottom: 22}}, "The auto-updating public leaderboard ranks every team by best overall score, with per-metric breakdowns (EPR-μ, EPR-M, C-LPR, FPR, DAV, ATT, DDR)."), /*#__PURE__*/React.createElement("a", {href: "leaderboard.html", className: "btn btn-primary"}, "View Full Leaderboard ", /*#__PURE__*/React.createElement("span", {className: "arr"}, "→"))))));
+  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 <em>Leaderboard</em>.", kicker: "Top teams on the public leaderboard."}), /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--seal)", marginBottom: 8}}, "Phase 1 Public Leaderboard · Live"), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 14}}, "Now ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "live"), "."), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55, marginBottom: 22}}, "The auto-updating public leaderboard ranks every team by best overall score, with per-metric breakdowns (EPR‑micro, EPR‑macro, C-LPR, FPR, DAV, ATT, DDR)."), /*#__PURE__*/React.createElement("a", {href: "leaderboard.html", className: "btn btn-primary"}, "View Full Leaderboard ", /*#__PURE__*/React.createElement("span", {className: "arr"}, "→"))))));
 }
 
 function Organizers() {
@@ -1621,6 +1621,30 @@ function App() {
     root.setAttribute("data-palette", tweaks.palette);
     root.setAttribute("data-mode", tweaks.mode);
   }, [tweaks.palette, tweaks.mode]);
+
+  // Typeset KaTeX after every render so formulas never get left as raw source.
+  // Runs again on tweak-driven re-renders (which reset nodes back to $$...$$).
+  useEffect(() => {
+    let cancelled = false;
+    const typeset = (tries = 0) => {
+      if (cancelled) return;
+      const root = document.getElementById("root");
+      if (typeof window.renderMathInElement === "function" && root) {
+        window.renderMathInElement(root, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "$$", right: "$$", display: true }
+          ],
+          throwOnError: false,
+          trust: true
+        });
+      } else if (tries < 50) {
+        setTimeout(() => typeset(tries + 1), 100);
+      }
+    };
+    typeset();
+    return () => { cancelled = true; };
+  });
   const nav = [{
     id: "overview",
     label: "Overview"
