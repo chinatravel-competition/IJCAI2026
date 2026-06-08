@@ -595,6 +595,49 @@
     box-shadow: 0 6px 20px color-mix(in oklab, var(--ink) 8%, transparent);
     background: var(--cream-soft);
   }
+  .home-lb-preview {
+    border-top: 1px solid var(--rule);
+    margin: 20px 0 22px;
+  }
+  .home-lb-row {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .home-lb-rank {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .home-lb-team {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.05;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .home-lb-score {
+    font-family: var(--mono);
+    color: var(--seal);
+    text-align: right;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .home-lb-score span {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 10px;
+  }
+  @media (max-width: 620px) {
+    .home-lb-row { grid-template-columns: 42px minmax(0, 1fr); }
+    .home-lb-score { grid-column: 2; text-align: left; }
+  }
 
   /* ── Organizers grid ─────────────────────────────────── */
   .org-grid {
