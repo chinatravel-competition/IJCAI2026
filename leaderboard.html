@@ -276,6 +276,26 @@ let ranked = [];
 const PER_PAGE = 15;
 let page = 1;
 
+function submissionTs(s) {
+  return s.submit_ts || s.ts || 0;
+}
+
+function evalTs(s) {
+  return s.eval_ts || s.ts || 0;
+}
+
+function versionNumber(s) {
+  const match = String(s.sub_id || "").match(/^v(\d+)(?:\D.*)?$/i);
+  return match ? Number(match[1]) : -1;
+}
+
+function compareLatest(a, b) {
+  const av = versionNumber(a);
+  const bv = versionNumber(b);
+  if (av !== bv) return bv - av;
+  return submissionTs(b) - submissionTs(a);
+}
+
 function buildRankings(entries) {
   const teams = {};
   for (const s of entries) {
@@ -284,14 +304,15 @@ function buildRankings(entries) {
   }
   let result = [];
   for (const [team, subs] of Object.entries(teams)) {
-    subs.sort((a, b) => b.ts - a.ts);
+    subs.sort(compareLatest);
     const latest = subs[0];
     subs.sort((a, b) => b.score - a.score);
     const best = subs[0];
     result.push({
       team: team, best: best, latest: latest,
       subs: subs.length,
-      lastTs: Math.max(...subs.map(s => s.ts)),
+      lastSubmitTs: Math.max(...subs.map(submissionTs)),
+      lastEvalTs: Math.max(...subs.map(evalTs)),
     });
   }
   result.sort((a, b) => b.best.score - a.best.score);
@@ -305,7 +326,7 @@ function loadData() {
     .then(entries => {
       ranked = buildRankings(entries);
       document.getElementById("lastUpdate").textContent =
-        new Date(Math.max(...ranked.map(r => r.lastTs))).toISOString().slice(0, 16).replace("T", " ");
+        new Date(Math.max(...ranked.map(r => r.lastEvalTs))).toISOString().slice(0, 16).replace("T", " ");
       document.getElementById("lb-meta").style.display = '';
       renderTable();
     })
@@ -341,7 +362,7 @@ function renderTable() {
   let html = "";
   for (const r of pageData) {
     const pod = r.rank <= 3 ? " podium" : "";
-    const d = new Date(r.lastTs);
+    const d = new Date(r.lastSubmitTs);
     const ds = d.toISOString().slice(0, 10) + " " + d.toTimeString().slice(0, 5);
     const delta = r.best.score - r.latest.score;
     const trend = delta > 0.01 ? " ↓" : delta < -0.01 ? " ↑" : "";
