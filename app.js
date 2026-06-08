@@ -1640,9 +1640,8 @@ function App() {
     id: "rules",
     label: "Rules"
   }, {
-    id: "leaderboard",
-    label: "Leaderboard",
-    url: "leaderboard.html"
+    id: "leaderboard-main",
+    label: "Leaderboard"
   }, {
     id: "submission",
     label: "Submission"
