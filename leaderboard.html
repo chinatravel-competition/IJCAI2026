@@ -278,13 +278,13 @@
 
   <div class="lb-top-bar">
     <div class="count"><span id="totalTeams">—</span> teams ranked</div>
-    <input type="text" id="searchInput" placeholder="Search team name …" oninput="renderTable()" />
+    <input type="text" id="searchInput" placeholder="Search masked team name …" oninput="renderTable()" />
   </div>
 
   <div class="lb-note">
     <div class="note-item">
       <span class="note-label">Eligibility</span>
-      Only <strong>registered teams</strong> are shown. To join the leaderboard, <a href="https://docs.google.com/forms/d/e/1FAIpQLSdobQls23x6L2APaJektE85TqCFvUgESCkg8ZcSnb3NvLyzhg/viewform?usp=dialog" target="_blank" rel="noreferrer">register here</a>.
+      Only <strong>registered teams</strong> are shown, and public team names are partially masked. To join the leaderboard, <a href="https://docs.google.com/forms/d/e/1FAIpQLSdobQls23x6L2APaJektE85TqCFvUgESCkg8ZcSnb3NvLyzhg/viewform?usp=dialog" target="_blank" rel="noreferrer">register here</a>.
     </div>
     <div class="note-item">
       <span class="note-label">Submission Name</span>
@@ -350,20 +350,31 @@ function compareLatest(a, b) {
   return submissionTs(b) - submissionTs(a);
 }
 
+function maskTeamName(name) {
+  const chars = Array.from(String(name || "").trim());
+  if (!chars.length) return "";
+  if (chars.length === 1) return "*";
+  if (chars.length === 2) return chars[0] + "*";
+  if (chars.length <= 4) return chars[0] + "**" + chars[chars.length - 1];
+  return chars.slice(0, 2).join("") + "***" + chars.slice(-2).join("");
+}
+
 function buildRankings(entries) {
   const teams = {};
   for (const s of entries) {
-    if (!teams[s.team]) teams[s.team] = [];
-    teams[s.team].push(s);
+    const teamKey = s.team_key || s.team;
+    if (!teams[teamKey]) teams[teamKey] = [];
+    teams[teamKey].push(s);
   }
   let result = [];
-  for (const [team, subs] of Object.entries(teams)) {
+  for (const [teamKey, subs] of Object.entries(teams)) {
+    const team = subs[0].team;
     subs.sort(compareLatest);
     const latest = subs[0];
     subs.sort((a, b) => b.score - a.score);
     const best = subs[0];
     result.push({
-      team: team, best: best, latest: latest,
+      team: maskTeamName(team), teamKey: teamKey, best: best, latest: latest,
       subs: subs.length,
       lastSubmitTs: Math.max(...subs.map(submissionTs)),
       lastEvalTs: Math.max(...subs.map(evalTs)),
