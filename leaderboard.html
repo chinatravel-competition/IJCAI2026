@@ -292,7 +292,7 @@
     </div>
     <div class="note-item">
       <span class="note-label">Score Columns</span>
-      Best is the highest valid score; Latest uses the largest version number, e.g. <code>v11</code> &gt; <code>v2</code>.
+      Best is the highest valid score; Latest uses the largest version number, e.g. <code>v11</code> &gt; <code>v2</code>. All metric columns to the right are from the submission that achieved the Best Score.
     </div>
   </div>
 
@@ -429,13 +429,11 @@ function renderTable() {
     const pod = r.rank <= 3 ? " podium" : "";
     const d = new Date(r.lastSubmitTs);
     const ds = d.toISOString().slice(0, 10) + " " + d.toTimeString().slice(0, 5);
-    const delta = r.best.score - r.latest.score;
-    const trend = delta > 0.01 ? " ↓" : delta < -0.01 ? " ↑" : "";
     html += `<tr>
       <td class="cell-rank${pod}">${r.rank}</td>
       <td class="cell-name">${r.team}</td>
       <td class="cell-score">${r.best.score.toFixed(2)}<span class="ver">${r.best.sub_id}</span></td>
-      <td class="cell-score">${r.latest.score.toFixed(2)}<span class="ver">${r.latest.sub_id}${trend}</span></td>
+      <td class="cell-score">${r.latest.score.toFixed(2)}<span class="ver">${r.latest.sub_id}</span></td>
       <td class="cell-metric detail-col">${r.best.epm.toFixed(3)}</td>
       <td class="cell-metric detail-col">${r.best.epM.toFixed(3)}</td>
       <td class="cell-metric detail-col">${r.best.clpr.toFixed(3)}</td>
