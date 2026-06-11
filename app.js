@@ -1816,7 +1816,10 @@ function App() {
   }, {
     id: "organizers",
     label: "Organizers"
-  }, {
+  }, ...(tweaks.showFAQ ? [{
+    id: "faq",
+    label: "FAQ"
+  }] : []), {
     id: "contact",
     label: "Contact"
   }];

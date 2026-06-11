@@ -157,7 +157,7 @@
   .brand-text b { font-family: var(--serif); font-size: 19px; font-weight: 600; letter-spacing: 0; }
   .brand-text span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-  nav.primary { display: flex; align-items: center; gap: 28px; }
+  nav.primary { display: flex; align-items: center; gap: clamp(16px, 1.6vw, 28px); }
   nav.primary a {
     text-decoration: none; color: var(--fg);
     font-size: 14px; font-weight: 500;
@@ -190,7 +190,7 @@
   .cta-register .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 2s infinite; }
   @keyframes blink { 0%, 70% { opacity: 1; } 85% { opacity: .2; } 100% { opacity: 1; } }
 
-  @media (max-width: 960px) {
+  @media (max-width: 1040px) {
     nav.primary { display: none; }
   }
 
