@@ -105,7 +105,7 @@
   /* Notes */
   .lb-note {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1px;
     margin: 0 0 22px;
     border: 1px solid var(--rule);
@@ -291,6 +291,10 @@
       Packages must follow the main-site rule: <code>{TeamName}_v{x}.zip</code>.
     </div>
     <div class="note-item">
+      <span class="note-label">Evaluation Schedule</span>
+      Submissions received before <strong>20:00 Beijing Time (UTC+8)</strong> each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day.
+    </div>
+    <div class="note-item">
       <span class="note-label">Score Columns</span>
       Best is the highest valid score; Latest uses the largest version number, e.g. <code>v11</code> &gt; <code>v2</code>. All metric columns to the right are from the submission that achieved the Best Score.
     </div>
@@ -386,7 +390,7 @@ function buildRankings(entries) {
 }
 
 function loadData() {
-  fetch('rankings.json')
+  fetch(`rankings.json?v=${Date.now()}`, { cache: "no-store" })
     .then(r => { if (!r.ok) throw new Error('Not available'); return r.json(); })
     .then(entries => {
       ranked = buildRankings(entries);
