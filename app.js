@@ -967,6 +967,10 @@ function Rules() {
     v: "Phase 1: all submitted predictions are evaluated daily; only the latest submission per team is scored and displayed on the public leaderboard. The top 5 Phase 1 teams advance to Phase 2. Phase 2: each harness is run five times on the held‑out test set and scores are averaged. Final rankings determine 1st, 2nd, and 3rd place, published by the organizers.",
     m: "Evaluation"
   }, {
+    k: "Evaluation Schedule",
+    v: "Submissions received before 20:00 Beijing Time (UTC+8) each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day.",
+    m: "Schedule"
+  }, {
     k: "Code of Conduct",
     v: "Participants must follow the IJCAI 2026 code of conduct and the competition's full terms. Cheating, plagiarism, attacks on the evaluation system, and sharing non-public answers are strictly prohibited and may result in disqualification.",
     m: "Conduct"
@@ -1498,7 +1502,7 @@ function LeaderboardSection() {
       result.sort((a, b) => b.best.score - a.best.score);
       return result.slice(0, 3).map((row, i) => ({...row, rank: i + 1}));
     };
-    fetch("rankings.json").then(r => r.ok ? r.json() : []).then(entries => {
+    fetch(`rankings.json?v=${Date.now()}`, {cache: "no-store"}).then(r => r.ok ? r.json() : []).then(entries => {
       if (!cancelled && Array.isArray(entries)) setLeaders(buildRankings(entries));
     }).catch(() => {
       if (!cancelled) setLeaders([]);
