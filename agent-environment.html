@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="ChinaTravel agent environment guide for tool-calling agents and harness development." />
+<title>Agent Environment Guide — TPC@IJCAI2026</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0f1f24;
+    --ink-soft: #1d3339;
+    --cream: #f4efe6;
+    --cream-soft: #ebe4d6;
+    --paper: #faf7f0;
+    --seal: #c94a2a;
+    --seal-deep: #a43a1f;
+    --muted: #6b7a7f;
+    --rule: #d9d1c0;
+    --serif: "Merriweather", ui-serif, Georgia, serif;
+    --sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Source Code Pro", ui-monospace, Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f1ece1;
+      --ink-soft: #d9d2c2;
+      --cream: #0d1619;
+      --cream-soft: #111f23;
+      --paper: #0a1215;
+      --seal: #e06a49;
+      --seal-deep: #c94a2a;
+      --muted: #8a979c;
+      --rule: #1f3137;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.68;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: var(--seal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--rule);
+    background: color-mix(in oklab, var(--cream) 94%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .topbar-inner {
+    max-width: 1180px;
+    min-height: 58px;
+    margin: 0 auto;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .brand {
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    text-decoration: none;
+  }
+
+  .back-link {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .back-link:hover { color: var(--seal); }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 58px 22px 96px;
+  }
+
+  .intro {
+    max-width: 850px;
+    padding-bottom: 42px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    color: var(--seal);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--seal);
+  }
+
+  h1 {
+    margin: 0 0 18px;
+    font-family: var(--serif);
+    font-size: 46px;
+    font-weight: 400;
+    line-height: 1.12;
+  }
+  h1 em { color: var(--seal); font-style: italic; }
+
+  .lede {
+    max-width: 72ch;
+    margin: 0 0 14px;
+    color: var(--ink-soft);
+    font-size: 17px;
+  }
+
+  .source-note {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .intro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .source-button {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 10px 18px;
+    overflow: hidden;
+    border: 1px solid var(--seal);
+    border-radius: 2px;
+    background: var(--seal);
+    color: #fff;
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-decoration: none;
+    box-shadow: 0 5px 16px color-mix(in oklab, var(--seal) 22%, transparent);
+    transition:
+      background .2s,
+      border-color .2s,
+      box-shadow .25s,
+      transform .25s cubic-bezier(.2,.8,.2,1);
+    animation: source-button-pulse 4s ease-in-out infinite;
+  }
+  .source-button::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -70%;
+    bottom: -70%;
+    left: -36%;
+    width: 24%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, #fff 42%, transparent),
+      transparent
+    );
+    transform: skewX(-18deg);
+    animation: source-button-shine 4s ease-in-out infinite;
+  }
+  .source-button::after {
+    content: "\2197";
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1);
+  }
+  .source-button:hover {
+    border-color: var(--seal-deep);
+    background: var(--seal-deep);
+    box-shadow: 0 9px 24px color-mix(in oklab, var(--seal) 30%, transparent);
+    transform: translateY(-2px);
+  }
+  .source-button:hover::after {
+    transform: translate(2px, -2px);
+  }
+  .source-button:active {
+    box-shadow: 0 3px 10px color-mix(in oklab, var(--seal) 20%, transparent);
+    transform: translateY(0);
+  }
+
+  @keyframes source-button-shine {
+    0%, 58% { left: -36%; opacity: 0; }
+    64% { opacity: 1; }
+    82%, 100% { left: 118%; opacity: 0; }
+  }
+
+  @keyframes source-button-pulse {
+    0%, 100% {
+      box-shadow: 0 5px 16px color-mix(in oklab, var(--seal) 22%, transparent);
+    }
+    50% {
+      box-shadow: 0 7px 21px color-mix(in oklab, var(--seal) 30%, transparent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .source-button,
+    .source-button::before,
+    .source-button::after {
+      animation: none;
+      transition-duration: 0.01ms;
+    }
+  }
+
+  .doc-layout {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 62px;
+    align-items: start;
+    margin-top: 44px;
+  }
+
+  .toc {
+    position: sticky;
+    top: 88px;
+    padding-right: 22px;
+    border-right: 1px solid var(--rule);
+  }
+
+  .toc-title {
+    margin-bottom: 14px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .toc a {
+    display: block;
+    padding: 6px 0;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+  .toc a:hover { color: var(--seal); }
+  .toc .sub { padding-left: 14px; color: var(--muted); font-size: 12px; }
+
+  article { min-width: 0; max-width: 820px; }
+
+  section {
+    scroll-margin-top: 86px;
+    margin-bottom: 54px;
+  }
+
+  h2 {
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--serif);
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  h3 {
+    scroll-margin-top: 86px;
+    margin: 34px 0 10px;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  p { margin: 0 0 14px; color: var(--ink-soft); }
+  ul { margin: 0 0 18px; padding-left: 22px; color: var(--ink-soft); }
+  li { margin-bottom: 7px; }
+
+  code {
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: color-mix(in oklab, var(--seal) 7%, transparent);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  pre {
+    margin: 12px 0 22px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--seal);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  pre code { padding: 0; background: none; font-size: inherit; }
+
+  .callout {
+    margin: 18px 0 24px;
+    padding: 18px 20px;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--seal);
+    background: var(--paper);
+  }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .tool-group {
+    margin: 18px 0 26px;
+    padding: 20px 22px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .tool-group + .tool-group { margin-top: -27px; border-top: 0; }
+  .tool-group h3 { margin-top: 0; }
+
+  .endpoint-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 18px;
+    margin: 14px 0 20px;
+  }
+  .endpoint {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .outputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 28px;
+    padding: 0;
+    list-style: none;
+  }
+  .outputs li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .footer {
+    margin-top: 74px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 820px) {
+    h1 { font-size: 38px; }
+    .doc-layout { grid-template-columns: 1fr; gap: 34px; }
+    .toc {
+      position: static;
+      padding: 18px 0;
+      border-top: 1px solid var(--rule);
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+      columns: 2;
+    }
+    .toc-title { column-span: all; }
+  }
+
+  @media (max-width: 560px) {
+    .topbar-inner { min-height: 54px; padding: 0 16px; }
+    .brand { font-size: 15px; }
+    .back-link { font-size: 10px; }
+    .page { padding: 38px 16px 70px; }
+    h1 { font-size: 34px; }
+    .lede { font-size: 15px; }
+    .toc { columns: 1; }
+    .endpoint-list, .outputs { grid-template-columns: 1fr; }
+    pre { padding: 16px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="./">TPC @ IJCAI 2026</a>
+    <a class="back-link" href="./#data">&larr; Back to Data</a>
+  </div>
+</header>
+
+<main class="page">
+  <div class="intro">
+    <div class="eyebrow">Developer Resource</div>
+    <h1>ChinaTravel Agent <em>Environment</em></h1>
+    <p class="lede">
+      A lightweight wrapper that exposes the ChinaTravel benchmark environment
+      to external agents without changing the official <code>chinatravel</code>
+      package.
+    </p>
+    <p class="source-note">
+      The official benchmark remains the source of truth. This interface is a
+      baseline layer for tool-calling agents.
+    </p>
+    <div class="intro-actions">
+      <a
+        class="source-button"
+        href="https://github.com/LAMDA-NeSy/ChinaTravel/tree/main/agent_env"
+        target="_blank"
+        rel="noreferrer"
+      >View Source on GitHub</a>
+    </div>
+  </div>
+
+  <div class="doc-layout">
+    <nav class="toc" aria-label="On this page">
+      <div class="toc-title">On this page</div>
+      <a href="#overview">Overview</a>
+      <a href="#files">Files</a>
+      <a href="#setup">Setup</a>
+      <a href="#api">API Surface</a>
+      <a class="sub" href="#query-tools">Query tools</a>
+      <a class="sub" href="#attraction-tools">Attractions</a>
+      <a class="sub" href="#accommodation-tools">Accommodation</a>
+      <a class="sub" href="#restaurant-tools">Restaurants</a>
+      <a class="sub" href="#transport-tools">Transport and POI</a>
+      <a href="#usage">Usage</a>
+      <a href="#http">HTTP Service</a>
+      <a href="#harness">Harness</a>
+      <a href="#outputs">Run Outputs</a>
+    </nav>
+
+    <article>
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>
+          <code>agent_env</code> provides JSON-friendly access to the existing
+          <code>WorldEnv</code>, query loader, and evaluation flow. An agent can
+          inspect benchmark facts, produce an itinerary JSON, and save results
+          in the standard <code>results/&lt;method&gt;/&lt;uid&gt;.json</code>
+          format.
+        </p>
+        <div class="callout">
+          <p>
+            The wrapper can start without the ChinaTravel database, but
+            environment lookups will fail until the official prerequisites are
+            installed.
+          </p>
+        </div>
+      </section>
+
+      <section id="files">
+        <h2>Files</h2>
+        <ul>
+          <li><code>adapter.py</code>: core Python wrapper around <code>WorldEnv</code>.</li>
+          <li><code>cli.py</code>: command-line interface for one-shot calls or interactive use.</li>
+          <li><code>mcp_stdio.py</code>: minimal stdio JSON-RPC/MCP-style tool server.</li>
+          <li><code>http_server.py</code>: local HTTP JSON service.</li>
+          <li><code>scripts/solve_script_with_harness.py</code>: optional OpenCode/Codex harness.</li>
+          <li><code>config.toml.example</code>: example harness configuration.</li>
+          <li><code>SKILL.md</code>: compact instructions for agents that use the CLI.</li>
+        </ul>
+      </section>
+
+      <section id="setup">
+        <h2>Setup</h2>
+        <p>Install the original project requirements and download the ChinaTravel database:</p>
+        <pre><code>pip install -r requirements.txt
+# unzip the database to chinatravel/environment/database/</code></pre>
+      </section>
+
+      <section id="api">
+        <h2>API Surface</h2>
+
+        <div class="tool-group" id="query-tools">
+          <h3>Query Tools</h3>
+          <ul>
+            <li><code>china_travel_list_splits</code>: list local split names.</li>
+            <li><code>china_travel_load_query</code>: load query metadata or one query by <code>split</code> and optional <code>uid</code>.</li>
+            <li><code>china_travel_world_command</code>: call the original <code>WorldEnv</code> command-string API.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group" id="attraction-tools">
+          <h3>Attraction Tools</h3>
+          <ul>
+            <li><code>attractions_keys(city)</code>: list attraction columns and value types.</li>
+            <li><code>attractions_select(city, key, op, value)</code>: filter with <code>eq</code>, <code>ne</code>, <code>contains</code>, <code>lt</code>, <code>le</code>, <code>gt</code>, or <code>ge</code>.</li>
+            <li><code>attractions_id_is_open(city, id, time)</code>: check opening status at <code>HH:MM</code>.</li>
+            <li><code>attractions_nearby(city, point, topk, dist)</code>: find nearby attractions.</li>
+            <li><code>attractions_types(city)</code>: list attraction types.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group" id="accommodation-tools">
+          <h3>Accommodation Tools</h3>
+          <ul>
+            <li><code>accommodations_keys(city)</code>: list accommodation columns and value types.</li>
+            <li><code>accommodations_select(city, key, op, value)</code>: filter accommodations.</li>
+            <li><code>accommodations_nearby(city, point, topk, dist)</code>: find nearby accommodations.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group" id="restaurant-tools">
+          <h3>Restaurant Tools</h3>
+          <ul>
+            <li><code>restaurants_keys(city)</code>: list restaurant columns and value types.</li>
+            <li><code>restaurants_select(city, key, op, value)</code>: filter restaurants.</li>
+            <li><code>restaurants_id_is_open(city, id, time)</code>: check opening status at <code>HH:MM</code>.</li>
+            <li><code>restaurants_nearby(city, point, topk, dist)</code>: find nearby restaurants.</li>
+            <li><code>restaurants_with_recommended_food(city, food)</code>: find restaurants by recommended dish.</li>
+            <li><code>restaurants_cuisine(city)</code>: list cuisines.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group" id="transport-tools">
+          <h3>Transport and POI Tools</h3>
+          <ul>
+            <li><code>goto(city, start, end, start_time, transport_type)</code>: query in-city transport. Type must be <code>walk</code>, <code>taxi</code>, or <code>metro</code>.</li>
+            <li><code>intercity_transport_select(start_city, end_city, intercity_type, earliest_leave_time)</code>: query train or airplane options.</li>
+            <li><code>poi_lat_lon_search(city, name)</code>: look up POI coordinates.</li>
+            <li><code>next_page()</code>: fetch the next page after a paged <code>WorldEnv</code> DataFrame result.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="usage">
+        <h2>Usage</h2>
+        <h3>List Tools</h3>
+        <pre><code>python -m agent_env.cli tools</code></pre>
+
+        <h3>Call a Tool</h3>
+        <pre><code>python -m agent_env.cli call attractions_keys '{"city":"上海"}'
+
+python -m agent_env.cli call restaurants_nearby \
+  '{"city":"上海","point":"上海迪士尼度假区","topk":5,"dist":2}'
+
+python -m agent_env.cli call intercity_transport_select \
+  '{"start_city":"北京","end_city":"上海","intercity_type":"train","earliest_leave_time":"07:00"}'</code></pre>
+
+        <h3>Use the Raw WorldEnv Interface</h3>
+        <pre><code>python -m agent_env.cli world "attractions_keys('上海')"</code></pre>
+
+        <h3>Start the MCP-style Server</h3>
+        <pre><code>python -m agent_env.mcp_stdio</code></pre>
+      </section>
+
+      <section id="http">
+        <h2>HTTP Service</h2>
+        <p>Start the local HTTP JSON service:</p>
+        <pre><code>python -m agent_env.http_server --host 127.0.0.1 --port 8765</code></pre>
+        <div class="endpoint-list" aria-label="HTTP endpoints">
+          <div class="endpoint"><code>GET /health</code></div>
+          <div class="endpoint"><code>GET /tools</code></div>
+          <div class="endpoint"><code>GET /splits</code></div>
+          <div class="endpoint"><code>POST /call</code></div>
+          <div class="endpoint"><code>POST /world-command</code></div>
+        </div>
+        <p>
+          Send <code>{"tool": "...", "arguments": {...}}</code> to
+          <code>POST /call</code>, or <code>{"command": "..."}</code> to
+          <code>POST /world-command</code>.
+        </p>
+      </section>
+
+      <section id="harness">
+        <h2>Harness</h2>
+        <p>
+          <code>scripts/solve_script_with_harness.py</code> is a baseline for
+          running an external agent on a ChinaTravel split. It loads a query,
+          removes oracle-only verifier fields, asks an agent to solve the task
+          through <code>agent_env.cli</code>, parses the itinerary JSON, saves
+          it in the official result layout, and runs the official evaluators.
+        </p>
+
+        <h3>Supported Runners</h3>
+        <ul>
+          <li><code>opencode</code>: calls <code>opencode run</code> with a generated per-run configuration.</li>
+          <li><code>codex</code>: calls <code>codex exec</code> with configurable model and provider overrides.</li>
+        </ul>
+
+        <p>
+          The expected answer is a JSON object matching
+          <code>chinatravel/evaluation/output_schema.json</code>, usually
+          wrapped in <code>&lt;output&gt;...&lt;/output&gt;</code> tags.
+        </p>
+
+        <h3>Configure and Run</h3>
+        <pre><code>cp agent_env/config.toml.example agent_env/config.toml
+python agent_env/scripts/solve_script_with_harness.py</code></pre>
+
+        <h3>Common Overrides</h3>
+        <pre><code>python agent_env/scripts/solve_script_with_harness.py --split easy --limit 1
+python agent_env/scripts/solve_script_with_harness.py --split easy --uid &lt;uid&gt;
+python agent_env/scripts/solve_script_with_harness.py --harness opencode --model dashscope/qwen3.6-27b
+python agent_env/scripts/solve_script_with_harness.py --harness codex --model qwen3.6-35b-a3b
+python agent_env/scripts/solve_script_with_harness.py --resume</code></pre>
+
+        <h3>Important Config Fields</h3>
+        <ul>
+          <li><code>[run].split</code>: benchmark split to load.</li>
+          <li><code>[run].limit</code>: number of split queries to solve.</li>
+          <li><code>[run].method</code>: output method name.</li>
+          <li><code>[run].tool_python</code>: Python command used for CLI calls.</li>
+          <li><code>[run].resume</code>: skip queries with existing result files.</li>
+          <li><code>[opencode]</code> and <code>[codex]</code>: model, timeout, API key environment variable, provider, and parsing settings.</li>
+        </ul>
+      </section>
+
+      <section id="outputs">
+        <h2>Run Outputs</h2>
+        <p>For each query, the harness writes:</p>
+        <ul class="outputs">
+          <li><code>prompt.txt</code>: exact prompt sent to the agent.</li>
+          <li>Raw stdout and stderr from the runner.</li>
+          <li><code>output.txt</code>: final agent message.</li>
+          <li><code>output.json</code>: parsed itinerary.</li>
+          <li><code>results/&lt;method&gt;/&lt;uid&gt;.json</code>: official result file.</li>
+          <li><code>evaluation.json</code>: schema, commonsense, and logical evaluation.</li>
+        </ul>
+        <p>
+          A full split also writes
+          <code>agent_env/runs/&lt;method&gt;/&lt;split&gt;_summary.json</code>.
+          Parse failures are recorded as failed evaluations, so summaries cover
+          both invalid JSON and plans that fail benchmark constraints.
+        </p>
+        <div class="intro-actions">
+          <a
+            class="source-button"
+            href="https://github.com/LAMDA-NeSy/ChinaTravel/tree/main/agent_env"
+            target="_blank"
+            rel="noreferrer"
+          >View Source on GitHub</a>
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <footer class="footer">
+    TPC 2026 · Travel Planning Challenge · IJCAI-ECAI 2026 · Bremen
+  </footer>
+</main>
+</body>
+</html>
