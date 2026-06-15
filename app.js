@@ -16,8 +16,8 @@ const SITE_CONFIG = {
     label: "Evaluation Code",
     url: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py"
   }, {
-    label: "Phase 2 Baseline Code",
-    url: null
+    label: "Agent Environment Guide",
+    url: "agent-environment.html"
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
   evaluationReadmeUrl: "evaluation.html",
