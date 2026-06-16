@@ -16,8 +16,8 @@ const SITE_CONFIG = {
     label: "Evaluation Code",
     url: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py"
   }, {
-    label: "Phase 2 Baseline Code",
-    url: null
+    label: "Agent Environment Guide",
+    url: "agent-environment.html"
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
   evaluationReadmeUrl: "evaluation.html",
@@ -1585,6 +1585,9 @@ function FAQ() {
   }, {
     q: "How many teams advance to Phase 2?",
     a: "The top 5 teams from Phase 1 advance to Phase 2, subject to eligibility verification and compliance with the competition rules. After Phase 2 evaluation, the 1st, 2nd, and 3rd place winners are determined directly by the Phase 2 results."
+  }, {
+    q: "When will my Phase 1 submission appear on the leaderboard?",
+    a: "Submissions received before 20:00 Beijing Time (UTC+8) each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day."
   }, {
     q: "Is there a prize?",
     a: "Awards will be presented to the 1st, 2nd, and 3rd place teams. Top‑ranked Phase 2 teams are also invited to submit a system description paper for the competition proceedings."

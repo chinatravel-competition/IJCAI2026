@@ -272,7 +272,7 @@
   <div class="lb-header">
     <h1>Phase 1 <em>Leaderboard</em></h1>
     <div class="lb-meta" id="lb-meta">
-      <div>Last eval (UTC): <span id="lastUpdate">—</span></div>
+      <div>Last eval (Beijing Time, UTC+8): <span id="lastUpdate">—</span></div>
     </div>
   </div>
 
@@ -342,6 +342,20 @@ function evalTs(s) {
   return s.eval_ts || s.ts || 0;
 }
 
+function formatBeijingTime(timestamp) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(timestamp));
+  const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day} ${values.hour}:${values.minute}`;
+}
+
 function versionNumber(s) {
   const match = String(s.sub_id || "").match(/^v(\d+)(?:\D.*)?$/i);
   return match ? Number(match[1]) : -1;
@@ -395,7 +409,7 @@ function loadData() {
     .then(entries => {
       ranked = buildRankings(entries);
       document.getElementById("lastUpdate").textContent =
-        new Date(Math.max(...ranked.map(r => r.lastEvalTs))).toISOString().slice(0, 16).replace("T", " ");
+        formatBeijingTime(Math.max(...ranked.map(r => r.lastEvalTs)));
       document.getElementById("lb-meta").style.display = '';
       renderTable();
     })
