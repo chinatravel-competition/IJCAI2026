@@ -1476,6 +1476,13 @@ function LeaderboardSection() {
       if (av !== bv) return bv - av;
       return submissionTs(b) - submissionTs(a);
     };
+    const compareBest = (a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      const at = submissionTs(a);
+      const bt = submissionTs(b);
+      if (at !== bt) return at - bt;
+      return String(a.sub_id || "").localeCompare(String(b.sub_id || ""));
+    };
     const maskTeamName = name => {
       const chars = Array.from(String(name || "").trim());
       if (!chars.length) return "";
@@ -1496,10 +1503,10 @@ function LeaderboardSection() {
         const team = subs[0].team;
         subs.sort(compareLatest);
         const latest = subs[0];
-        subs.sort((a, b) => b.score - a.score);
+        subs.sort(compareBest);
         result.push({team: maskTeamName(team), teamKey, best: subs[0], latest});
       }
-      result.sort((a, b) => b.best.score - a.best.score);
+      result.sort((a, b) => compareBest(a.best, b.best));
       return result.slice(0, 3).map((row, i) => ({...row, rank: i + 1}));
     };
     fetch(`rankings.json?v=${Date.now()}`, {cache: "no-store"}).then(r => r.ok ? r.json() : []).then(entries => {
