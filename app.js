@@ -564,7 +564,7 @@ function Overview() {
   }, {
     n: "04",
     t: "Open Participation",
-    d: "Phase 1: open to all teams. Phase 2: the top 5 Phase 1 teams submit harness code for final evaluation on Qwen3.6‑27B. Final ranking determines 1st, 2nd, and 3rd place."
+    d: "Phase 1: open to all teams. Phase 2: the top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit harness code for final evaluation on Qwen3.6‑27B. Final ranking determines 1st, 2nd, and 3rd place."
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "overview",
@@ -814,7 +814,7 @@ function Tracks() {
       fontSize: 15,
       lineHeight: 1.55
     }
-  }, "The top 5 teams from Phase 1 submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on ", /*#__PURE__*/React.createElement("a", {href: "https://huggingface.co/Qwen/Qwen3.6-27B", target: "_blank", rel: "noreferrer", style: {color: "var(--accent)", textDecoration: "underline", textUnderlineOffset: "3px"}}, "Qwen3.6\u201127B"), ", deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
+  }, "The top 5 teams from Phase 1, plus any additional teams tied with the 5th-place score, submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on ", /*#__PURE__*/React.createElement("a", {href: "https://huggingface.co/Qwen/Qwen3.6-27B", target: "_blank", rel: "noreferrer", style: {color: "var(--accent)", textDecoration: "underline", textUnderlineOffset: "3px"}}, "Qwen3.6\u201127B"), ", deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -951,7 +951,7 @@ function Rules() {
     m: "Tracks"
   }, {
     k: "Track 2 · Harness",
-    v: /*#__PURE__*/React.createElement(React.Fragment, null, "The top 5 Phase 1 teams submit a self‑contained harness (agent code, prompts, scaffolding). Teams may develop and debug against the ", /*#__PURE__*/React.createElement("a", {
+    v: /*#__PURE__*/React.createElement(React.Fragment, null, "The top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit a self‑contained harness (agent code, prompts, scaffolding). Teams may develop and debug against the ", /*#__PURE__*/React.createElement("a", {
       href: "https://huggingface.co/datasets/LAMDA-NeSy/ChinaTravel",
       target: "_blank",
       rel: "noreferrer",
@@ -964,7 +964,7 @@ function Rules() {
     m: "Tracks"
   }, {
     k: "Evaluation",
-    v: "Phase 1: all submitted predictions are evaluated daily; only the latest submission per team is scored and displayed on the public leaderboard. The top 5 Phase 1 teams advance to Phase 2. Phase 2: each harness is run five times on the held‑out test set and scores are averaged. Final rankings determine 1st, 2nd, and 3rd place, published by the organizers.",
+    v: "Phase 1: all submitted predictions are evaluated daily; the public leaderboard displays each team's best submission and latest submission. The top 5 Phase 1 teams advance to Phase 2; if teams are tied at the 5th-place cutoff score, all teams sharing that score also advance. Phase 2: each harness is evaluated on the held‑out test set. Final rankings determine 1st, 2nd, and 3rd place, published by the organizers.",
     m: "Evaluation"
   }, {
     k: "Evaluation Schedule",
@@ -1228,7 +1228,7 @@ function Submission() {
   }, {
     n: "2",
     t: "Round 2 · Harness",
-    d: "The top 5 Phase 1 teams submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal and format will be announced later."
+    d: "The top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal and format will be announced later."
   }, {
     n: "3",
     t: "Final Ranking",
@@ -1413,7 +1413,7 @@ function Submission() {
       lineHeight: 1.6,
       marginBottom: 18
     }
-  }, "Hard-constraint metrics (EPR‑micro, EPR‑macro, C‑LPR, FPR) account for 85% of the total score. Soft-preference metrics (DAV, ATT, DDR) account for 15%. The official evaluation script runs five times and averages the results for the final score."), /*#__PURE__*/React.createElement("div", {
+  }, "Hard-constraint metrics (EPR‑micro, EPR‑macro, C‑LPR, FPR) account for 85% of the total score. Soft-preference metrics (DAV, ATT, DDR) account for 15%. The official evaluation script computes the final score from the submitted prediction results."), /*#__PURE__*/React.createElement("div", {
     className: "rows",
     style: {
       marginBottom: 22
@@ -1585,13 +1585,13 @@ function FAQ() {
   const [open, setOpen] = useState(0);
   const faqs = [{
     q: "What is TPC?",
-    a: "TPC (Travel Planning Challenge) is an open competition for evaluating language agents on real‑world travel planning in China. The 2026 edition, co‑located with IJCAI‑ECAI 2026 in Bremen, is the second iteration. Top 5 Phase 1 teams advance to Phase 2; final results determine the 1st, 2nd, and 3rd place winners."
+    a: "TPC (Travel Planning Challenge) is an open competition for evaluating language agents on real‑world travel planning in China. The 2026 edition, co‑located with IJCAI‑ECAI 2026 in Bremen, is the second iteration. Top 5 Phase 1 teams advance to Phase 2; if teams are tied at the 5th-place cutoff score, all teams sharing that score also advance. Final results determine the 1st, 2nd, and 3rd place winners."
   }, {
     q: "Who can participate?",
     a: "Open to teams from universities, research institutions, and companies worldwide. At least one member per team must register for IJCAI‑ECAI 2026. No fixed team‑size limit; each participant may join at most one team per track."
   }, {
     q: "How many teams advance to Phase 2?",
-    a: "The top 5 teams from Phase 1 advance to Phase 2, subject to eligibility verification and compliance with the competition rules. After Phase 2 evaluation, the 1st, 2nd, and 3rd place winners are determined directly by the Phase 2 results."
+    a: "The top 5 teams from Phase 1 advance to Phase 2, subject to eligibility verification and compliance with the competition rules. If teams are tied at the 5th-place cutoff score, all teams sharing that score also advance, even when this makes the Phase 2 field larger than five teams. After Phase 2 evaluation, the 1st, 2nd, and 3rd place winners are determined directly by the Phase 2 results."
   }, {
     q: "When will my Phase 1 submission appear on the leaderboard?",
     a: "Submissions received before 20:00 Beijing Time (UTC+8) each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day."
