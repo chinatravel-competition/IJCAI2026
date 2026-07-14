@@ -19,7 +19,7 @@ const SITE_CONFIG = {
     label: "Agent Environment Guide",
     url: "agent-environment.html"
   }, {
-    label: "Phase 2 Familiarization Data",
+    label: "Phase 2 In-Distribution Data",
     url: "TPC_IJCAI_2026_phase2_familiar_100_data.zip",
     action: "Download",
     download: true
@@ -922,7 +922,7 @@ function Data() {
       fontSize: 14,
       lineHeight: 1.55
     }
-  }, "Download the agent environment guide and 100 familiarization examples to prepare and validate your Phase 2 harness. These examples are provided for development only; final evaluation will use a separate held-out test set."), /*#__PURE__*/React.createElement("div", {
+  }, "Download the agent environment guide and 100 examples drawn from the same distribution as the final evaluation set to prepare and validate your Phase 2 harness. These examples are provided for development only; final evaluation will use a separate held-out test set."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
       display: "grid",
@@ -1563,6 +1563,10 @@ function News() {
   }, {
     d: "1 Jun 2026",
     t: "Phase 1 data released. Public training set, submission index, and evaluation code available for download in the Data section.",
+    tag: "Release"
+  }, {
+    d: "15 Jul 2026",
+    t: "Phase 2 resources released. The Agent Environment Guide and 100 examples drawn from the same distribution as the final evaluation set are now available in the Data section.",
     tag: "Release"
   }];
   return /*#__PURE__*/React.createElement("section", {
