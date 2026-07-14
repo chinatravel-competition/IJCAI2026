@@ -18,6 +18,11 @@ const SITE_CONFIG = {
   }, {
     label: "Agent Environment Guide",
     url: "agent-environment.html"
+  }, {
+    label: "Phase 2 Familiarization Data",
+    url: "TPC_IJCAI_2026_phase2_familiar_100_data.zip",
+    action: "Download",
+    download: true
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
   evaluationReadmeUrl: "evaluation.html",
@@ -839,13 +844,14 @@ function Data() {
   const renderLink = link => link.url ? /*#__PURE__*/React.createElement("a", {
     className: "soon-pill",
     href: link.url,
-    target: "_blank",
-    rel: "noreferrer",
+    target: link.download ? undefined : "_blank",
+    rel: link.download ? undefined : "noreferrer",
+    download: link.download || undefined,
     style: {
       textDecoration: "none"
     },
     key: link.label
-  }, link.label, " \xB7 Open") : /*#__PURE__*/React.createElement("span", {
+  }, link.label, " \xB7 ", link.action || "Open") : /*#__PURE__*/React.createElement("span", {
     className: "soon-pill",
     key: link.label,
     style: {
@@ -910,13 +916,13 @@ function Data() {
       lineHeight: 1.1,
       marginBottom: 14
     }
-  }, "Baseline code for final evaluation."), /*#__PURE__*/React.createElement("div", {
+  }, "Resources for final evaluation."), /*#__PURE__*/React.createElement("div", {
     style: {
       color: "var(--ink-soft)",
       fontSize: 14,
       lineHeight: 1.55
     }
-  }, "The Phase 2 release will include the baseline code and runnable scaffold used for final evaluation."), /*#__PURE__*/React.createElement("div", {
+  }, "Download the agent environment guide and 100 familiarization examples to prepare and validate your Phase 2 harness. These examples are provided for development only; final evaluation will use a separate held-out test set."), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 20,
       display: "grid",
