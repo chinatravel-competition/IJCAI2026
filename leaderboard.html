@@ -334,6 +334,7 @@
 // ════════════════ DATA LOADING ════════════════
 let ranked = [];
 const PER_PAGE = 15;
+const LAST_EVAL_TS = Date.parse("2026-07-17T21:38:53+08:00");
 let page = 1;
 
 function submissionTs(s) {
@@ -419,7 +420,7 @@ function loadData() {
     .then(entries => {
       ranked = buildRankings(entries);
       document.getElementById("lastUpdate").textContent =
-        formatBeijingTime(Math.max(...ranked.map(r => r.lastEvalTs)));
+        formatBeijingTime(Math.max(LAST_EVAL_TS, ...ranked.map(r => r.lastEvalTs)));
       document.getElementById("lb-meta").style.display = '';
       renderTable();
     })
