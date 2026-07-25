@@ -8,7 +8,7 @@ const {
 const SITE_CONFIG = {
   dataLinks: [{
     label: "Phase 1 Data",
-    url: "TPC_IJCAI_2026_phase1_EN.zip"
+    url: "TPC_IJCAI_2026_phase1_EN_final.zip"
   }, {
     label: "Phase 1 Data Index",
     url: "TPC_IJCAI_2026_phase1.txt"
