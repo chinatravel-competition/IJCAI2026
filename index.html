@@ -465,9 +465,22 @@
   }
   .date-cell .time {
     font-family: var(--mono);
-    font-size: 11px; color: var(--ink-soft);
-    margin-top: 14px;
-    opacity: .7;
+    margin-top: auto;
+    padding-top: 18px;
+    display: grid;
+    gap: 6px;
+  }
+  .date-cell .date-primary {
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  .date-cell .date-detail {
+    color: var(--ink-soft);
+    font-size: 11px;
+    line-height: 1.5;
+    max-width: 28ch;
   }
   .date-cell.active {
     border-left: 3px solid var(--seal);
