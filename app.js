@@ -23,6 +23,8 @@ const SITE_CONFIG = {
     url: "TPC_IJCAI_2026_phase2_familiar_100_data.zip",
     action: "Download",
     download: true
+  }, {
+    label: "Phase 2 Submission Portal"
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
   evaluationReadmeUrl: "evaluation.html",
@@ -626,24 +628,27 @@ function Dates() {
   const milestones = [{
     phase: "Milestone 01",
     label: "Data Release and Submission Opens",
-    time: "June 1, 2026",
+    date: "June 1, 2026",
     active: true
   }, {
     phase: "Milestone 02",
     label: "Stage 1 Submission Deadline",
-    time: "August 1, 2026"
+    date: "August 3, 2026",
+    detail: "Deadline · 24:00 Beijing Time (UTC+8)"
   }, {
     phase: "Milestone 03",
-    label: "Stage 2 Evaluation",
-    time: "August 1-7, 2026"
+    label: "Stage 2 Submission and Evaluation",
+    date: "August 3-10, 2026",
+    detail: "Closes August 10 · 24:00 Beijing Time (UTC+8)"
   }, {
     phase: "Milestone 04",
     label: "Technical Report Deadline",
-    time: "August 7, 2026"
+    date: "August 10, 2026",
+    detail: "Deadline · 24:00 Beijing Time (UTC+8)"
   }, {
     phase: "Milestone 05",
     label: "Final Results Announced",
-    time: "August 10, 2026"
+    date: "To be announced"
   }];
   return /*#__PURE__*/React.createElement("section", {
     id: "dates",
@@ -665,7 +670,11 @@ function Dates() {
     className: "label"
   }, m.label), /*#__PURE__*/React.createElement("div", {
     className: "time"
-  }, m.time)))))));
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "date-primary"
+  }, m.date), m.detail && /*#__PURE__*/React.createElement("div", {
+    className: "date-detail"
+  }, m.detail))))))));
 }
 function Tracks() {
   return /*#__PURE__*/React.createElement("section", {
@@ -1234,7 +1243,7 @@ function Submission() {
   }, {
     n: "2",
     t: "Round 2 · Harness",
-    d: "The top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal and format will be announced later."
+    d: "The top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal will open soon."
   }, {
     n: "3",
     t: "Final Ranking",
