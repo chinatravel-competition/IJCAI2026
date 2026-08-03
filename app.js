@@ -630,8 +630,7 @@ function Dates() {
   const milestones = [{
     phase: "Milestone 01",
     label: "Data Release and Submission Opens",
-    date: "June 1, 2026",
-    active: true
+    date: "June 1, 2026"
   }, {
     phase: "Milestone 02",
     label: "Stage 1 Submission Deadline",
@@ -640,8 +639,9 @@ function Dates() {
   }, {
     phase: "Milestone 03",
     label: "Stage 2 Submission and Evaluation",
-    date: "August 3-10, 2026",
-    detail: "Closes August 10 · 24:00 Beijing Time (UTC+8)"
+    date: "August 4-10, 2026",
+    detail: "Closes August 10 · 24:00 Beijing Time (UTC+8)",
+    active: true
   }, {
     phase: "Milestone 04",
     label: "Technical Report Deadline",
