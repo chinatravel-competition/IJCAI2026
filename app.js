@@ -24,7 +24,9 @@ const SITE_CONFIG = {
     action: "Download",
     download: true
   }, {
-    label: "Phase 2 Submission Portal"
+    label: "Phase 2 Submission Portal",
+    url: "https://box.nju.edu.cn/u/d/5a1a84297f4b43eda42f/",
+    action: "Open"
   }],
   evaluationCodeUrl: "https://github.com/LAMDASZ-ML/ChinaTravel/blob/main/eval_tpc.py",
   evaluationReadmeUrl: "evaluation.html",
@@ -1243,7 +1245,9 @@ function Submission() {
   }, {
     n: "2",
     t: "Round 2 · Harness",
-    d: "The top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set. The Round 2 submission portal will open soon."
+    d: "The top 5 Phase 1 teams, plus any additional teams tied with the 5th-place score, submit a self‑contained harness — agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink). All harnesses run on a held‑out test set.",
+    lk: "Submit (Round 2)",
+    lu: "https://box.nju.edu.cn/u/d/5a1a84297f4b43eda42f/"
   }, {
     n: "3",
     t: "Final Ranking",
