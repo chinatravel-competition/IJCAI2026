@@ -636,7 +636,7 @@ function Dates() {
     phase: "Milestone 02",
     label: "Stage 1 Submission Deadline",
     date: "August 3, 2026",
-    detail: "Deadline · 24:00 Beijing Time (UTC+8)"
+    detail: "Deadline · 20:00 Beijing Time (UTC+8)"
   }, {
     phase: "Milestone 03",
     label: "Stage 2 Submission and Evaluation",
