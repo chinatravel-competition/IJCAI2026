@@ -435,6 +435,11 @@
     <div class="intro-actions">
       <a
         class="source-button"
+        href="ChinaTravel_harness_example.zip"
+        download
+      >Download Submission Example</a>
+      <a
+        class="source-button"
         href="https://github.com/LAMDA-NeSy/ChinaTravel/tree/main/agent_env"
         target="_blank"
         rel="noreferrer"
@@ -448,6 +453,7 @@
       <a href="#overview">Overview</a>
       <a href="#files">Files</a>
       <a href="#setup">Setup</a>
+      <a href="#evaluation-environment">Evaluation Environment</a>
       <a href="#api">API Surface</a>
       <a class="sub" href="#query-tools">Query tools</a>
       <a class="sub" href="#attraction-tools">Attractions</a>
@@ -497,6 +503,39 @@
         <p>Install the original project requirements and download the ChinaTravel database:</p>
         <pre><code>pip install -r requirements.txt
 # unzip the database to chinatravel/environment/database/</code></pre>
+      </section>
+
+      <section id="evaluation-environment">
+        <h2>Evaluation Environment</h2>
+        <p>
+          Phase 2 harnesses are evaluated in the following organizer-provided
+          environment. Teams should test compatibility with these versions
+          before submitting a package.
+        </p>
+
+        <div class="tool-group">
+          <h3>Compute Resources</h3>
+          <ul>
+            <li><strong>CPU:</strong> 16 OS-visible logical CPUs; the harness process is assigned all 16 logical CPUs.</li>
+            <li><strong>Memory:</strong> 112 GiB total host RAM. This is host capacity, not guaranteed exclusively reserved free memory.</li>
+            <li><strong>GPU:</strong> 2 &times; NVIDIA A800 80GB PCIe (no NVLink).</li>
+            <li><strong>NVIDIA driver:</strong> <code>575.57.08</code>.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group">
+          <h3>Runtime Environment</h3>
+          <ul>
+            <li><strong>Operating system:</strong> Debian GNU/Linux 12.</li>
+            <li><strong>Python:</strong> <code>3.12.13</code>.</li>
+            <li><strong>PyTorch:</strong> <code>2.9.1+cu128</code>, built with CUDA 12.8.</li>
+            <li><strong>SGLang:</strong> <code>0.5.10</code>.</li>
+            <li><strong>sglang-kernel:</strong> <code>0.4.1</code>.</li>
+            <li><strong>Transformers:</strong> <code>5.3.0</code>.</li>
+            <li><strong>Triton:</strong> <code>3.5.1</code>.</li>
+            <li><strong>FlashInfer:</strong> <code>0.6.7.post2</code>.</li>
+          </ul>
+        </div>
       </section>
 
       <section id="api">
@@ -602,6 +641,15 @@ python -m agent_env.cli call intercity_transport_select \
           through <code>agent_env.cli</code>, parses the itinerary JSON, saves
           it in the official result layout, and runs the official evaluators.
         </p>
+
+        <div class="callout">
+          <p>
+            <strong>Evaluation time limit.</strong> Each submitted harness must
+            process all 100 held-out evaluation queries within a total runtime
+            limit of 5 hours. This is the limit for the complete 100-query run,
+            not a separate 5-hour limit for each query.
+          </p>
+        </div>
 
         <h3>Supported Runners</h3>
         <ul>

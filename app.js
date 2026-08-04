@@ -19,6 +19,11 @@ const SITE_CONFIG = {
     label: "Agent Environment Guide",
     url: "agent-environment.html"
   }, {
+    label: "Phase 2 Harness Submission Example",
+    url: "ChinaTravel_harness_example.zip",
+    action: "Download",
+    download: true
+  }, {
     label: "Phase 2 In-Distribution Data",
     url: "TPC_IJCAI_2026_phase2_familiar_100_data.zip",
     action: "Download",
@@ -830,7 +835,7 @@ function Tracks() {
       fontSize: 15,
       lineHeight: 1.55
     }
-  }, "The top 5 teams from Phase 1, plus any additional teams tied with the 5th-place score, submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on ", /*#__PURE__*/React.createElement("a", {href: "https://huggingface.co/Qwen/Qwen3.6-27B", target: "_blank", rel: "noreferrer", style: {color: "var(--accent)", textDecoration: "underline", textUnderlineOffset: "3px"}}, "Qwen3.6\u201127B"), ", deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). All harnesses run on a held\u2011out test set, and final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
+  }, "The top 5 teams from Phase 1, plus any additional teams tied with the 5th-place score, submit a self\u2011contained harness \u2014 agent code, prompts, scaffolding, and the files needed to run it. Organizers evaluate every harness on ", /*#__PURE__*/React.createElement("a", {href: "https://huggingface.co/Qwen/Qwen3.6-27B", target: "_blank", rel: "noreferrer", style: {color: "var(--accent)", textDecoration: "underline", textUnderlineOffset: "3px"}}, "Qwen3.6\u201127B"), ", deployed via SGLang on 2\xD7 A800 80G GPUs (no NVLink). Each submitted harness must process all 100 held-out evaluation queries within a total runtime limit of 5 hours. Final results determine the 1st, 2nd, and 3rd place winners."), /*#__PURE__*/React.createElement("div", {
     className: "track-meta",
     style: {
       marginTop: "auto"
@@ -977,7 +982,7 @@ function Rules() {
         textDecoration: "underline",
         textUnderlineOffset: "3px"
       }
-    }, "ChinaTravel dataset"), ". All harnesses run on a held‑out test set. The final evaluation uses Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink)."),
+    }, "ChinaTravel dataset"), ". All harnesses run on a held‑out test set. Each submitted harness must process all 100 evaluation queries within a total runtime limit of 5 hours. The final evaluation uses Qwen3.6‑27B, deployed via SGLang on 2× A800 80G GPUs (no NVLink)."),
     m: "Tracks"
   }, {
     k: "Evaluation",
@@ -1218,6 +1223,49 @@ function Submission() {
     d: "More is better; normalised to [0, 3].",
     f: "\\(\\text{DDR-score} = \\min((\\textit{DDR} - 0) / (3-0), 1)\\)"
   }];
+  const phase2Environment = [{
+    title: "Compute resources",
+    rows: [{
+      key: "CPU",
+      value: "16 OS-visible logical CPUs; the harness process is assigned all 16 logical CPUs."
+    }, {
+      key: "Memory",
+      value: "112 GiB total host RAM. This is host capacity, not guaranteed exclusively reserved free memory."
+    }, {
+      key: "GPU",
+      value: "2 × NVIDIA A800 80GB PCIe (no NVLink)."
+    }, {
+      key: "NVIDIA driver",
+      value: "575.57.08"
+    }]
+  }, {
+    title: "Runtime environment",
+    rows: [{
+      key: "Operating system",
+      value: "Debian GNU/Linux 12"
+    }, {
+      key: "Python",
+      value: "3.12.13"
+    }, {
+      key: "PyTorch",
+      value: "2.9.1+cu128, built with CUDA 12.8"
+    }, {
+      key: "SGLang",
+      value: "0.5.10"
+    }, {
+      key: "sglang-kernel",
+      value: "0.4.1"
+    }, {
+      key: "Transformers",
+      value: "5.3.0"
+    }, {
+      key: "Triton",
+      value: "3.5.1"
+    }, {
+      key: "FlashInfer",
+      value: "0.6.7.post2"
+    }]
+  }];
   return /*#__PURE__*/React.createElement("section", {
     id: "submission",
     className: "block"
@@ -1405,7 +1453,178 @@ function Submission() {
       fontSize: 13,
       lineHeight: 1.5
     }
-  }, "This is a minimal valid submission package. Extra top-level folders inside the zip are handled normally."))), /*#__PURE__*/React.createElement("div", {
+  }, "This is a minimal valid submission package. Extra top-level folders inside the zip are handled normally.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "20px 22px",
+      minHeight: 160,
+      height: "100%",
+      display: "grid",
+      gap: 10,
+      alignContent: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Round 2 Packaging Rule"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      color: "var(--ink)",
+      fontSize: 21,
+      lineHeight: 1.15
+    }
+  }, "Submit up to two versioned packages."), /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--seal)",
+      fontSize: 13,
+      lineHeight: 1.5,
+      letterSpacing: 0,
+      textTransform: "none",
+      wordBreak: "break-word",
+      whiteSpace: "pre-line"
+    }
+  }, "{TeamName}_v1.zip\n{TeamName}_v2.zip"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "Each version is evaluated on 100 held-out queries with a total runtime limit of 5 hours.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "20px 22px",
+      minHeight: 160,
+      height: "100%",
+      display: "grid",
+      gap: 10,
+      alignContent: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Round 2 Harness Example"), /*#__PURE__*/React.createElement("a", {
+    href: "ChinaTravel_harness_example.zip",
+    download: true,
+    className: "serif",
+    style: {
+      justifySelf: "start",
+      display: "inline-flex",
+      alignItems: "center",
+      minHeight: 44,
+      padding: "0 18px",
+      border: "1px solid var(--seal)",
+      background: "var(--seal)",
+      color: "var(--cream)",
+      fontSize: 17,
+      lineHeight: 1,
+      letterSpacing: 0,
+      textTransform: "none",
+      textDecoration: "none",
+      whiteSpace: "nowrap"
+    }
+  }, "Download harness example"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "Use this package as a reference for the required entry point, configuration, and output layout."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 24,
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "30px 32px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      marginBottom: 8
+    }
+  }, "Phase 2 Evaluation Environment"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      color: "var(--ink)",
+      fontSize: 26,
+      lineHeight: 1.15,
+      marginBottom: 10
+    }
+  }, "Organizer-provided compute and runtime."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 14,
+      lineHeight: 1.6,
+      marginBottom: 24,
+      maxWidth: 820
+    }
+  }, "The harness process receives the resources and installed runtime versions listed below. Host memory is shared capacity and is not guaranteed to be exclusively free."), /*#__PURE__*/React.createElement("div", {
+    className: "phase2-environment-grid",
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "24px 36px"
+    }
+  }, phase2Environment.map(group => /*#__PURE__*/React.createElement("div", {
+    key: group.title,
+    style: {
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      color: "var(--ink)",
+      fontSize: 20,
+      lineHeight: 1.2,
+      marginBottom: 10
+    }
+  }, group.title), /*#__PURE__*/React.createElement("div", {
+    style: {
+      borderTop: "1px solid var(--rule)"
+    }
+  }, group.rows.map(row => /*#__PURE__*/React.createElement("div", {
+    key: row.key,
+    className: "phase2-env-row",
+    style: {
+      display: "grid",
+      gridTemplateColumns: "minmax(110px, 0.42fr) 1fr",
+      gap: 14,
+      padding: "10px 0",
+      borderBottom: "1px solid var(--rule)",
+      alignItems: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 11,
+      lineHeight: 1.5,
+      letterSpacing: "0.04em",
+      textTransform: "uppercase"
+    }
+  }, row.key), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5,
+      overflowWrap: "anywhere"
+    }
+  }, row.value)))))))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 48,
       border: "1px solid var(--rule)",
@@ -1478,7 +1697,7 @@ function Submission() {
     className: "btn btn-primary"
   }, "Evaluation Guide ", /*#__PURE__*/React.createElement("span", {
     className: "arr"
-  }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } .submission-guides { grid-template-columns: 1fr !important; } }`)));
+  }, "\u2192")))), /*#__PURE__*/React.createElement("style", null, `@media (max-width: 820px) { .sub-grid { grid-template-columns: 1fr !important; } .submission-guides { grid-template-columns: 1fr !important; } .phase2-environment-grid { grid-template-columns: 1fr !important; } .phase2-env-row { grid-template-columns: 1fr !important; gap: 4px !important; } }`)));
 }
 function LeaderboardSection() {
   const [leaders, setLeaders] = useState([]);
