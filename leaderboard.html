@@ -102,6 +102,20 @@
   .lb-top-bar input:focus { border-color: var(--seal); }
   .lb-top-bar input::placeholder { color: var(--muted); }
 
+  .phase-tabs {
+    display: inline-flex; gap: 4px; padding: 4px;
+    margin-bottom: 24px; border: 1px solid var(--rule); border-radius: 6px;
+    background: var(--paper);
+  }
+  .phase-tab {
+    border: 0; border-radius: 4px; padding: 9px 16px;
+    background: transparent; color: var(--muted); cursor: pointer;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+    text-transform: uppercase; transition: all .15s;
+  }
+  .phase-tab:hover { color: var(--seal); }
+  .phase-tab.active { background: var(--seal); color: #fff; }
+
   /* Notes */
   .lb-note {
     display: grid;
@@ -272,10 +286,15 @@
   <a href="./" class="back-link">&larr; Back to Competition Site</a>
 
   <div class="lb-header">
-    <h1>Phase 1 <em>Leaderboard</em></h1>
+    <h1 id="lbTitle">Phase 2 <em>Final Leaderboard</em></h1>
     <div class="lb-meta" id="lb-meta">
       <div>Last eval (Beijing Time, UTC+8): <span id="lastUpdate">—</span></div>
     </div>
+  </div>
+
+  <div class="phase-tabs" role="tablist" aria-label="Competition phase">
+    <button class="phase-tab" id="phase1Tab" role="tab" aria-selected="false" onclick="switchPhase('phase1')">Phase 1</button>
+    <button class="phase-tab active" id="phase2Tab" role="tab" aria-selected="true" onclick="switchPhase('phase2')">Phase 2</button>
   </div>
 
   <div class="lb-top-bar">
@@ -286,19 +305,19 @@
   <div class="lb-note">
     <div class="note-item">
       <span class="note-label">Eligibility</span>
-      Only <strong>registered teams</strong> are shown, and public team names are partially masked. To join the leaderboard, <a href="https://docs.google.com/forms/d/e/1FAIpQLSdobQls23x6L2APaJektE85TqCFvUgESCkg8ZcSnb3NvLyzhg/viewform?usp=dialog" target="_blank" rel="noreferrer">register here</a>.
+      Only <strong>registered teams</strong> are shown, and public team names are partially masked.
     </div>
     <div class="note-item">
-      <span class="note-label">Submission Name</span>
-      Packages must follow the main-site rule: <code>{TeamName}_v{x}.zip</code>.
+      <span class="note-label" id="submissionLabel">Submission Name</span>
+      <span id="submissionNote">Packages must follow the main-site rule: <code>{TeamName}_v{x}.zip</code>.</span>
     </div>
     <div class="note-item">
       <span class="note-label">Evaluation Schedule</span>
-      Submissions received before <strong>20:00 Beijing Time (UTC+8)</strong> each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day.
+      <span id="scheduleNote">Submissions received before <strong>20:00 Beijing Time (UTC+8)</strong> each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day.</span>
     </div>
     <div class="note-item">
       <span class="note-label">Score Columns</span>
-      Best is the highest valid score; ties are ordered by the earliest submission that first reached that score. Latest uses the largest version number, e.g. <code>v11</code> &gt; <code>v2</code>. All metric columns to the right are from the submission that achieved the Best Score.
+      <span id="scoreNote">Best is the highest valid score; ties are ordered by the earliest submission that first reached that score. Latest uses the largest version number, e.g. <code>v11</code> &gt; <code>v2</code>. All metric columns to the right are from the submission that achieved the Best Score.</span>
     </div>
   </div>
 
@@ -334,7 +353,27 @@
 // ════════════════ DATA LOADING ════════════════
 let ranked = [];
 const PER_PAGE = 15;
-const LAST_EVAL_TS = Date.parse("2026-08-04T00:35:10+08:00");
+const PHASES = {
+  phase1: {
+    file: "rankings.json",
+    title: "Phase 1 <em>Leaderboard</em>",
+    submissionLabel: "Submission Name",
+    submissionNote: "Packages must follow the main-site rule: <code>{TeamName}_v{x}.zip</code>.",
+    schedule: "Submissions received before <strong>20:00 Beijing Time (UTC+8)</strong> each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day.",
+    note: "Best is the highest valid score; ties are ordered by the earliest submission that first reached that score. Latest uses the largest version number, e.g. <code>v11</code> &gt; <code>v2</code>. All metric columns to the right are from the submission that achieved the Best Score.",
+    fallbackTs: Date.parse("2026-08-04T00:35:10+08:00")
+  },
+  phase2: {
+    file: "phase2-rankings.json",
+    title: "Phase 2 <em>Final Leaderboard</em>",
+    submissionLabel: "Submission Limit",
+    submissionNote: "Each eligible team may submit at most <strong>two</strong> Phase 2 harness versions.",
+    schedule: "Phase 2 harness evaluation results will be published here after the final test is complete.",
+    note: "Phase 2 ranks eligible teams by the best score from their two submissions on the final held-out test. Team names remain partially masked until the organizers publish the final results.",
+    fallbackTs: 0
+  }
+};
+let currentPhase = "phase2";
 let page = 1;
 
 function submissionTs(s) {
@@ -415,20 +454,45 @@ function buildRankings(entries) {
 }
 
 function loadData() {
-  fetch(`rankings.json?v=${Date.now()}`, { cache: "no-store" })
+  const requestPhase = currentPhase;
+  const config = PHASES[currentPhase];
+  document.getElementById("lbTitle").innerHTML = config.title;
+  document.getElementById("submissionLabel").textContent = config.submissionLabel;
+  document.getElementById("submissionNote").innerHTML = config.submissionNote;
+  document.getElementById("scheduleNote").innerHTML = config.schedule;
+  document.getElementById("scoreNote").innerHTML = config.note;
+  fetch(`${config.file}?v=${Date.now()}`, { cache: "no-store" })
     .then(r => { if (!r.ok) throw new Error('Not available'); return r.json(); })
     .then(entries => {
+      if (currentPhase !== requestPhase) return;
+      if (!Array.isArray(entries)) throw new Error('Invalid rankings data');
       ranked = buildRankings(entries);
+      const latestTs = Math.max(config.fallbackTs, ...ranked.map(r => r.lastEvalTs));
       document.getElementById("lastUpdate").textContent =
-        formatBeijingTime(Math.max(LAST_EVAL_TS, ...ranked.map(r => r.lastEvalTs)));
+        ranked.length ? (latestTs > 0 ? formatBeijingTime(latestTs) : "Published") : "Results pending";
       document.getElementById("lb-meta").style.display = '';
       renderTable();
     })
     .catch(() => {
+      if (currentPhase !== requestPhase) return;
       document.getElementById("lb-meta").style.display = 'none';
       document.getElementById("tableBody").innerHTML =
         '<tr><td colspan="11" style="padding:48px;text-align:center;color:var(--muted)">No rankings available yet — check back after the first evaluation round.</td></tr>';
     });
+}
+
+function switchPhase(nextPhase) {
+  if (!PHASES[nextPhase] || nextPhase === currentPhase) return;
+  currentPhase = nextPhase;
+  history.replaceState(null, "", `#${nextPhase}`);
+  page = 1;
+  document.querySelectorAll('.phase-tab').forEach(tab => {
+    const active = tab.id === `${nextPhase}Tab`;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  document.getElementById("tableBody").innerHTML = '<tr><td colspan="11" style="padding:48px;text-align:center;color:var(--muted)">Loading rankings…</td></tr>';
+  loadData();
 }
 
 // ════════════════ RENDER ════════════════
@@ -438,7 +502,7 @@ function renderTable() {
   let filtered = ranked;
   if (q) filtered = ranked.filter(r => r.team.toLowerCase().includes(q));
 
-  document.getElementById("totalTeams").textContent = ranked.length || '—';
+  document.getElementById("totalTeams").textContent = ranked.length;
 
   const totalPages = Math.ceil(filtered.length / PER_PAGE);
   if (page > totalPages) page = totalPages || 1;
@@ -447,13 +511,19 @@ function renderTable() {
   const pageData = filtered.slice(start, start + PER_PAGE);
 
   if (!filtered.length) {
+    const emptyMessage = q
+      ? "No matching teams."
+      : currentPhase === "phase2"
+        ? "Phase 2 final results have not been published yet."
+        : "No rankings available yet — check back after the first evaluation round.";
     document.getElementById("tableBody").innerHTML =
-      '<tr><td colspan="11" style="padding:32px;text-align:center;color:var(--muted)">No matching teams.</td></tr>';
+      `<tr><td colspan="11" style="padding:48px;text-align:center;color:var(--muted)">${emptyMessage}</td></tr>`;
     document.getElementById("pagination").innerHTML = '';
     return;
   }
 
   let html = "";
+  const metric = value => Number.isFinite(Number(value)) ? Number(value).toFixed(4) : "—";
   for (const r of pageData) {
     const pod = r.rank <= 3 ? " podium" : "";
     const d = new Date(r.lastSubmitTs);
@@ -461,15 +531,15 @@ function renderTable() {
     html += `<tr>
       <td class="cell-rank${pod}">${r.rank}</td>
       <td class="cell-name">${r.team}</td>
-      <td class="cell-score">${r.best.score.toFixed(4)}<span class="ver">${r.best.sub_id}</span></td>
-      <td class="cell-score">${r.latest.score.toFixed(4)}<span class="ver">${r.latest.sub_id}</span></td>
-      <td class="cell-metric detail-col">${r.best.epm.toFixed(4)}</td>
-      <td class="cell-metric detail-col">${r.best.epM.toFixed(4)}</td>
-      <td class="cell-metric detail-col">${r.best.clpr.toFixed(4)}</td>
-      <td class="cell-metric detail-col">${r.best.fpr.toFixed(4)}</td>
-      <td class="cell-metric detail-col">${r.best.dav.toFixed(4)}</td>
-      <td class="cell-metric detail-col">${r.best.att.toFixed(4)}</td>
-      <td class="cell-metric detail-col">${r.best.ddr.toFixed(4)}</td>
+      <td class="cell-score">${metric(r.best.score)}<span class="ver">${r.best.sub_id || "final"}</span></td>
+      <td class="cell-score">${metric(r.latest.score)}<span class="ver">${r.latest.sub_id || "final"}</span></td>
+      <td class="cell-metric detail-col">${metric(r.best.epm)}</td>
+      <td class="cell-metric detail-col">${metric(r.best.epM)}</td>
+      <td class="cell-metric detail-col">${metric(r.best.clpr)}</td>
+      <td class="cell-metric detail-col">${metric(r.best.fpr)}</td>
+      <td class="cell-metric detail-col">${metric(r.best.dav)}</td>
+      <td class="cell-metric detail-col">${metric(r.best.att)}</td>
+      <td class="cell-metric detail-col">${metric(r.best.ddr)}</td>
     </tr>`;
   }
 
@@ -487,6 +557,13 @@ function renderTable() {
   document.getElementById("pagination").innerHTML = pgHtml;
 }
 
+const hashPhase = window.location.hash.slice(1).toLowerCase();
+if (PHASES[hashPhase]) currentPhase = hashPhase;
+document.querySelectorAll('.phase-tab').forEach(tab => {
+  const active = tab.id === `${currentPhase}Tab`;
+  tab.classList.toggle('active', active);
+  tab.setAttribute('aria-selected', active ? 'true' : 'false');
+});
 loadData();
 setInterval(loadData, 300000);
 </script>
