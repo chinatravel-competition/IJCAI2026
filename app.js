@@ -1541,7 +1541,77 @@ function Submission() {
       fontSize: 13,
       lineHeight: 1.5
     }
-  }, "Use this package as a reference for the required entry point, configuration, and output layout."))), /*#__PURE__*/React.createElement("div", {
+  }, "Use this package as a reference for the required entry point, configuration, and output layout.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "20px 22px",
+      minHeight: 160,
+      height: "100%",
+      display: "grid",
+      gap: 10,
+      alignContent: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Phase 2 Data Contract"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      color: "var(--ink)",
+      fontSize: 21,
+      lineHeight: 1.15
+    }
+  }, "Use only evaluation-visible information."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "Formal held-out queries are English. They contain the natural-language query and participant-visible itinerary metadata. Agents may use the public ChinaTravel database and organizer-provided model and environment tools, but must not read hard_logic, hard_logic_py, hard_logic_nl, DSL annotations, answer-related fields, or verifier-only fields."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "The organizer injects the official split and data at evaluation time. Use the supplied arguments rather than hard-coding a split or query list.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: "1px solid var(--rule)",
+      background: "var(--paper)",
+      padding: "20px 22px",
+      minHeight: 160,
+      height: "100%",
+      display: "grid",
+      gap: 10,
+      alignContent: "start"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "mono",
+    style: {
+      color: "var(--muted)",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase"
+    }
+  }, "Technical Report"), /*#__PURE__*/React.createElement("div", {
+    className: "serif",
+    style: {
+      color: "var(--ink)",
+      fontSize: 21,
+      lineHeight: 1.15
+    }
+  }, "Submit a separate four-page paper."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--ink-soft)",
+      fontSize: 13,
+      lineHeight: 1.5
+    }
+  }, "Use the official IJCAI template, write in English, and submit a non-anonymous PDF named {TeamName}.pdf. Upload it through the Phase 2 submission portal as a separate file; do not place it inside the Harness ZIP."))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 24,
       border: "1px solid var(--rule)",
@@ -1701,6 +1771,7 @@ function Submission() {
 }
 function LeaderboardSection() {
   const [leaders, setLeaders] = useState([]);
+  const [phase2Leaders, setPhase2Leaders] = useState([]);
   useEffect(() => {
     let cancelled = false;
     const submissionTs = s => s.submit_ts || s.ts || 0;
@@ -1722,7 +1793,9 @@ function LeaderboardSection() {
       return String(a.sub_id || "").localeCompare(String(b.sub_id || ""));
     };
     const maskTeamName = name => {
-      const chars = Array.from(String(name || "").trim());
+      const normalizedName = String(name || "").trim();
+      if (normalizedName.includes("*")) return normalizedName;
+      const chars = Array.from(normalizedName);
       if (!chars.length) return "";
       if (chars.length === 1) return "*";
       if (chars.length === 2) return chars[0] + "*";
@@ -1752,11 +1825,20 @@ function LeaderboardSection() {
     }).catch(() => {
       if (!cancelled) setLeaders([]);
     });
+    fetch(`phase2-rankings.json?v=${Date.now()}`, {cache: "no-store"}).then(r => r.ok ? r.json() : []).then(entries => {
+      if (!cancelled && Array.isArray(entries)) {
+        setPhase2Leaders(buildRankings(entries));
+      }
+    }).catch(() => {
+      if (!cancelled) setPhase2Leaders([]);
+    });
     return () => {
       cancelled = true;
     };
   }, []);
-  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 <em>Leaderboard</em>.", kicker: "Top teams on the public leaderboard."}), /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--seal)", marginBottom: 8}}, "Phase 1 Public Leaderboard · Top 3"), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 12}}, "Current ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "leaders"), "."), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55}}, "Only registered teams are shown. Team names are partially masked on the public leaderboard."), leaders.length ? /*#__PURE__*/React.createElement("div", {className: "home-lb-preview"}, leaders.map(row => /*#__PURE__*/React.createElement("div", {className: "home-lb-row", key: row.teamKey || row.team}, /*#__PURE__*/React.createElement("div", {className: "home-lb-rank"}, `#${row.rank}`), /*#__PURE__*/React.createElement("div", {className: "home-lb-team"}, row.team), /*#__PURE__*/React.createElement("div", {className: "home-lb-score"}, row.best.score.toFixed(4), /*#__PURE__*/React.createElement("span", null, row.best.sub_id))))) : /*#__PURE__*/React.createElement("div", {style: {color: "var(--muted)", fontSize: 13, margin: "18px 0 22px"}}, "Leaderboard data will appear after the first public evaluation."), /*#__PURE__*/React.createElement("a", {href: "leaderboard.html", className: "btn btn-primary"}, "View Full Leaderboard ", /*#__PURE__*/React.createElement("span", {className: "arr"}, "→"))))));
+  const renderRows = (rows, phase) => rows.length ? /*#__PURE__*/React.createElement("div", {className: "home-lb-preview"}, rows.map(row => /*#__PURE__*/React.createElement("div", {className: "home-lb-row", key: row.teamKey || row.team}, /*#__PURE__*/React.createElement("div", {className: "home-lb-rank"}, `#${row.rank}`), /*#__PURE__*/React.createElement("div", {className: "home-lb-team"}, row.team), /*#__PURE__*/React.createElement("div", {className: "home-lb-score"}, Number(row.score ?? row.best?.score ?? 0).toFixed(4), /*#__PURE__*/React.createElement("span", null, row.sub_id || row.best?.sub_id || "final"))))) : /*#__PURE__*/React.createElement("div", {style: {color: "var(--muted)", fontSize: 13, margin: "18px 0 22px"}}, phase === "phase2" ? "Phase 2 final results are being prepared." : "Leaderboard data will appear after the first public evaluation.");
+  const renderPanel = (label, title, description, rows, phase, linkText) => /*#__PURE__*/React.createElement("div", {className: "placeholder-panel", style: {minHeight: 200, marginTop: phase === "phase2" ? 24 : 0}}, /*#__PURE__*/React.createElement("div", {className: "inner", style: {maxWidth: 860}}, /*#__PURE__*/React.createElement("div", {className: "mono", style: {color: "var(--seal)", marginBottom: 8}}, label), /*#__PURE__*/React.createElement("div", {className: "serif", style: {fontSize: 28, lineHeight: 1.1, marginBottom: 12}}, title), /*#__PURE__*/React.createElement("div", {style: {color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.55}}, description), renderRows(rows, phase), /*#__PURE__*/React.createElement("a", {href: phase === "phase2" ? "leaderboard.html#phase2" : "leaderboard.html", className: "btn btn-primary"}, linkText, " ", /*#__PURE__*/React.createElement("span", {className: "arr"}, "→"))));
+  return /*#__PURE__*/React.createElement("section", {id: "leaderboard-main", className: "block"}, /*#__PURE__*/React.createElement("div", {className: "wrap"}, /*#__PURE__*/React.createElement(SectionHead, {num: "09 · Leaderboard", title: "Phase 1 & Phase 2 <em>Leaderboards</em>.", kicker: "Public Phase 1 standings and Phase 2 final evaluation results."}), renderPanel("Phase 1 Public Leaderboard · Top 3", /*#__PURE__*/React.createElement(React.Fragment, null, "Current ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "leaders"), "."), "Only registered teams are shown. Team names are partially masked on the public leaderboard.", leaders, "phase1", "View Full Leaderboard"), renderPanel("Phase 2 Final Evaluation · Top 3", /*#__PURE__*/React.createElement(React.Fragment, null, "Final ", /*#__PURE__*/React.createElement("em", {style: {fontStyle: "italic"}}, "results"), "."), "Eligible teams are evaluated on the held-out test set. Team names are partially masked until the organizers publish the final results.", phase2Leaders, "phase2", "View Phase 2 Leaderboard")));
 }
 
 function Organizers() {
@@ -1843,6 +1925,12 @@ function FAQ() {
   }, {
     q: "Which languages / frameworks are allowed?",
     a: "Phase 1 (Prediction): any method is allowed — any LLM, prompting strategy, toolchain, or local system. Phase 2 (Harness): teams submit a self‑contained harness; the organizers run it on Qwen3.6‑27B. Reproducibility is expected for top‑ranked teams."
+  }, {
+    q: "What runtime policies apply to a Phase 2 Harness?",
+    a: "Formal queries are in English. The organizer supplies the official split and data, then runs the Harness once with --method and --split arguments. Teams control model-call limits, retries, and per-query timeouts; the organizer enforces only the five-hour total limit for all 100 held-out queries. The evaluation machine has no external network access."
+  }, {
+    q: "What feedback is provided after a Phase 2 v1 evaluation?",
+    a: "The organizers normally return the total score and all component scores. If a clear runtime or submission problem is identifiable, available error information and a concise status summary are also provided. Complete logs, per-query traces, and internal system records are not guaranteed."
   }, {
     q: "Is this a continuation of the 2025 edition?",
     a: "Yes. This is the second edition. The task has been substantially expanded in scope, difficulty, and evaluation rigor based on feedback from the 2025 edition."
