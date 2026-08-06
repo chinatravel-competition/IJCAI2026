@@ -454,6 +454,7 @@
       <a href="#files">Files</a>
       <a href="#setup">Setup</a>
       <a href="#evaluation-environment">Evaluation Environment</a>
+      <a href="#phase2-contract">Phase 2 Contract</a>
       <a href="#api">API Surface</a>
       <a class="sub" href="#query-tools">Query tools</a>
       <a class="sub" href="#attraction-tools">Attractions</a>
@@ -535,6 +536,88 @@
             <li><strong>Triton:</strong> <code>3.5.1</code>.</li>
             <li><strong>FlashInfer:</strong> <code>0.6.7.post2</code>.</li>
           </ul>
+        </div>
+      </section>
+
+      <section id="phase2-contract">
+        <h2>Phase 2 Evaluation Contract</h2>
+        <p>
+          The following settings apply to the formal held-out evaluation. They
+          take precedence over local development examples in this guide.
+        </p>
+
+        <div class="tool-group">
+          <h3>Model Service</h3>
+          <ul>
+            <li><strong>Base URL:</strong> <code>http://127.0.0.1:30000/v1</code>.</li>
+            <li><strong>Model:</strong> <code>Qwen3.6-27B</code>.</li>
+            <li><strong>API key:</strong> <code>EMPTY</code>; no authentication is required.</li>
+            <li><strong>Protocol:</strong> OpenAI-compatible Chat Completions, including the standard <code>tools</code>, <code>tool_calls</code>, and <code>tool_choice</code> fields.</li>
+          </ul>
+          <p>
+            SGLang is the organizer-provided inference engine. Teams are not
+            required to use SGLang as their Harness framework.
+          </p>
+        </div>
+
+        <div class="tool-group">
+          <h3>Dependencies, Network, and Archive Layout</h3>
+          <ul>
+            <li><code>opencode</code> and <code>uv</code> are not preinstalled.</li>
+            <li>The evaluation machine has no external network access.</li>
+            <li>Required extra dependencies may be bundled, or documented clearly in <code>README.md</code> for organizer installation and testing.</li>
+            <li>Avoid private repositories and special package indexes, including NVIDIA-specific sources, because installation may be slow or unavailable.</li>
+            <li>The ZIP may contain one enclosing top-level directory or place all files directly at its root. The organizer handles both layouts.</li>
+            <li>Keep the total extracted submission size within 500 MB.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group">
+          <h3>Official Queries, Data, and Invocation</h3>
+          <ul>
+            <li>All formal held-out queries are in English.</li>
+            <li>The organizer copies the official split and required data into the local evaluation directories before execution.</li>
+            <li>Do not hard-code a public split, query list, query count, or method name.</li>
+          </ul>
+          <p>The Harness is started from the resolved submission root with:</p>
+          <pre><code>python agent_env/scripts/solve_script_with_harness.py \
+  --method &lt;method&gt; \
+  --split &lt;split&gt;</code></pre>
+          <p>
+            The generated <code>results/&lt;method&gt;/</code> directory is copied
+            to the organizer's evaluation workspace for scoring.
+          </p>
+        </div>
+
+        <div class="tool-group">
+          <h3>Runtime and Evaluator Policy</h3>
+          <ul>
+            <li>There is no organizer-imposed model-call limit, retry count, or per-query timeout. Teams define these policies inside their Harness.</li>
+            <li>The only enforced runtime limit is 5 hours in total for all 100 held-out queries.</li>
+            <li>Each submitted version is formally evaluated once; runs are not repeated or averaged to compensate for stochasticity.</li>
+            <li>Formal scoring uses the latest evaluation code from the <a href="https://github.com/LAMDA-NeSy/ChinaTravel" target="_blank" rel="noreferrer">ChinaTravel GitHub repository</a>. Update local checkouts before final testing.</li>
+          </ul>
+        </div>
+
+        <div class="tool-group">
+          <h3>Evaluation Feedback</h3>
+          <p>
+            The organizer normally returns the total score and all component
+            scores after a v1 run. When a clear runtime or submission problem
+            is identifiable, available error information and a concise status
+            summary are also provided. Complete real-time logs, per-query
+            traces, and internal system records are not guaranteed.
+          </p>
+        </div>
+
+        <div class="tool-group">
+          <h3>Technical Report</h3>
+          <p>
+            Use the official IJCAI template and submit a four-page,
+            English-language, non-anonymous PDF named
+            <code>{TeamName}.pdf</code>. Upload it through the Phase 2 portal
+            as a separate file; do not include it inside the Harness ZIP.
+          </p>
         </div>
       </section>
 
@@ -636,18 +719,30 @@ python -m agent_env.cli call intercity_transport_select \
         <h2>Harness</h2>
         <p>
           <code>scripts/solve_script_with_harness.py</code> is a baseline for
-          running an external agent on a ChinaTravel split. It loads a query,
-          removes oracle-only verifier fields, asks an agent to solve the task
-          through <code>agent_env.cli</code>, parses the itinerary JSON, saves
-          it in the official result layout, and runs the official evaluators.
+          running an external agent on a ChinaTravel split. It loads the
+          natural-language query and participant-visible itinerary metadata,
+          asks an agent to solve the task through <code>agent_env.cli</code>,
+          parses the itinerary JSON, and saves it in the official result
+          layout. Formal evaluation is performed separately by the organizers.
         </p>
 
         <div class="callout">
           <p>
-            <strong>Evaluation time limit.</strong> Each submitted harness must
-            process all 100 held-out evaluation queries within a total runtime
-            limit of 5 hours. This is the limit for the complete 100-query run,
-            not a separate 5-hour limit for each query.
+            <strong>Formal evaluation.</strong> Runtime limits, retry policy,
+            and the organizer's invocation contract are defined in the
+            <a href="#phase2-contract">Phase 2 Evaluation Contract</a> above.
+          </p>
+        </div>
+
+        <div class="callout">
+          <p>
+            <strong>Evaluation-visible data only.</strong> Formal held-out
+            query data does not include <code>hard_logic</code>,
+            <code>hard_logic_py</code>, <code>hard_logic_nl</code>, DSL
+            annotations, answer-related fields, or verifier-only fields.
+            These fields may be present in public development data for local
+            testing and local evaluation only, but the Agent must not read them, pass them
+            into a prompt, or use them to generate the final result.
           </p>
         </div>
 
@@ -656,6 +751,13 @@ python -m agent_env.cli call intercity_transport_select \
           <li><code>opencode</code>: calls <code>opencode run</code> with a generated per-run configuration.</li>
           <li><code>codex</code>: calls <code>codex exec</code> with configurable model and provider overrides.</li>
         </ul>
+        <p>
+          These runners are examples supported by the baseline and are not
+          preinstalled in the formal evaluation environment. A team using a
+          custom runner may submit it as part of the self-contained Harness,
+          with installation and execution details documented in
+          <code>README.md</code>.
+        </p>
 
         <p>
           The expected answer is a JSON object matching
@@ -666,6 +768,13 @@ python -m agent_env.cli call intercity_transport_select \
         <h3>Configure and Run</h3>
         <pre><code>cp agent_env/config.toml.example agent_env/config.toml
 python agent_env/scripts/solve_script_with_harness.py</code></pre>
+        <p>
+          For formal invocation, use the organizer-supplied
+          <code>--method</code> and <code>--split</code> arguments shown in the
+          <a href="#phase2-contract">Phase 2 Evaluation Contract</a>. Local
+          options such as <code>--limit</code>, <code>--uid</code>, and
+          <code>--resume</code> are for development and testing only.
+        </p>
 
         <h3>Common Overrides</h3>
         <pre><code>python agent_env/scripts/solve_script_with_harness.py --split easy --limit 1
@@ -699,8 +808,11 @@ python agent_env/scripts/solve_script_with_harness.py --resume</code></pre>
         <p>
           A full split also writes
           <code>agent_env/runs/&lt;method&gt;/&lt;split&gt;_summary.json</code>.
-          Parse failures are recorded as failed evaluations, so summaries cover
-          both invalid JSON and plans that fail benchmark constraints.
+          <code>evaluation.json</code> is a local-development artifact. Formal
+          scoring is performed separately by the organizers using the latest
+          evaluation code. Parse failures are recorded as failed evaluations,
+          so local summaries cover both invalid JSON and plans that fail
+          benchmark constraints.
         </p>
         <div class="intro-actions">
           <a
