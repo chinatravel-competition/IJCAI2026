@@ -221,6 +221,12 @@
     letter-spacing: 0.04em;
     white-space: nowrap;
   }
+  .empty-score {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .phase-score-center { text-align: center !important; }
   .cell-score .ver {
     display: block;
     font-size: 10px; font-weight: 400;
@@ -327,8 +333,8 @@
         <tr>
           <th>Rank</th>
           <th>Team</th>
-          <th class="right">Best Score<br><small style="font-weight:400;color:var(--muted)">(version)</small></th>
-          <th class="right">Latest Score<br><small style="font-weight:400;color:var(--muted)">(version)</small></th>
+          <th class="right" id="scoreHeader1">Best Score<br><small style="font-weight:400;color:var(--muted)">(version)</small></th>
+          <th class="right" id="scoreHeader2">Latest Score<br><small style="font-weight:400;color:var(--muted)">(version)</small></th>
           <th class="right detail-col">EPR‑micro</th>
           <th class="right detail-col">EPR‑macro</th>
           <th class="right detail-col">C‑LPR</th>
@@ -357,6 +363,8 @@ const PHASES = {
   phase1: {
     file: "rankings.json",
     title: "Phase 1 <em>Leaderboard</em>",
+    scoreHeader1: "Best Score<br><small style=\"font-weight:400;color:var(--muted)\">(version)</small>",
+    scoreHeader2: "Latest Score<br><small style=\"font-weight:400;color:var(--muted)\">(version)</small>",
     submissionLabel: "Submission Name",
     submissionNote: "Packages must follow the main-site rule: <code>{TeamName}_v{x}.zip</code>.",
     schedule: "Submissions received before <strong>20:00 Beijing Time (UTC+8)</strong> each day will be evaluated and published on the leaderboard before 20:00 Beijing Time the following day.",
@@ -366,6 +374,8 @@ const PHASES = {
   phase2: {
     file: "phase2-rankings.json",
     title: "Phase 2 <em>Final Leaderboard</em>",
+    scoreHeader1: "V1 Score",
+    scoreHeader2: "V2 Score",
     submissionLabel: "Submission Limit",
     submissionNote: "Each eligible team may submit at most <strong>two</strong> Phase 2 harness versions.",
     schedule: "Phase 2 harness evaluation results will be published here after the final test is complete.",
@@ -437,12 +447,15 @@ function buildRankings(entries) {
   let result = [];
   for (const [teamKey, subs] of Object.entries(teams)) {
     const team = subs[0].team;
+    const v1 = subs.filter(s => versionNumber(s) === 1).sort(compareBest)[0] || null;
+    const v2 = subs.filter(s => versionNumber(s) === 2).sort(compareBest)[0] || null;
     subs.sort(compareLatest);
     const latest = subs[0];
     subs.sort(compareBest);
     const best = subs[0];
     result.push({
       team: maskTeamName(team), teamKey: teamKey, best: best, latest: latest,
+      v1: v1, v2: v2,
       subs: subs.length,
       lastSubmitTs: Math.max(...subs.map(submissionTs)),
       lastEvalTs: Math.max(...subs.map(evalTs)),
@@ -457,6 +470,10 @@ function loadData() {
   const requestPhase = currentPhase;
   const config = PHASES[currentPhase];
   document.getElementById("lbTitle").innerHTML = config.title;
+  document.getElementById("scoreHeader1").innerHTML = config.scoreHeader1;
+  document.getElementById("scoreHeader2").innerHTML = config.scoreHeader2;
+  document.getElementById("scoreHeader1").classList.toggle("phase-score-center", currentPhase === "phase2");
+  document.getElementById("scoreHeader2").classList.toggle("phase-score-center", currentPhase === "phase2");
   document.getElementById("submissionLabel").textContent = config.submissionLabel;
   document.getElementById("submissionNote").innerHTML = config.submissionNote;
   document.getElementById("scheduleNote").innerHTML = config.schedule;
@@ -466,7 +483,10 @@ function loadData() {
     .then(entries => {
       if (currentPhase !== requestPhase) return;
       if (!Array.isArray(entries)) throw new Error('Invalid rankings data');
-      ranked = buildRankings(entries);
+      const visibleEntries = requestPhase === "phase2"
+        ? entries.filter(s => [1, 2].includes(versionNumber(s)))
+        : entries;
+      ranked = buildRankings(visibleEntries);
       const latestTs = Math.max(config.fallbackTs, ...ranked.map(r => r.lastEvalTs));
       document.getElementById("lastUpdate").textContent =
         ranked.length ? (latestTs > 0 ? formatBeijingTime(latestTs) : "Published") : "Results pending";
@@ -524,6 +544,8 @@ function renderTable() {
 
   let html = "";
   const metric = value => Number.isFinite(Number(value)) ? Number(value).toFixed(4) : "—";
+  const scoreCell = (submission, label) =>
+    `${metric(submission && submission.score)}<span class="ver">${label || (submission && submission.sub_id) || "—"}</span>`;
   for (const r of pageData) {
     const pod = r.rank <= 3 ? " podium" : "";
     const d = new Date(r.lastSubmitTs);
@@ -531,8 +553,8 @@ function renderTable() {
     html += `<tr>
       <td class="cell-rank${pod}">${r.rank}</td>
       <td class="cell-name">${r.team}</td>
-      <td class="cell-score">${metric(r.best.score)}<span class="ver">${r.best.sub_id || "final"}</span></td>
-      <td class="cell-score">${metric(r.latest.score)}<span class="ver">${r.latest.sub_id || "final"}</span></td>
+      <td class="cell-score${currentPhase === "phase2" ? " phase-score-center" : ""}">${currentPhase === "phase2" ? metric(r.v1 && r.v1.score) : scoreCell(r.best)}</td>
+      <td class="cell-score${currentPhase === "phase2" ? " phase-score-center" : ""}">${currentPhase === "phase2" ? (r.v2 ? metric(r.v2.score) : '<span class="empty-score">-</span>') : scoreCell(r.latest)}</td>
       <td class="cell-metric detail-col">${metric(r.best.epm)}</td>
       <td class="cell-metric detail-col">${metric(r.best.epM)}</td>
       <td class="cell-metric detail-col">${metric(r.best.clpr)}</td>
