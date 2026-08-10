@@ -544,6 +544,9 @@ function renderTable() {
 
   let html = "";
   const metric = value => Number.isFinite(Number(value)) ? Number(value).toFixed(4) : "—";
+  const phaseScore = submission => submission
+    ? metric(submission.score)
+    : '<span class="empty-score">-</span>';
   const scoreCell = (submission, label) =>
     `${metric(submission && submission.score)}<span class="ver">${label || (submission && submission.sub_id) || "—"}</span>`;
   for (const r of pageData) {
@@ -553,8 +556,8 @@ function renderTable() {
     html += `<tr>
       <td class="cell-rank${pod}">${r.rank}</td>
       <td class="cell-name">${r.team}</td>
-      <td class="cell-score${currentPhase === "phase2" ? " phase-score-center" : ""}">${currentPhase === "phase2" ? metric(r.v1 && r.v1.score) : scoreCell(r.best)}</td>
-      <td class="cell-score${currentPhase === "phase2" ? " phase-score-center" : ""}">${currentPhase === "phase2" ? (r.v2 ? metric(r.v2.score) : '<span class="empty-score">-</span>') : scoreCell(r.latest)}</td>
+      <td class="cell-score${currentPhase === "phase2" ? " phase-score-center" : ""}">${currentPhase === "phase2" ? phaseScore(r.v1) : scoreCell(r.best)}</td>
+      <td class="cell-score${currentPhase === "phase2" ? " phase-score-center" : ""}">${currentPhase === "phase2" ? phaseScore(r.v2) : scoreCell(r.latest)}</td>
       <td class="cell-metric detail-col">${metric(r.best.epm)}</td>
       <td class="cell-metric detail-col">${metric(r.best.epM)}</td>
       <td class="cell-metric detail-col">${metric(r.best.clpr)}</td>
